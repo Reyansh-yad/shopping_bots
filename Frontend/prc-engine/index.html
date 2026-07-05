@@ -1,0 +1,553 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PRC Engine | Price Analytics Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        body {
+            background-color: #131313;
+            color: #e2e2e2;
+            cursor: none;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-cursor {
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+        .custom-cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s ease-out;
+        }
+        .magnet-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        .bar-hover:hover {
+            filter: brightness(1.5);
+            transform: scaleY(1.05);
+            transform-origin: bottom;
+        }
+        @keyframes drawLine {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .animate-draw {
+            animation: drawLine 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#303031",
+                    "on-surface": "#e2e2e2",
+                    "surface-tint": "#c6c6c7",
+                    "tertiary-container": "#e2e2e2",
+                    "tertiary": "#ffffff",
+                    "inverse-on-surface": "#303030",
+                    "on-secondary-fixed-variant": "#464747",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "inverse-primary": "#5d5f5f",
+                    "surface-container-low": "#1b1b1b",
+                    "surface-container": "#1f1f1f",
+                    "on-tertiary-container": "#636565",
+                    "error": "#ffb4ab",
+                    "divider-stroke": "#FFFFFF",
+                    "background": "#131313",
+                    "surface-container-high": "#2a2a2a",
+                    "inverse-surface": "#e2e2e2",
+                    "surface-bright": "#393939",
+                    "outline-variant": "#444748",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "secondary-fixed": "#e3e2e2",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "primary-container": "#e2e2e2",
+                    "secondary": "#c7c6c6",
+                    "on-surface-variant": "#c4c7c8",
+                    "error-container": "#93000a",
+                    "on-secondary-container": "#b5b5b5",
+                    "surface": "#131313",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "primary": "#ffffff",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "outline": "#8e9192",
+                    "on-primary": "#2f3131",
+                    "on-error": "#690005",
+                    "tertiary-fixed": "#e2e2e2",
+                    "surface-variant": "#353535",
+                    "muted-text": "#A1A1A1",
+                    "on-primary-container": "#636565",
+                    "surface-container-highest": "#353535",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed": "#e2e2e2",
+                    "on-primary-fixed": "#1a1c1c",
+                    "on-background": "#e2e2e2",
+                    "on-error-container": "#ffdad6",
+                    "secondary-container": "#464747",
+                    "on-tertiary": "#2f3131",
+                    "on-primary-fixed-variant": "#454747",
+                    "glass-overlay": "rgba(255, 255, 255, 0.05)",
+                    "surface-dim": "#131313"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1440px",
+                    "section-padding": "120px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "label-mono": ["JetBrains Mono"],
+                    "display-xl": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "160%", "fontWeight": "400"}],
+                    "headline-lg": ["64px", {"lineHeight": "120%", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "160%", "fontWeight": "400"}],
+                    "label-mono": ["12px", {"lineHeight": "100%", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "display-xl": ["120px", {"lineHeight": "110%", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "headline-md": ["32px", {"lineHeight": "130%", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["40px", {"lineHeight": "120%", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- Custom Cursor -->
+<div class="custom-cursor" id="cursor"></div>
+<div class="custom-cursor-follower" id="cursor-follower"></div>
+<!-- Background Layer -->
+
+<!-- Navigation Shells -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-background dark:bg-background border-b-2 border-divider-stroke flat no shadows">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">PRC Engine</span>
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-muted-text">search</span>
+<form id="search-form" onsubmit="handleSearch(event);">
+<input class="bg-surface-container border-b-2 border-outline-variant focus:border-primary outline-none py-2 pl-10 pr-4 w-80 font-label-mono text-label-mono uppercase transition-all" id="search-input" placeholder="Search product or SKU..." type="text">
+</form>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<a href="#" id="logout-btn" class="hover:opacity-80 transition-opacity" title="Logout">
+<span class="material-symbols-outlined text-primary">logout</span>
+</a>
+</div>
+</header>
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 bg-surface dark:bg-surface border-r-2 border-divider-stroke w-64 flat no shadows">
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 text-primary border-l-4 border-primary bg-glass-overlay font-label-mono text-label-mono uppercase Active: translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-muted-text hover:text-on-surface font-label-mono text-label-mono uppercase hover:bg-glass-overlay transition-colors" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span>Price Alerts</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-muted-text hover:text-on-surface font-label-mono text-label-mono uppercase hover:bg-glass-overlay transition-colors" href="#">
+<span class="material-symbols-outlined">visibility</span>
+<span>Watchlist</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-muted-text hover:text-on-surface font-label-mono text-label-mono uppercase hover:bg-glass-overlay transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>History</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-muted-text hover:text-on-surface font-label-mono text-label-mono uppercase hover:bg-glass-overlay transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-6 pt-4">
+<button class="w-full py-3 border-2 border-primary text-primary font-label-mono text-label-mono uppercase magnet-btn transition-all">
+                Add Tracker
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 min-h-screen relative z-10 px-margin-desktop">
+<!-- Header Section -->
+<section class="flex flex-col md:flex-row justify-between items-end mb-12">
+<div>
+<h1 class="font-headline-lg text-headline-lg mb-2">Market Overview</h1>
+<p class="font-body-lg text-muted-text max-w-xl">Welcome back, <span id="display-username" class="text-primary font-bold">User</span>.</p>
+</div>
+<div class="flex gap-4 mb-4">
+<div class="glass-panel p-4 px-6">
+<span class="font-label-mono text-muted-text uppercase block mb-1">Live Index</span>
+<span class="font-headline-md text-primary" id="live-index-price">$1,240.42</span>
+<span class="text-error font-label-mono text-xs ml-2">▼ 0.4%</span>
+</div>
+</div>
+</section>
+<!-- Bento Grid Stats -->
+<div class="grid grid-cols-12 gap-6 mb-12">
+<!-- Price Chart Card -->
+<div class="col-span-12 lg:col-span-8 glass-panel p-8 flex flex-col h-[500px]">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-md text-primary">Price Trends: Neural-Core v4</h3>
+<p class="font-label-mono text-muted-text">30-DAY PERFORMANCE LOG</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-primary text-on-primary font-label-mono text-xs">BAR</button>
+<button class="px-3 py-1 border border-outline-variant font-label-mono text-xs">LINE</button>
+</div>
+</div>
+<div class="flex-1 flex items-end justify-between gap-1 pb-4 relative">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between py-4 pointer-events-none">
+<div class="w-full h-px bg-white/5"></div>
+<div class="w-full h-px bg-white/5"></div>
+<div class="w-full h-px bg-white/5"></div>
+<div class="w-full h-px bg-white/5"></div>
+</div>
+<!-- Dynamic Bars Simulation -->
+<script>
+                        const createBars = () => {
+                            const container = document.currentScript.parentElement;
+                            for (let i = 0; i < 30; i++) {
+                                const height = Math.floor(Math.random() * 60) + 20;
+                                const bar = document.createElement('div');
+                                bar.className = `w-full bg-primary/20 hover:bg-primary transition-all duration-300 bar-hover cursor-pointer relative group`;
+                                bar.style.height = `${height}%`;
+                                bar.innerHTML = `
+                                    <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-background font-label-mono text-[10px] px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20">
+                                        $${(height * 20).toFixed(2)}
+                                    </div>
+                                `;
+                                container.appendChild(bar);
+                            }
+                        };
+                        window.addEventListener('load', createBars);
+                    </script>
+</div>
+<div class="flex justify-between pt-4 border-t-2 border-white/10 font-label-mono text-[10px] text-muted-text">
+<span>AUG 15</span>
+<span>AUG 22</span>
+<span>AUG 29</span>
+<span>SEP 05</span>
+<span>SEP 12</span>
+</div>
+</div>
+<div id="search-results" class="mt-8 hidden">
+    <h3 class="font-headline-md text-primary mb-4">Search Results</h3>
+    <div id="search-cards" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+        <!-- Search results injected here -->
+    </div>
+</div>
+<!-- Watchlist Sidebar -->
+<div class="col-span-12 lg:col-span-4 glass-panel p-8 overflow-hidden relative">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-primary">Watchlist</h3>
+<span class="material-symbols-outlined text-muted-text">filter_list</span>
+</div>
+<div id="watchlist-container" class="space-y-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
+<!-- Items injected via JS -->
+<p class="text-muted-text text-sm">Loading watchlist...</p>
+</div>
+<div class="mt-8 border-t border-white/10 pt-4 flex items-center justify-between">
+<span class="font-label-mono text-xs text-muted-text">TRACKING 14 ITEMS</span>
+<button class="text-primary font-label-mono text-xs hover:underline uppercase transition-all">View All</button>
+</div>
+</div>
+</div>
+<!-- Recent Alerts & Activity -->
+<div class="grid grid-cols-12 gap-6 mb-24">
+<div class="col-span-12 md:col-span-7">
+<div class="flex items-center gap-4 mb-6">
+<h2 class="font-headline-md text-primary">Price Notifications</h2>
+<div class="h-0.5 bg-primary/20 flex-1 relative overflow-hidden">
+<div class="absolute inset-0 bg-primary animate-draw"></div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="glass-panel p-6 flex items-start gap-6 border-l-4 border-error">
+<div class="bg-error/20 p-2">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">trending_down</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-body-lg font-bold text-primary">Significant Price Drop: AMD Ryzen 9</h4>
+<span class="font-label-mono text-xs text-muted-text">2M AGO</span>
+</div>
+<p class="text-muted-text mt-1 text-sm">Target price reached at $549.99 on Amazon US. This is the lowest price in 90 days. Recommended action: BUY.</p>
+<div class="mt-4 flex gap-4">
+<button class="px-4 py-2 bg-on-surface text-background font-label-mono text-xs uppercase">Buy Now</button>
+<button class="px-4 py-2 border border-outline-variant font-label-mono text-xs uppercase hover:bg-white/5">Details</button>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 flex items-start gap-6 border-l-4 border-primary">
+<div class="bg-primary/20 p-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">notification_important</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-body-lg font-bold text-primary">Out of Stock Warning</h4>
+<span class="font-label-mono text-xs text-muted-text">1H AGO</span>
+</div>
+<p class="text-muted-text mt-1 text-sm">Supply chain disruption in SEA region likely to affect Neural-Core component availability. Current inventory: Low.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-5 h-full">
+<div class="glass-panel h-full overflow-hidden relative min-h-[300px]">
+<div class="absolute inset-0">
+<img class="w-full h-full object-cover opacity-40 grayscale" data-alt="A high-tech digital close-up of a futuristic circuit board with glowing neon pathways in white and silver against a deep charcoal background. The atmosphere is technical, sophisticated, and premium, mirroring a high-performance analytics interface. Subtle glassmorphic overlays provide structural definition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBytsRO1WnompH6imloWogVyJQKCyOvwRNATnqmE5zj5WeI-0xhIIuZzwPhzg4_NVnnFJElFE0NQt38WwWanpVS0ZooyBzg7rawkZryHqiaR12668iqwrht1aHm_cSl7REC6E_RmChmjangBx7Wv6T5nOzp8xKvEEUlTwyCnpi1bAsjr5SQYjoklRey1pt0nAb9F1WUnxUOfbfm5wnxjait0g4pw_UjamP_FYT5Ye0N7TSwkSEVyNPSd5uTHpbPgncPAbQpLg">
+</div>
+<div class="relative z-10 p-8 h-full flex flex-col justify-end">
+<h3 class="font-headline-md text-primary mb-4">Pro Analytics</h3>
+<p class="text-on-surface-variant font-body-md mb-6">Unlock deep market insights and historical SKU tracking with a PRC Engine Pro subscription.</p>
+<button class="w-full py-4 bg-primary text-on-primary font-label-mono text-sm uppercase magnet-btn">Upgrade to Pro</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full py-gutter px-margin-desktop flex flex-col md:flex-row justify-between items-center bg-background dark:bg-background border-t-2 border-divider-stroke relative z-20">
+<div class="mb-4 md:mb-0">
+<span class="font-headline-md text-headline-md font-bold text-primary">PRC Engine</span>
+<p class="font-label-mono text-label-mono text-muted-text mt-1">© 2024 PRC Engine. All rights reserved.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-label-mono text-label-mono text-muted-text hover:text-primary transition-colors Active: opacity-70" href="#">Terms</a>
+<a class="font-label-mono text-label-mono text-muted-text hover:text-primary transition-colors Active: opacity-70" href="#">Privacy</a>
+<a class="font-label-mono text-label-mono text-muted-text hover:text-primary transition-colors Active: opacity-70" href="#">Support</a>
+<a class="font-label-mono text-label-mono text-muted-text hover:text-primary transition-colors Active: opacity-70" href="#">API</a>
+</div>
+</footer>
+<!-- Scripts -->
+<script>
+        // Custom Cursor Movement
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // Lagging effect for follower
+            setTimeout(() => {
+                follower.style.left = (e.clientX - 16) + 'px';
+                follower.style.top = (e.clientY - 16) + 'px';
+            }, 80);
+        });
+
+        // Magnet Effect for Buttons
+        const magnetBtns = document.querySelectorAll('.magnet-btn');
+        magnetBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px) scale(1.02)`;
+                follower.style.transform = 'scale(1.5)';
+                follower.style.borderColor = 'white';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0) scale(1)';
+                follower.style.transform = 'scale(1)';
+                follower.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            });
+        });
+
+        // Glitch effect simulation for nav items on hover
+        const navLinks = document.querySelectorAll('aside nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.classList.add('translate-x-1');
+            });
+            link.addEventListener('mouseleave', () => {
+                if (!link.classList.contains('border-l-4')) {
+                    link.classList.remove('translate-x-1');
+                }
+            });
+        });
+    </script>
+<script type="module">
+import { isLoggedIn, getSession, logout, clearSession, getProfile, search, trackProduct, untrackProduct } from './api.js';
+
+if (!isLoggedIn()) {
+    window.location.href = 'login.html';
+}
+
+const { sessionId, username } = getSession();
+
+document.getElementById('display-username').innerText = username || 'User';
+
+document.getElementById('logout-btn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+        await logout(sessionId);
+    } catch (e) {
+        console.error("Logout error", e);
+    }
+    clearSession();
+    window.location.href = 'login.html';
+});
+
+async function loadProfile() {
+    try {
+        const data = await getProfile(sessionId);
+        if (data.status) {
+            renderWatchlist(data.tracked_products || []);
+        } else {
+            console.error(data.message);
+            // Optionally, handle invalid session here
+        }
+    } catch (error) {
+        console.error("Profile load error", error);
+    }
+}
+
+function renderWatchlist(products) {
+    const container = document.getElementById('watchlist-container');
+    container.innerHTML = '';
+    
+    if (products.length === 0) {
+        container.innerHTML = '<p class="text-muted-text text-sm">No items tracked.</p>';
+        return;
+    }
+
+    products.forEach(p => {
+        const itemHtml = `
+<div class="group flex items-center justify-between p-4 border border-white/5 hover:border-primary transition-colors bg-white/2">
+<div class="flex items-center gap-4">
+<img src="${p.image || ''}" class="w-10 h-10 object-cover bg-white/10" onerror="this.src=''; this.className='w-10 h-10 bg-white/10 flex items-center justify-center'; this.alt='IMG'" />
+<div>
+<a href="${p.product_link}" target="_blank" class="font-label-mono text-primary text-sm hover:underline" title="${p.product_name}">
+    ${p.product_name.substring(0, 30)}...
+</a>
+<p class="text-[10px] text-muted-text">LATEST</p>
+</div>
+</div>
+<div class="text-right flex flex-col justify-between items-end">
+<p class="font-label-mono text-primary">Rs. ${p.latest_price}</p>
+<button onclick="window.handleUntrack('${p.product_link}')" class="text-[10px] text-error hover:underline uppercase mt-1">Untrack</button>
+</div>
+</div>`;
+        container.insertAdjacentHTML('beforeend', itemHtml);
+    });
+}
+
+window.handleUntrack = async function(link) {
+    try {
+        const data = await untrackProduct(sessionId, link);
+        if (data.status) {
+            loadProfile(); // reload watchlist
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+window.handleTrack = async function(link, name, price) {
+    try {
+        const data = await trackProduct(sessionId, link, name, price);
+        if (data.status) {
+            alert("Added to watchlist!");
+            loadProfile(); // reload watchlist
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+window.handleSearch = async function(e) {
+    e.preventDefault();
+    const query = document.getElementById('search-input').value;
+    if (!query) return;
+    
+    const resultsContainer = document.getElementById('search-results');
+    const cardsContainer = document.getElementById('search-cards');
+    
+    resultsContainer.classList.remove('hidden');
+    cardsContainer.innerHTML = '<p class="text-muted-text">Searching...</p>';
+    
+    try {
+        const data = await search(query);
+        if (data.status === 'executed' && data.products) {
+            cardsContainer.innerHTML = '';
+            if (data.products.length === 0) {
+                cardsContainer.innerHTML = '<p class="text-muted-text">No products found.</p>';
+            }
+            data.products.forEach(p => {
+                const card = `
+<div class="glass-panel p-4 flex flex-col gap-2">
+    <div class="flex items-start gap-4">
+        <img src="${p.image}" class="w-16 h-16 object-cover" onerror="this.src=''" />
+        <div class="flex-1">
+            <a href="${p.link}" target="_blank" class="font-bold text-primary hover:underline text-sm line-clamp-2">${p.name}</a>
+            <p class="font-label-mono text-primary text-sm mt-1">Rs. ${p.price}</p>
+        </div>
+    </div>
+    <div class="flex justify-between items-center mt-2 border-t border-white/10 pt-2">
+        <span class="text-xs text-muted-text">Rating: ${p.rating}</span>
+        <button onclick="window.handleTrack('${p.link}', '${p.name.replace(/'/g, "\\'")}', '${p.price}')" class="px-2 py-1 bg-primary text-on-primary font-label-mono text-xs uppercase hover:bg-opacity-80 transition-all">Track</button>
+    </div>
+</div>
+                `;
+                cardsContainer.insertAdjacentHTML('beforeend', card);
+            });
+        }
+    } catch(error) {
+        cardsContainer.innerHTML = `<p class="text-error">Search failed: ${error.message}</p>`;
+    }
+}
+
+// Initial load
+loadProfile();
+
+</script>
+</body></html>
+

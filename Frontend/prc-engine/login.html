@@ -1,0 +1,358 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Login | PRC Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#303031",
+                    "on-surface": "#e2e2e2",
+                    "surface-tint": "#c6c6c7",
+                    "tertiary-container": "#e2e2e2",
+                    "tertiary": "#ffffff",
+                    "inverse-on-surface": "#303030",
+                    "on-secondary-fixed-variant": "#464747",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "inverse-primary": "#5d5f5f",
+                    "surface-container-low": "#1b1b1b",
+                    "surface-container": "#1f1f1f",
+                    "on-tertiary-container": "#636565",
+                    "error": "#ffb4ab",
+                    "divider-stroke": "#FFFFFF",
+                    "background": "#131313",
+                    "surface-container-high": "#2a2a2a",
+                    "inverse-surface": "#e2e2e2",
+                    "surface-bright": "#393939",
+                    "outline-variant": "#444748",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "secondary-fixed": "#e3e2e2",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "primary-container": "#e2e2e2",
+                    "secondary": "#c7c6c6",
+                    "on-surface-variant": "#c4c7c8",
+                    "error-container": "#93000a",
+                    "on-secondary-container": "#b5b5b5",
+                    "surface": "#131313",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "primary": "#ffffff",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "outline": "#8e9192",
+                    "on-primary": "#2f3131",
+                    "on-error": "#690005",
+                    "tertiary-fixed": "#e2e2e2",
+                    "surface-variant": "#353535",
+                    "muted-text": "#A1A1A1",
+                    "on-primary-container": "#636565",
+                    "surface-container-highest": "#353535",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed": "#e2e2e2",
+                    "on-primary-fixed": "#1a1c1c",
+                    "on-background": "#e2e2e2",
+                    "on-error-container": "#ffdad6",
+                    "secondary-container": "#464747",
+                    "on-tertiary": "#2f3131",
+                    "on-primary-fixed-variant": "#454747",
+                    "glass-overlay": "rgba(255, 255, 255, 0.05)",
+                    "surface-dim": "#131313"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1440px",
+                    "section-padding": "120px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "label-mono": ["JetBrains Mono"],
+                    "display-xl": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "160%", "fontWeight": "400"}],
+                    "headline-lg": ["64px", {"lineHeight": "120%", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "160%", "fontWeight": "400"}],
+                    "label-mono": ["12px", {"lineHeight": "100%", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "display-xl": ["120px", {"lineHeight": "110%", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "headline-md": ["32px", {"lineHeight": "130%", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["40px", {"lineHeight": "120%", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            cursor: none;
+            overflow: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom Cursor Style */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            border-radius: 50%;
+            transition: transform 0.1s ease-out;
+        }
+
+        #cursor-trail {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 50%;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Magnet Effect Utility */
+        .magnet-target {
+            transition: transform 0.2s ease-out;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Text Hover Animation */
+        .hover-glitch:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="dark bg-background text-on-background selection:bg-primary selection:text-on-primary">
+<!-- Custom Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-trail" style="transform: translate(1257px, 655px);"></div>
+<main class="min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- Branding Section (Visual Side) -->
+<section class="hidden md:flex relative w-1/2 h-screen items-center justify-center overflow-hidden bg-surface-container-lowest">
+<!-- Animated Shader Background -->
+
+<!-- Hero Image Overlay -->
+<div class="relative z-10 w-full h-full flex flex-col justify-end p-margin-desktop">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80"></div>
+<div class="relative z-20 space-y-6 max-w-xl fade-in" style="animation-delay: 0.2s">
+<h1 class="font-headline-lg text-headline-lg text-primary uppercase leading-tight">
+                        Precision<br>
+                        Real-time<br>
+                        Control.
+                    </h1>
+<div class="h-[2px] w-full bg-divider-stroke/20"></div>
+<p class="font-body-lg text-body-lg text-muted-text">
+                        The definitive engine for high-frequency pricing data and market logistics. Experience the kinetic power of raw data transformed into institutional insight.
+                    </p>
+</div>
+</div>
+<!-- Kinetic Background Image -->
+<div class="absolute inset-0 z-0 scale-110 pointer-events-none opacity-40">
+<div class="w-full h-full bg-cover bg-center" data-alt="A futuristic, high-contrast digital abstract representation of flowing data streams and kinetic light patterns in a dark environment. The scene is dominated by monochromatic tones of deep charcoal and brilliant white, featuring sharp geometric shards and light trails that suggest high-speed movement and professional financial precision." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBSYN1xj7I-YyHNtpsaZmOyQKqnjlVD7uiw2Fw-o4c-bvzgzFdxfwelliYydZSDqWsX1vMLUtQoAlZ0wdhj3D_dK2Tc4kfMtaf5bRGRtxcU6Dx52iw01A1DLKUAjxHxVO2gEMimcHBg4tfOLnStvs18W0CWlkCXcqsgIMfop9s1t797KZiwm-2oYkUOlqMXBiEGfNaZ_2qsludCjYQuTfX7iRlXJrNRG6SDsrhw4uuCjhVuPrCJk9XG7Gi4D7C-gZ2k7hhnpw')"></div>
+</div>
+</section>
+<!-- Login Form Section -->
+<section class="w-full md:w-1/2 h-screen flex items-center justify-center p-margin-mobile md:p-margin-desktop relative z-30 bg-background">
+<!-- Logo Mobile -->
+<div class="absolute top-8 left-8 md:hidden">
+<span class="font-headline-md text-headline-md font-bold text-primary">PRC Engine</span>
+</div>
+<div class="w-full max-w-md space-y-12 fade-in">
+<!-- Header -->
+<div class="space-y-2">
+<h2 class="font-headline-md text-headline-md text-primary">System Access</h2>
+<p class="font-label-mono text-label-mono text-muted-text uppercase tracking-widest">Identify yourself to continue</p>
+</div>
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-4">
+<button class="magnet-target flex items-center justify-center gap-3 py-4 border-2 border-divider-stroke hover:bg-primary hover:text-on-primary transition-all duration-300 group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">google</span>
+<span class="font-label-mono text-label-mono uppercase">Google</span>
+</button>
+<button class="magnet-target flex items-center justify-center gap-3 py-4 border-2 border-divider-stroke hover:bg-primary hover:text-on-primary transition-all duration-300 group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">apps</span>
+<span class="font-label-mono text-label-mono uppercase">Apple</span>
+</button>
+</div>
+<div class="relative flex items-center py-4">
+<div class="flex-grow border-t border-divider-stroke/20"></div>
+<span class="flex-shrink mx-4 font-label-mono text-label-mono text-muted-text uppercase">or email access</span>
+<div class="flex-grow border-t border-divider-stroke/20"></div>
+</div>
+<!-- Main Form -->
+<form class="space-y-8" onsubmit="handleLogin(event);">
+<div class="space-y-6">
+<!-- Email Field -->
+<div class="group">
+<label class="block font-label-mono text-label-mono text-muted-text uppercase mb-2 group-focus-within:text-primary transition-colors" for="username">Terminal ID / Username</label>
+<input class="w-full bg-transparent border-0 border-b-2 border-divider-stroke/30 focus:border-primary focus:ring-0 text-primary font-body-md py-3 px-0 transition-all placeholder:text-surface-variant" id="username" name="username" placeholder="user_123" type="text">
+</div>
+<!-- Password Field -->
+<div class="group relative">
+<label class="block font-label-mono text-label-mono text-muted-text uppercase mb-2 group-focus-within:text-primary transition-colors" for="password">Access Key</label>
+<input class="w-full bg-transparent border-0 border-b-2 border-divider-stroke/30 focus:border-primary focus:ring-0 text-primary font-body-md py-3 px-0 transition-all placeholder:text-surface-variant" id="password" name="password" placeholder="••••••••••••" type="password">
+<button class="absolute right-0 bottom-3 text-muted-text hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<label class="flex items-center space-x-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer h-5 w-5 rounded-none border-2 border-divider-stroke bg-transparent text-primary focus:ring-0 focus:ring-offset-0 transition-all" type="checkbox">
+</div>
+<span class="font-label-mono text-label-mono text-muted-text uppercase group-hover:text-primary transition-colors">Remember Node</span>
+</label>
+<a class="font-label-mono text-label-mono text-muted-text uppercase hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-1" href="#">Forgot Key?</a>
+</div>
+<button class="magnet-target w-full bg-primary text-on-primary font-label-mono text-label-mono uppercase py-5 tracking-widest hover:bg-on-surface transition-colors flex items-center justify-center group" type="submit">
+                        Authorize Terminal
+                        <span class="material-symbols-outlined ml-3 group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Links -->
+<div class="pt-8 text-center">
+<p class="font-body-md text-muted-text">
+                        No terminal access? <a class="text-primary font-bold hover-glitch" href="signup.html">Request Onboarding</a>
+</p>
+</div>
+</div>
+</section>
+</main>
+<!-- UI Overlay Elements -->
+<div class="fixed bottom-8 left-8 z-50 hidden md:block">
+<span class="font-label-mono text-[10px] text-muted-text uppercase tracking-widest opacity-50">PRC ENGINE v4.2.0 // EST. 2024</span>
+</div>
+<script>
+        // Custom Cursor Logic
+        const dot = document.getElementById('cursor-dot');
+        const trail = document.getElementById('cursor-trail');
+        let mouseX = 0;
+        let mouseY = 0;
+        let trailX = 0;
+        let trailY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            dot.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
+        });
+
+        function animateTrail() {
+            let dx = mouseX - trailX;
+            let dy = mouseY - trailY;
+            
+            trailX += dx * 0.15;
+            trailY += dy * 0.15;
+            
+            trail.style.transform = `translate(${trailX - 20}px, ${trailY - 20}px)`;
+            
+            requestAnimationFrame(animateTrail);
+        }
+        animateTrail();
+
+        // Magnet Effect Logic
+        const magnets = document.querySelectorAll('.magnet-target');
+        magnets.forEach(m => {
+            m.addEventListener('mousemove', (e) => {
+                const rect = m.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                m.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                
+                // Expand cursor trail on hover
+                trail.style.width = '60px';
+                trail.style.height = '60px';
+                trail.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+            });
+            
+            m.addEventListener('mouseleave', () => {
+                m.style.transform = 'translate(0, 0)';
+                trail.style.width = '40px';
+                trail.style.height = '40px';
+                trail.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            });
+        });
+
+        // Add subtle interaction sound (placeholder logic)
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                // Potential for haptic or audio feedback here
+            });
+        });
+    </script>
+
+<script type="module">
+import { login, saveSession } from './api.js';
+
+window.handleLogin = async function(e) {
+    e.preventDefault();
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    
+    if (username && password) {
+        try {
+            const data = await login(username, password);
+            if (data.status) {
+                saveSession(data.session_id, username);
+                window.location.href = 'index.html';
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        } catch (error) {
+            alert(error.message || 'Login error');
+        }
+    }
+}
+</script>
+</body></html>
+
