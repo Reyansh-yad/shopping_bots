@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PRC Engine - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "glass-stroke": "rgba(255, 255, 255, 0.1)",
+                      "secondary-container": "#c90317",
+                      "tertiary-fixed-dim": "#ffb4ab",
+                      "text-muted": "#c4c7c8",
+                      "primary": "#ffffff",
+                      "tertiary": "#ffffff",
+                      "background": "#131313",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "surface-container-high": "#2a2a2a",
+                      "surface": "#131313",
+                      "glass-fill": "rgba(255, 255, 255, 0.05)",
+                      "on-tertiary-container": "#8f544e",
+                      "tertiary-container": "#ffdad5",
+                      "on-surface": "#e5e2e1",
+                      "error-container": "#93000a",
+                      "primary-fixed": "#e2e2e2",
+                      "secondary-fixed": "#ffdad6",
+                      "secondary": "#ffb4ac",
+                      "secondary-fixed-dim": "#ffb4ac",
+                      "inverse-on-surface": "#313030",
+                      "on-primary-fixed": "#1a1c1c",
+                      "on-tertiary": "#51221d",
+                      "surface-bright": "#393939",
+                      "on-secondary-fixed": "#410002",
+                      "outline-variant": "#444748",
+                      "brand-dark": "#3c3c3c",
+                      "on-primary-container": "#636565",
+                      "surface-highest": "#353535",
+                      "on-surface-variant": "#c4c7c8",
+                      "surface-high": "#2a2a2a",
+                      "tertiary-fixed": "#ffdad5",
+                      "on-error": "#690005",
+                      "on-background": "#e5e2e1",
+                      "error": "#ffb4ab",
+                      "on-secondary-fixed-variant": "#93000d",
+                      "outline": "#8e9192",
+                      "surface-void": "#0e0e0e",
+                      "on-tertiary-fixed-variant": "#6c3832",
+                      "surface-variant": "#353534",
+                      "surface-container-low": "#1c1b1b",
+                      "surface-dim": "#131313",
+                      "inverse-surface": "#e5e2e1",
+                      "on-primary": "#2f3131",
+                      "on-secondary": "#690006",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-primary-fixed-variant": "#454747",
+                      "inverse-primary": "#5d5f5f",
+                      "primary-container": "#e2e2e2",
+                      "on-secondary-container": "#ffd7d3",
+                      "on-tertiary-fixed": "#360e0a",
+                      "surface-tint": "#c6c6c7",
+                      "surface-container-highest": "#353534",
+                      "surface-container": "#201f1f"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "section-gap": "120px",
+                      "gutter": "24px",
+                      "margin-desktop": "64px",
+                      "container-max": "1440px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "display-xl": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-xl-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "29px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "26px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "12px",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-xl": [
+                              "120px",
+                              {
+                                      "lineHeight": "132px",
+                                      "letterSpacing": "-0.04em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "display-xl-mobile": [
+                              "64px",
+                              {
+                                      "lineHeight": "72px",
+                                      "letterSpacing": "-0.04em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "42px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "64px",
+                              {
+                                      "lineHeight": "76px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.surface-void');
+            color: theme('colors.primary');
+        }
+        
+        .glass-panel {
+            background: theme('colors.glass-fill');
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid theme('colors.glass-stroke');
+        }
+        
+        /* Input styling overrides */
+        input[type="text"], input[type="email"], input[type="password"] {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid theme('colors.glass-stroke');
+            border-radius: theme('borderRadius.DEFAULT');
+            padding: 12px 16px;
+            color: theme('colors.primary');
+            transition: all 0.2s ease;
+        }
+        
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+            box-shadow: none;
+            border-color: theme('colors.primary');
+            background: rgba(255, 255, 255, 0.05);
+            outline: none;
+        }
+        
+        input[type="checkbox"] {
+            background: transparent;
+            border: 1px solid theme('colors.outline');
+            border-radius: 2px;
+            height: 16px;
+            width: 16px;
+        }
+        
+        input[type="checkbox"]:checked {
+            background-color: theme('colors.primary');
+            border-color: theme('colors.primary');
+        }
+      </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-surface-void">
+<!-- Atmospheric Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+<div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-secondary-container rounded-full blur-[140px] mix-blend-screen opacity-50"></div>
+<div class="absolute bottom-[-30%] right-[-10%] w-[70%] h-[70%] bg-surface-highest rounded-full blur-[120px] opacity-60"></div>
+<div class="absolute top-[40%] left-[60%] w-[30%] h-[30%] bg-brand-dark rounded-full blur-[100px] opacity-30"></div>
+</div>
+<!-- Login Container -->
+<div class="glass-panel w-full max-w-[440px] rounded-xl p-10 z-10 shadow-2xl relative">
+<!-- Header -->
+<div class="text-center mb-10">
+<h1 class="font-headline-md text-[40px] leading-[48px] font-bold text-primary tracking-tight mb-3 font-display-xl">PRC Engine</h1>
+<p class="font-body-md text-body-md text-text-muted">Enter the workspace.</p>
+</div>
+<!-- Form -->
+<form action="#" class="space-y-6" id="login-form" method="POST">
+<div>
+<label class="block font-label-mono text-[11px] tracking-[0.15em] text-text-muted mb-2 uppercase" for="username">Username</label>
+<input autocomplete="username" class="block w-full font-label-mono text-sm placeholder:text-surface-highest transition-colors focus:ring-0" id="username" name="username" placeholder="your_username" required="" type="text"/>
+</div>
+<div>
+<label class="block font-label-mono text-[11px] tracking-[0.15em] text-text-muted mb-2 uppercase" for="password">Password</label>
+<input autocomplete="current-password" class="block w-full font-label-mono text-sm placeholder:text-surface-highest transition-colors focus:ring-0" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+<div class="flex items-center justify-between pt-2 pb-4">
+<div class="flex items-center">
+<input class="text-primary focus:ring-0 focus:ring-offset-0 transition-colors cursor-pointer" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-3 block font-label-mono text-[11px] tracking-[0.1em] text-text-muted cursor-pointer uppercase" for="remember-me">
+                        Remember_Me
+                    </label>
+</div>
+<div class="text-sm">
+<a class="font-label-mono text-[11px] tracking-[0.1em] text-text-muted hover:text-primary transition-colors uppercase" href="#">
+                        Forgot_Password?
+                    </a>
+</div>
+</div>
+<div>
+<button class="w-full flex justify-center py-4 px-4 rounded bg-primary text-background font-label-mono text-sm tracking-[0.1em] font-bold hover:bg-primary-fixed transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary uppercase shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)]" type="submit">
+                    Initialize_Session
+                </button>
+</div>
+</form>
+<div class="mt-10">
+<div class="relative">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-glass-stroke"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-3 bg-surface-container font-label-mono text-[10px] tracking-[0.2em] text-outline rounded uppercase">Or_Continue_With</span>
+</div>
+</div>
+<div class="mt-6 grid grid-cols-2 gap-4">
+<a class="flex justify-center items-center py-3 px-4 border border-glass-stroke rounded font-label-mono text-[11px] tracking-[0.1em] text-primary hover:bg-glass-fill hover:border-outline transition-all duration-200 uppercase group" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px] text-text-muted group-hover:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">login</span>
+                    SSO
+                </a>
+<a class="flex justify-center items-center py-3 px-4 border border-glass-stroke rounded font-label-mono text-[11px] tracking-[0.1em] text-primary hover:bg-glass-fill hover:border-outline transition-all duration-200 uppercase group" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px] text-text-muted group-hover:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">code</span>
+                    GitHub
+                </a>
+</div>
+</div>
+<div class="mt-10 text-center">
+<p class="font-body-md text-sm text-text-muted">
+                New analyst? <a class="text-primary hover:text-secondary-fixed transition-colors font-medium border-b border-transparent hover:border-secondary-fixed pb-0.5" href="signup.html">Request access</a>
+</p>
+</div>
+</div>
+
+<script type="module">
+    import { login, saveSession } from '../api/api.js';
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('login-form');
+
+        // Show any auth error passed via URL (e.g. session expired redirect)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('expired')) {
+            const errEl = document.createElement('p');
+            errEl.className = 'font-label-mono text-[11px] text-secondary-container text-center mt-2';
+            errEl.textContent = 'Session expired — please log in again.';
+            loginForm.prepend(errEl);
+        }
+        if (urlParams.get('registered')) {
+            const okEl = document.createElement('p');
+            okEl.className = 'font-label-mono text-[11px] text-center mt-2';
+            okEl.style.color = '#4ade80';
+            okEl.textContent = 'Account created! Please log in.';
+            loginForm.prepend(okEl);
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const btn = loginForm.querySelector('button[type="submit"]');
+
+            // Clear any previous error
+            loginForm.querySelectorAll('.auth-error').forEach(el => el.remove());
+
+            if (!username || !password) {
+                const errEl = document.createElement('p');
+                errEl.className = 'auth-error font-label-mono text-[11px] text-secondary-container text-center';
+                errEl.textContent = 'Username and password are required.';
+                btn.parentElement.before(errEl);
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'AUTHENTICATING...';
+            
+            try {
+                const data = await login(username, password);
+                if (data.status) {
+                    saveSession(data.session_id, username);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    const errEl = document.createElement('p');
+                    errEl.className = 'auth-error font-label-mono text-[11px] text-secondary-container text-center';
+                    errEl.textContent = data.message || 'Login failed';
+                    btn.parentElement.before(errEl);
+                    btn.disabled = false;
+                    btn.innerText = 'Initialize_Session';
+                }
+            } catch (error) {
+                console.error(error);
+                const errEl = document.createElement('p');
+                errEl.className = 'auth-error font-label-mono text-[11px] text-secondary-container text-center';
+                errEl.textContent = error.message || 'Connection error. Is the backend running?';
+                btn.parentElement.before(errEl);
+                btn.disabled = false;
+                btn.innerText = 'Initialize_Session';
+            }
+        });
+    });
+    </script>
+</body></html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PRC Engine - Sign Up</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "glass-stroke": "rgba(255, 255, 255, 0.1)",
+                        "secondary-container": "#c90317",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "text-muted": "#c4c7c8",
+                        "primary": "#ffffff",
+                        "tertiary": "#ffffff",
+                        "background": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-container-high": "#2a2a2a",
+                        "surface": "#131313",
+                        "glass-fill": "rgba(255, 255, 255, 0.05)",
+                        "on-tertiary-container": "#8f544e",
+                        "tertiary-container": "#ffdad5",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-fixed": "#ffdad6",
+                        "secondary": "#ffb4ac",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "inverse-on-surface": "#313030",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-tertiary": "#51221d",
+                        "surface-bright": "#393939",
+                        "on-secondary-fixed": "#410002",
+                        "outline-variant": "#444748",
+                        "brand-dark": "#3c3c3c",
+                        "on-primary-container": "#636565",
+                        "surface-highest": "#353535",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-high": "#2a2a2a",
+                        "tertiary-fixed": "#ffdad5",
+                        "on-error": "#690005",
+                        "on-background": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#93000d",
+                        "outline": "#8e9192",
+                        "surface-void": "#0e0e0e",
+                        "on-tertiary-fixed-variant": "#6c3832",
+                        "surface-variant": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-dim": "#131313",
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary": "#2f3131",
+                        "on-secondary": "#690006",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-fixed-variant": "#454747",
+                        "inverse-primary": "#5d5f5f",
+                        "primary-container": "#e2e2e2",
+                        "on-secondary-container": "#ffd7d3",
+                        "on-tertiary-fixed": "#360e0a",
+                        "surface-tint": "#c6c6c7",
+                        "surface-container-highest": "#353534",
+                        "surface-container": "#201f1f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "section-gap": "120px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "display-xl": ["Plus Jakarta Sans"],
+                        "display-xl-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "29px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "label-mono": ["12px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "display-xl": ["120px", { "lineHeight": "132px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "display-xl-mobile": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "headline-md": ["32px", { "lineHeight": "42px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "headline-lg": ["64px", { "lineHeight": "76px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-glass-fill border border-glass-stroke backdrop-blur-[16px] rounded-[12px];
+            }
+            .input-field {
+                @apply w-full bg-transparent border-0 border-b-2 border-glass-stroke text-primary font-body-md focus:ring-0 focus:border-primary transition-colors px-0 py-2 placeholder:font-label-mono placeholder:text-text-muted;
+            }
+            .btn-primary {
+                @apply w-full bg-primary text-background font-label-mono py-4 rounded-DEFAULT hover:scale-[0.98] transition-transform flex items-center justify-center gap-2 uppercase;
+            }
+        }
+        body {
+            background-color: #131313;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(201, 3, 23, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02), transparent 25%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-margin-mobile md:p-margin-desktop text-primary font-body-md">
+<!-- Top Left Brand (Floating outside card) -->
+<div class="fixed top-margin-desktop left-margin-desktop hidden md:block">
+<h1 class="font-headline-md text-headline-md tracking-tighter">PRC Engine</h1>
+<p class="font-label-mono text-label-mono text-text-muted mt-2">ACCOUNT CREATION</p>
+</div>
+<!-- Main Signup Card -->
+<div class="w-full max-w-[480px] relative z-10">
+<!-- Mobile Brand -->
+<div class="mb-8 md:hidden text-center">
+<h1 class="font-headline-md text-headline-md tracking-tighter">PRC Engine</h1>
+<p class="font-label-mono text-label-mono text-text-muted mt-2">ACCOUNT CREATION</p>
+</div>
+<div class="glass-panel p-8 md:p-12 relative overflow-hidden">
+<!-- Decorative corner accent -->
+<div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-secondary-container/20 to-transparent pointer-events-none"></div>
+<div class="mb-10">
+<h2 class="font-headline-md text-headline-md mb-2">Initialize Account</h2>
+<p class="text-text-muted font-body-md">Configure your analyst profile for real-time tracking.</p>
+</div>
+<form action="#" class="space-y-8" id="signup-form" method="POST">
+<!-- Name Field -->
+<div class="relative group">
+<label class="block font-label-mono text-label-mono text-text-muted mb-2 uppercase group-focus-within:text-primary transition-colors" for="fullName">Full Name</label>
+<div class="flex items-end">
+<span class="material-symbols-outlined text-text-muted mr-3 mb-2 group-focus-within:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">person</span>
+<input class="input-field" id="fullName" name="fullName" placeholder="ALEX MERCER" required="" type="text"/>
+</div>
+</div>
+<!-- Username Field -->
+<div class="relative group">
+<label class="block font-label-mono text-label-mono text-text-muted mb-2 uppercase group-focus-within:text-primary transition-colors" for="username">Username</label>
+<div class="flex items-end">
+<span class="material-symbols-outlined text-text-muted mr-3 mb-2 group-focus-within:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">alternate_email</span>
+<input class="input-field" id="username" name="username" placeholder="YOUR_USERNAME" required="" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="relative group">
+<label class="block font-label-mono text-label-mono text-text-muted mb-2 uppercase group-focus-within:text-primary transition-colors" for="password">Password</label>
+<div class="flex items-end">
+<span class="material-symbols-outlined text-text-muted mr-3 mb-2 group-focus-within:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">lock</span>
+<input class="input-field" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Confirm Password Field -->
+<div class="relative group">
+<label class="block font-label-mono text-label-mono text-text-muted mb-2 uppercase group-focus-within:text-primary transition-colors" for="confirmPassword">Confirm Password</label>
+<div class="flex items-end">
+<span class="material-symbols-outlined text-text-muted mr-3 mb-2 group-focus-within:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">lock_reset</span>
+<input class="input-field" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-4">
+<button class="btn-primary" type="submit">
+<span>Create Account</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">arrow_forward</span>
+</button>
+</div>
+</form>
+<div class="mt-8 pt-6 border-t border-glass-stroke text-center">
+<p class="font-label-mono text-label-mono text-text-muted">
+                    ALREADY HAVE AN ACCOUNT? 
+                    <a class="text-primary hover:text-secondary-container ml-2 transition-colors inline-flex items-center gap-1 group" href="login.html">
+                        LOGIN
+                        <span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform" style="font-variation-settings: 'FILL' 0;">login</span>
+</a>
+</p>
+</div>
+</div>
+<!-- Footer Links -->
+<div class="mt-8 flex justify-center gap-6 font-label-mono text-label-mono text-text-muted">
+<a class="hover:text-primary transition-colors" href="#">PRIVACY POLICY</a>
+<a class="hover:text-primary transition-colors" href="#">TERMS OF SERVICE</a>
+</div>
+</div>
+
+<script type="module">
+    import { register } from '../api/api.js';
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const signupForm = document.getElementById('signup-form');
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Clear previous errors
+            signupForm.querySelectorAll('.auth-error').forEach(el => el.remove());
+
+            const showError = (msg) => {
+                const errEl = document.createElement('p');
+                errEl.className = 'auth-error font-label-mono text-[11px] text-secondary-container text-center';
+                errEl.textContent = msg;
+                signupForm.querySelector('div.pt-4').before(errEl);
+            };
+            
+            if (!username) { showError('Username is required.'); return; }
+            if (password !== confirmPassword) {
+                showError('Passwords do not match.');
+                return;
+            }
+            if (password.length < 8) { showError('Password must be at least 8 characters.'); return; }
+            
+            const btn = signupForm.querySelector('button[type="submit"]');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerText = 'CREATING...';
+            
+            try {
+                const data = await register(username, password, fullName);
+                if (data.status) {
+                    window.location.href = 'login.html?registered=1';
+                } else {
+                    showError(data.message || 'Signup failed');
+                    btn.disabled = false;
+                    btn.innerHTML = originalHTML;
+                }
+            } catch (error) {
+                console.error(error);
+                showError(error.message || 'Connection error.');
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+            }
+        });
+    });
+    </script>
+</body></html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PRC Engine - Price Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "glass-stroke": "rgba(255, 255, 255, 0.1)",
+                        "secondary-container": "#c90317",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "text-muted": "#c4c7c8",
+                        "primary": "#ffffff",
+                        "tertiary": "#ffffff",
+                        "background": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-container-high": "#2a2a2a",
+                        "surface": "#131313",
+                        "glass-fill": "rgba(255, 255, 255, 0.05)",
+                        "on-tertiary-container": "#8f544e",
+                        "tertiary-container": "#ffdad5",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-fixed": "#ffdad6",
+                        "secondary": "#ffb4ac",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "inverse-on-surface": "#313030",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-tertiary": "#51221d",
+                        "surface-bright": "#393939",
+                        "on-secondary-fixed": "#410002",
+                        "outline-variant": "#444748",
+                        "brand-dark": "#3c3c3c",
+                        "on-primary-container": "#636565",
+                        "surface-highest": "#353535",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-high": "#2a2a2a",
+                        "tertiary-fixed": "#ffdad5",
+                        "on-error": "#690005",
+                        "on-background": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#93000d",
+                        "outline": "#8e9192",
+                        "surface-void": "#0e0e0e",
+                        "on-tertiary-fixed-variant": "#6c3832",
+                        "surface-variant": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-dim": "#131313",
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary": "#2f3131",
+                        "on-secondary": "#690006",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-fixed-variant": "#454747",
+                        "inverse-primary": "#5d5f5f",
+                        "primary-container": "#e2e2e2",
+                        "on-secondary-container": "#ffd7d3",
+                        "on-tertiary-fixed": "#360e0a",
+                        "surface-tint": "#c6c6c7",
+                        "surface-container-highest": "#353534",
+                        "surface-container": "#201f1f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "section-gap": "120px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "display-xl": ["Plus Jakarta Sans"],
+                        "display-xl-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "29px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "label-mono": ["12px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "display-xl": ["120px", { "lineHeight": "132px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "display-xl-mobile": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "headline-md": ["32px", { "lineHeight": "42px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "headline-lg": ["64px", { "lineHeight": "76px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #131313; color: #ffffff; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+        .btn-primary {
+            background-color: #ffffff;
+            color: #131313;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            transform: scale(0.98);
+        }
+        .chart-bar {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .chart-bar:hover {
+            transform: scaleY(1.05);
+            background-color: #ffffff;
+        }
+        /* Custom Toggle */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #c90317;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #c90317;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased overflow-x-hidden min-h-screen flex bg-background">
+<!-- SideNavBar (Hidden on Mobile, Visible on md+) -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-glass-stroke py-8 z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-glass-fill border border-glass-stroke flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A macro photography shot of a sleek, futuristic metallic drone component. The object is composed of machined carbon fiber and brushed titanium, sitting against an absolute black void background. Harsh directional white light picks up the specular highlights on the metal edges, emphasizing precision engineering and high-tech minimalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM-ctdIFzGqZKxQODrpkWZCd4l0RPQaJupO0PCQt3NahGJvJ4goggXxxrk23etiOWyXUTkpk495v3RzT4PVRaqSoT1sW3n4sUgRyGelI02VoqKAzU6KSd-uH0_gzwTQmoWs0wTMQV4wzdBqHbN0bLQI6pBjZHxkBGEH3EVnakmUh_Zu_AuBR2hvrTFV_9iqdSFmZt8AIrmD-J6VnT25CZ8tHyQkSwBZjkFNmefUJGCI-63TyBTVmbdW4qJVj8vkE3KMk6ImT8sNw"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary text-xl leading-tight">PRC Engine</h1>
+<p class="font-label-mono text-label-mono text-text-muted mt-1">Pro Analyst</p>
+</div>
+</div>
+<div class="flex flex-col flex-grow gap-2 px-2 mt-4">
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="dashboard.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-mono text-label-mono">Overview</span>
+</a>
+<a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 hover:bg-glass-stroke transition-colors rounded-r-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-mono text-label-mono">Price Tracker</span>
+</a>
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications_active</span>
+<span class="font-label-mono text-label-mono">Alerts</span>
+</a>
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">tune</span>
+<span class="font-label-mono text-label-mono">Settings</span>
+</a>
+</div>
+<div class="px-6 mt-auto mb-6">
+<button class="w-full btn-primary py-3 font-label-mono text-label-mono font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span> Add Product
+            </button>
+</div>
+<div class="flex flex-col gap-2 px-2 border-t border-glass-stroke pt-4">
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+<span class="font-label-mono text-label-mono">Support</span>
+</a>
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#" id="logout-btn">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+<span class="font-label-mono text-label-mono">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-64 w-full relative">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full md:w-[calc(100%-16rem)] bg-background/80 backdrop-blur-md border-b border-glass-stroke z-50">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Mobile Brand / Desktop Title Placeholder -->
+<div class="md:hidden font-headline-md text-headline-md font-bold tracking-tighter text-primary text-2xl">
+                    PRC Engine
+                </div>
+<div class="hidden md:block">
+<!-- Search Bar (Desktop) -->
+<div class="relative w-64">
+<input class="w-full bg-transparent border-0 border-b-2 border-glass-stroke focus:border-primary focus:ring-0 text-primary font-label-mono text-sm py-2 px-0 transition-colors placeholder:text-text-muted/50" id="search-input" placeholder="Search SKU or Name..." type="text"/>
+<div class="absolute top-full left-0 w-80 max-h-96 overflow-y-auto bg-surface-high border border-glass-stroke rounded mt-2 z-50 hidden shadow-xl" id="search-results"></div></div>
+</div>
+<!-- Navigation Links (Mobile Hidden, Desktop Handled by TopNavBar concept from JSON, though SideNav implies a dashboard layout. We'll show it for fidelity to JSON) -->
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill px-3 py-1 rounded" href="dashboard.html">Dashboard</a>
+<a class="text-primary font-bold border-b-2 border-secondary-container pb-1 px-1" href="price-tracking.html">Tracking</a>
+<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill px-3 py-1 rounded" href="#">History</a>
+<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill px-3 py-1 rounded" href="#">Notifications</a>
+</nav>
+<div class="flex items-center gap-4">
+<!-- Mobile Search Icon -->
+<button class="md:hidden text-primary hover:bg-glass-fill p-2 rounded-full transition-all duration-200">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all duration-200">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<button class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<div class="pt-24 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Price Tracker</h2>
+<p class="text-text-muted mt-2 max-w-2xl">Manage active tracking modules, monitor real-time deltas, and configure automated alert thresholds for high-priority SKUs.</p>
+</div>
+<div class="flex gap-4 w-full md:w-auto">
+<button class="flex-1 md:flex-none border border-glass-stroke text-primary bg-transparent hover:bg-primary/10 transition-colors py-2 px-6 rounded-sm font-label-mono text-label-mono flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filter
+                    </button>
+<button class="flex-1 md:flex-none btn-primary py-2 px-6 font-label-mono text-label-mono font-bold">
+                        Export CSV
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Main Tracking List (Spans 8 cols on LG) -->
+<div class="lg:col-span-8 space-y-6">
+<h3 class="font-headline-md text-headline-md text-primary text-xl border-b border-glass-stroke pb-2">Active Targets</h3>
+<!-- Tracked Product Item 1 -->
+
+<!-- Tracked Product Item 2 -->
+
+<!-- Tracked Product Item 3 -->
+
+<div class="space-y-6 mt-6" id="tracked-products-list"></div></div>
+<!-- Right Sidebar Modules (Spans 4 cols on LG) -->
+<div class="lg:col-span-4 space-y-gutter">
+<!-- Market Delta Chart -->
+<div class="glass-card p-8 h-[340px] flex flex-col">
+<h3 class="font-headline-md text-primary text-lg mb-6 border-b border-glass-stroke pb-2">Price History (MacBook Air M2)</h3>
+<div class="flex-grow flex items-end justify-between gap-1 mt-auto px-2 pb-2 h-40">
+<!-- Fake Bar Chart -->
+<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 40%;"></div>
+<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 45%;"></div>
+<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 35%;"></div>
+<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 50%;"></div>
+<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 60%;"></div>
+<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 55%;"></div>
+<div class="w-full bg-secondary-container rounded-t chart-bar" style="height: 75%;"></div>
+<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 40%;"></div>
+<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 30%;"></div>
+</div>
+<div class="flex justify-between mt-2 font-label-mono text-text-muted text-[10px] opacity-70">
+<span>-30d</span>
+<span>Today</span>
+</div>
+</div>
+<!-- Recent Changes Log -->
+<div class="glass-card p-8">
+<h3 class="font-headline-md text-primary text-lg mb-6 border-b border-glass-stroke pb-2">Recent Deltas</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<div class="font-label-mono text-primary text-sm mb-1">AMD Ryzen 9 5900X</div>
+<div class="font-label-mono text-text-muted text-xs opacity-70">Today, 10:42 AM NST</div>
+</div>
+<div class="text-right">
+<div class="font-label-mono text-secondary-container text-sm flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> रू 2,500
+                                    </div>
+<div class="font-label-mono text-text-muted text-xs opacity-70">Target Hit</div>
+</div>
+</div>
+<div class="h-px bg-glass-stroke w-full"></div>
+<div class="flex justify-between items-start">
+<div>
+<div class="font-label-mono text-primary text-sm mb-1">Sony Alpha A7 IV</div>
+<div class="font-label-mono text-text-muted text-xs opacity-70">Yesterday, 4:15 PM NST</div>
+</div>
+<div class="text-right">
+<div class="font-label-mono text-primary text-sm flex items-center justify-end gap-1 opacity-80">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> रू 1,800
+                                    </div>
+</div>
+</div>
+<div class="h-px bg-glass-stroke w-full"></div>
+<div class="flex justify-between items-start">
+<div>
+<div class="font-label-mono text-primary text-sm mb-1">MacBook Pro 16" M3 Pro</div>
+<div class="font-label-mono text-text-muted text-xs opacity-70">Jul 10, 2026</div>
+</div>
+<div class="text-right">
+<div class="font-label-mono text-secondary-container text-sm flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> रू 18,000
+                                    </div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 border border-glass-stroke text-text-muted hover:text-primary hover:border-primary transition-colors py-2 rounded font-label-mono text-xs">View Full Log</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple script to handle custom toggle logic if needed, 
+        // though CSS handles the visual state based on :checked
+        document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                // In a real app, this would trigger an API call to update notification settings
+                console.log(`Toggle ${e.target.id} changed to ${e.target.checked}`);
+            });
+        });
+    </script>
+
+<script type="module">
+    import { isLoggedIn, getSession, clearSession, logout, search, getTrackedProducts, trackProduct, untrackProduct } from '../api/api.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (!isLoggedIn()) {
+            window.location.href = 'login.html';
+            return;
+        }
+        const { sessionId } = getSession();
+
+        // Logout
+        document.querySelectorAll('#logout-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try { await logout(sessionId); } catch (_) {}
+                clearSession();
+                window.location.href = 'login.html';
+            });
+        });
+
+        const loadTracked = async () => {
+            try {
+                const data = await getTrackedProducts(sessionId);
+                if (data && data.status) {
+                    const list = document.getElementById('tracked-products-list');
+                    if (!list) return;
+                    list.innerHTML = '';
+
+                    (data.items || []).forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'glass-card p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:bg-glass-fill transition-colors';
+                        div.innerHTML = `
+                            <div class="flex items-center gap-4 w-full">
+                                <div class="w-16 h-16 bg-surface-container-high rounded border border-glass-stroke flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                    ${item.image_url ? `<img src="${item.image_url}" class="w-full h-full object-cover"/>` : '<span class="material-symbols-outlined text-outline" style="font-size: 32px;">memory</span>'}
+                                </div>
+                                <div class="flex-grow">
+                                    <h4 class="text-primary font-semibold text-lg line-clamp-1"><a href="${item.product_link}" target="_blank">${item.product_name}</a></h4>
+                                    <div class="flex gap-2 mt-2">
+                                        <span class="bg-surface-high px-2 py-1 rounded text-text-muted font-label-mono text-[10px]">Store: ${item.source_site}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between w-full sm:w-auto gap-8">
+                                <div class="text-right">
+                                    <div class="font-label-mono text-label-mono text-text-muted mb-1">Current</div>
+                                    <div class="font-label-mono text-primary text-xl">रू ${Number(item.price || 0).toLocaleString('en-IN')}</div>
+                                </div>
+                                <div class="text-right hidden sm:block">
+                                    <div class="font-label-mono text-label-mono text-text-muted mb-1">Target</div>
+                                    <div class="font-label-mono text-secondary-container text-xl">${item.target_price ? 'रू ' + Number(item.target_price).toLocaleString('en-IN') : '—'}</div>
+                                </div>
+                                <button onclick="window.untrack('${item.product_link}')" class="text-secondary-container hover:text-primary transition-colors p-2"><span class="material-symbols-outlined">delete</span></button>
+                            </div>
+                        `;
+                        list.appendChild(div);
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        await loadTracked();
+
+        window.untrack = async (link) => {
+            try { await untrackProduct(sessionId, link); } catch (e) { console.error(e); }
+            await loadTracked();
+        };
+
+        window.track = async (link, name, price) => {
+            const id = btoa(link).replace(/[^a-zA-Z0-9]/g, '');
+            const btn = document.getElementById('track-btn-' + id);
+            if (btn) {
+                btn.innerText = "Tracking...";
+                btn.disabled = true;
+            }
+            try {
+                await trackProduct(sessionId, link, name, price);
+                await loadTracked();
+                document.getElementById('search-results').classList.add('hidden');
+                document.getElementById('search-input').value = '';
+            } catch (e) {
+                console.error(e);
+                if (btn) { btn.innerText = "Track"; btn.disabled = false; }
+            }
+        };
+
+        // Search logic — go through api.js so the Vite proxy handles the URL
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+            if (query.length < 3) {
+                searchResults.classList.add('hidden');
+                return;
+            }
+
+            searchTimeout = setTimeout(async () => {
+                searchResults.innerHTML = '<div class="p-4 text-center font-label-mono text-sm text-text-muted">Searching...</div>';
+                searchResults.classList.remove('hidden');
+
+                try {
+                    // api.js expects filters as a string: "relevance" | "price-asc" | "price-desc" | "rating-asc" | "rating-desc"
+                    const data = await search(query, 'relevance', 1);
+                    const products = data.products || [];
+                    if (products.length > 0) {
+                        searchResults.innerHTML = '';
+                        products.forEach(p => {
+                            const id = btoa(p.product_link).replace(/[^a-zA-Z0-9]/g, '');
+                            const div = document.createElement('div');
+                            div.className = 'p-4 border-b border-glass-stroke hover:bg-glass-fill flex items-center justify-between gap-2';
+                            const safeName = (p.product_name || '').replace(/'/g, "\\'");
+                            div.innerHTML = `
+                                <div class="flex-grow truncate">
+                                    <div class="text-sm text-primary font-bold truncate">${p.product_name}</div>
+                                    <div class="text-xs text-text-muted font-label-mono">रू ${Number(p.price || 0).toLocaleString('en-IN')} | ${p.source_site}</div>
+                                </div>
+                                <button id="track-btn-${id}" class="text-[10px] uppercase font-label-mono px-2 py-1 bg-primary text-background rounded" onclick="track('${p.product_link}', '${safeName}', '${p.price}')">Track</button>
+                            `;
+                            searchResults.appendChild(div);
+                        });
+                    } else {
+                        searchResults.innerHTML = '<div class="p-4 text-center font-label-mono text-sm text-text-muted">No results found</div>';
+                    }
+                } catch (e) {
+                    console.error(e);
+                    searchResults.innerHTML = '<div class="p-4 text-center font-label-mono text-sm text-secondary-container">Error searching</div>';
+                }
+            }, 800);
+        });
+    });
+    </script>
+</body></html>

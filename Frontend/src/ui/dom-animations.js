@@ -589,13 +589,14 @@ const canvas1 = () => {
     frame: frameCount - 1,
     snap: "frame",
     ease: `none`,
-    scrollTrigger: {
-      scrub: 0.15,
-      trigger: `#page3>canvas`,
-      start: `top top`,
-      end: `300% top`,
-      scroller: `body`,
-    },
+    // scrollTrigger REMOVED for page3 search section
+    // scrollTrigger: {
+    //   scrub: 0.15,
+    //   trigger: `#page3>canvas`,
+    //   start: `top top`,
+    //   end: `300% top`,
+    //   scroller: `body`,
+    // },
     onUpdate: render,
   });
 
@@ -625,63 +626,67 @@ const canvas1 = () => {
       img.height * ratio
     );
   }
-  ScrollTrigger.create({
-    trigger: "#page3",
-    pin: true,
-    scroller: `body`,
-    start: `top top`,
-    end: `300% top`,
-  });
+  // ScrollTrigger.create REMOVED for page3 search section
+  // ScrollTrigger.create({
+  //   trigger: "#page3",
+  //   pin: true,
+  //   scroller: `body`,
+  //   start: `top top`,
+  //   end: `300% top`,
+  // });
 
-  document.querySelectorAll(".canvas-text h4").forEach(function (h) {
-    var clutterc = "";
-    h.textContent.split("").forEach(function (l) {
-      clutterc += `<span>${l}</span>`;
-    });
-    h.innerHTML = clutterc;
-  });
+  // Text animation REMOVED for page3 search section
+  // document.querySelectorAll(".canvas-text h4").forEach(function (h) {
+  //   var clutterc = "";
+  //   h.textContent.split("").forEach(function (l) {
+  //     clutterc += `<span>${l}</span>`;
+  //   });
+  //   h.innerHTML = clutterc;
+  // });
 
-  var tlc = gsap.timeline({
-    scrollTrigger: {
-      trigger: "#page3 canvas",
-      scroller: "body",
-      start: "top -10%",
-      end: "top -250%",
-      scrub: 1,
-      // markers: true,
-    },
-  });
-  tlc
-    .to(".canvas-text-wrap .h41 span", {
-      transform: "translateY(-140%)",
-      stagger: {
-        amount: 0.4,
-      },
-      duration: 0.6,
-    })
-    .to(".canvas-text-wrap .h42 span", {
-      transform: "translateY(-100%)",
-      stagger: {
-        amount: 0.4,
-      },
-      duration: 0.6,
-    })
-    .to(".canvas-text-wrap .h42 span", {
-      transform: "translateY(-230%)",
-      stagger: {
-        amount: 0.4,
-      },
-      duration: 0.6,
-    })
-    .to(".canvas-text-wrap .h43 span", {
-      transform: "translateY(-200%)",
-      stagger: {
-        amount: 0.4,
-      },
-      duration: 0.6,
-    });
+  // var tlc = gsap.timeline({
+  //   scrollTrigger: {
+  //     trigger: "#page3 canvas",
+  //     scroller: "body",
+  //     start: "top -10%",
+  //     end: "top -250%",
+  //     scrub: 1,
+  //     // markers: true,
+  //   },
+  // });
+  // tlc
+  //   .to(".canvas-text-wrap .h41 span", {
+  //     transform: "translateY(-140%)",
+  //     stagger: {
+  //       amount: 0.4,
+  //     },
+  //     duration: 0.6,
+  //   })
+  //   .to(".canvas-text-wrap .h42 span", {
+  //     transform: "translateY(-100%)",
+  //     stagger: {
+  //       amount: 0.4,
+  //     },
+  //     duration: 0.6,
+  //   })
+  //   .to(".canvas-text-wrap .h42 span", {
+  //     transform: "translateY(-230%)",
+  //     stagger: {
+  //       amount: 0.4,
+  //     },
+  //     duration: 0.6,
+  //   })
+  //   .to(".canvas-text-wrap .h43 span", {
+  //     transform: "translateY(-200%)",
+  //     stagger: {
+  //       amount: 0.4,
+  //     },
+  //     duration: 0.6,
+  //   });
 };
-canvas1();
+// canvas1() REMOVED for page3 search section
+// The canvas animation has been removed as page3 now contains a search panel
+// canvas1(); // Function call removed
 
 // Page 4 HoverAnimation
 

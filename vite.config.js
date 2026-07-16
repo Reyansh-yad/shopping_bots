@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [glsl()],
   root: ".",
   server: {
-    open: "/Frontend/prc-engine/login.html",
+    open: "/src/pages/login.html",
     watch: {
       ignored: ["**/public/canvas1/**"],
     },
@@ -21,9 +21,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        login: resolve(__dirname, "Frontend/prc-engine/login.html"),
-        signup: resolve(__dirname, "Frontend/prc-engine/signup.html"),
-        dashboard: resolve(__dirname, "Frontend/prc-engine/index.html"),
+        login: resolve(__dirname, "Frontend/src/pages/login.html"),
+        signup: resolve(__dirname, "Frontend/src/pages/signup.html"),
+        dashboard: resolve(__dirname, "Frontend/src/pages/dashboard.html"),
+        "price-tracking": resolve(__dirname, "Frontend/src/pages/price-tracking.html"),
       },
     },
   },
