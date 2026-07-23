@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+import os
+import shutil
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from app.core.security import validate_session
 from app.database import get_db_connection
 from app.schemas.models import (
@@ -9,7 +11,13 @@ from app.schemas.models import (
     RemoveTrackedProductRequest,
     GetStatsRequest,
     GetTrackedRequest,
+    UpdateProfileRequest,
+    GetUserProfileRequest,
 )
+
+UPLOADS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "uploads", "avatars")
+ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp"}
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
 
 profile = APIRouter(prefix="/profile", tags=["profile"])
 
@@ -400,3 +408,244 @@ def get_stats(request: GetStatsRequest, conn=Depends(get_db_connection)):
         "priceDropsToday": price_drops,
         "activeAlerts": 0,  # placeholder – extend when alert system is built
     }
+
+
+@profile.post("/top-movers")
+def get_top_movers(request: GetStatsRequest, conn=Depends(get_db_connection)):
+    """Return up to 5 of the user's tracked products with the largest price drops."""
+    _require_session(request.session_id)
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH history AS (
+                SELECT
+                    tph.tracked_product_id,
+                    tph.price,
+                    tph.recorded_at,
+                    LAG(tph.price) OVER (
+                        PARTITION BY tph.tracked_product_id
+                        ORDER BY tph.recorded_at
+                    ) AS prev_price
+                FROM app.tracked_product_price_history tph
+                JOIN app.user_tracked_product utp USING (tracked_product_id)
+                WHERE utp.user_id = (
+                    SELECT user_id FROM app.profile
+                    WHERE username = (SELECT username FROM app.session WHERE session_id = %s)
+                )
+            ),
+            drops AS (
+                SELECT DISTINCT ON (tracked_product_id)
+                    tracked_product_id,
+                    price           AS current_price,
+                    prev_price,
+                    prev_price - price                                         AS delta_amount,
+                    ROUND(((prev_price - price) / NULLIF(prev_price, 0) * 100)::numeric, 1) AS delta_pct
+                FROM history
+                WHERE prev_price IS NOT NULL AND prev_price > price
+                ORDER BY tracked_product_id, recorded_at DESC
+            )
+            SELECT tp.product_name, tp.product_link, d.current_price, d.delta_amount, d.delta_pct
+            FROM drops d
+            JOIN app.tracked_product tp USING (tracked_product_id)
+            ORDER BY d.delta_amount DESC
+            LIMIT 5
+            """,
+            (request.session_id,),
+        )
+        rows = cur.fetchall()
+
+    items = [
+        {
+            "product_name": r[0],
+            "product_link": r[1],
+            "current_price": float(r[2]) if r[2] else 0,
+            "delta_amount": float(r[3]) if r[3] else 0,
+            "delta_pct": float(r[4]) if r[4] else 0,
+            "source_site": _domain_from_url(r[1]),
+        }
+        for r in rows
+    ]
+    return {"status": True, "items": items}
+
+
+@profile.post("/activity")
+def get_activity(request: GetStatsRequest, conn=Depends(get_db_connection)):
+    """Return the last 20 price-change events across the user's tracked products."""
+    _require_session(request.session_id)
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH changes AS (
+                SELECT
+                    tp.product_name,
+                    tph.price       AS new_price,
+                    tph.recorded_at,
+                    LAG(tph.price) OVER (
+                        PARTITION BY tph.tracked_product_id
+                        ORDER BY tph.recorded_at
+                    ) AS old_price
+                FROM app.tracked_product_price_history tph
+                JOIN app.tracked_product tp USING (tracked_product_id)
+                JOIN app.user_tracked_product utp USING (tracked_product_id)
+                WHERE utp.user_id = (
+                    SELECT user_id FROM app.profile
+                    WHERE username = (SELECT username FROM app.session WHERE session_id = %s)
+                )
+            )
+            SELECT product_name, old_price, new_price, recorded_at
+            FROM changes
+            WHERE old_price IS NOT NULL
+            ORDER BY recorded_at DESC
+            LIMIT 20
+            """,
+            (request.session_id,),
+        )
+        rows = cur.fetchall()
+
+    events = [
+        {
+            "product_name": r[0],
+            "old_price": float(r[1]) if r[1] else 0,
+            "new_price": float(r[2]) if r[2] else 0,
+            "recorded_at": r[3].isoformat() if r[3] else None,
+        }
+        for r in rows
+    ]
+    return {"status": True, "events": events}
+
+
+# ─── user profile endpoints ──────────────────────────────────────────────────
+
+@profile.get("/user")
+def get_user_profile(session_id: str, conn=Depends(get_db_connection)):
+    """
+    Return the logged-in user's profile fields:
+    username, full_name, email, phone_number, and photo_url.
+    Query param: ?session_id=<uuid>
+    """
+    _require_session(session_id)
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT username, full_name, email, phone_number, photo_path
+            FROM app.profile
+            WHERE username = (
+                SELECT username FROM app.session WHERE session_id = %s
+            )
+            """,
+            (session_id,),
+        )
+        row = cur.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="User not found.")
+        username, full_name, email, phone_number, photo_path = row
+
+    photo_url = f"/uploads/avatars/{photo_path}" if photo_path else None
+    return {
+        "status": True,
+        "username": username,
+        "full_name": full_name or "",
+        "email": email or "",
+        "phone_number": phone_number or "",
+        "photo_url": photo_url,
+    }
+
+
+@profile.post("/update")
+def update_user_profile(request: UpdateProfileRequest, conn=Depends(get_db_connection)):
+    """Update full_name, email, and/or phone_number for the logged-in user."""
+    _require_session(request.session_id)
+
+    updates = []
+    values = []
+    if request.full_name is not None:
+        updates.append("full_name = %s")
+        values.append(request.full_name.strip())
+    if request.email is not None:
+        updates.append("email = %s")
+        values.append(request.email.strip())
+    if request.phone_number is not None:
+        updates.append("phone_number = %s")
+        values.append(request.phone_number.strip())
+
+    if not updates:
+        return {"status": False, "message": "No fields to update."}
+
+    with conn.cursor() as cur:
+        values.append(request.session_id)
+        cur.execute(
+            f"""
+            UPDATE app.profile
+            SET {', '.join(updates)}
+            WHERE username = (
+                SELECT username FROM app.session WHERE session_id = %s
+            )
+            """,
+            values,
+        )
+        conn.commit()
+    return {"status": True, "message": "Profile updated successfully."}
+
+
+@profile.post("/photo")
+async def upload_photo(
+    session_id: str = Form(...),
+    file: UploadFile = File(...),
+    conn=Depends(get_db_connection),
+):
+    """Upload and store a profile photo for the logged-in user.
+    Accepted types: image/jpeg, image/png, image/webp. Max size: 5 MB.
+    """
+    _require_session(session_id)
+
+    # Validate content type
+    if file.content_type not in ALLOWED_CONTENT_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported file type '{file.content_type}'. Allowed: jpeg, png, webp.",
+        )
+
+    # Read file and check size
+    contents = await file.read()
+    if len(contents) > MAX_FILE_SIZE:
+        raise HTTPException(
+            status_code=413,
+            detail="File too large. Maximum allowed size is 5 MB.",
+        )
+
+    # Resolve user_id
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT user_id FROM app.profile
+            WHERE username = (
+                SELECT username FROM app.session WHERE session_id = %s
+            )
+            """,
+            (session_id,),
+        )
+        row = cur.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="User not found.")
+        user_id = row[0]
+
+    # Determine file extension
+    ext_map = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp"}
+    ext = ext_map[file.content_type]
+    filename = f"{user_id}{ext}"
+
+    # Save to disk
+    os.makedirs(UPLOADS_DIR, exist_ok=True)
+    save_path = os.path.join(UPLOADS_DIR, filename)
+    with open(save_path, "wb") as f:
+        f.write(contents)
+
+    # Update DB
+    with conn.cursor() as cur:
+        cur.execute(
+            "UPDATE app.profile SET photo_path = %s WHERE user_id = %s",
+            (filename, user_id),
+        )
+        conn.commit()
+
+    return {"status": True, "photo_url": f"/uploads/avatars/{filename}"}

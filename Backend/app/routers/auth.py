@@ -55,8 +55,8 @@ def register(register_request: RegisterRequest, conn=Depends(get_db_connection))
         ).decode("utf-8")
 
         cur.execute(
-            "INSERT INTO app.profile (username, password_hash) VALUES (%s, %s)",
-            (register_request.username, password_hash)
+            "INSERT INTO app.profile (username, password_hash, full_name) VALUES (%s, %s, %s)",
+            (register_request.username, password_hash, register_request.full_name or None)
         )
         conn.commit()
 

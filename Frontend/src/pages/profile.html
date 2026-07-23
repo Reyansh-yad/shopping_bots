@@ -1,406 +1,552 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head>
+<html class="dark" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Account Settings | PRC Engine</title>
+<title>Profile | PRC Engine</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        body {
-            background-color: #131313;
-            color: #e5e2e1;
-            -webkit-font-smoothing: antialiased;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .glass-stroke {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0e0e0e;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #353535;
-        }
-        .magnetic-btn:active {
-            transform: scale(0.95);
-        }
-    </style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+    }
+    body {
+        background-color: #131313;
+        color: #e5e2e1;
+        -webkit-font-smoothing: antialiased;
+    }
+    .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0e0e0e; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #353535; }
+    .magnetic-btn:active { transform: scale(0.95); }
+
+    /* Photo upload overlay */
+    #photo-wrapper:hover #photo-overlay { opacity: 1; }
+    #photo-overlay {
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    /* Input focus style */
+    .profile-input:focus {
+        outline: none;
+        border-bottom-color: #c90317;
+    }
+
+    /* Toast animation */
+    @keyframes slide-up {
+        from { transform: translateY(12px); opacity: 0; }
+        to   { transform: translateY(0);    opacity: 1; }
+    }
+    .toast-enter { animation: slide-up 0.25s ease forwards; }
+
+    /* Spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 0.7s linear infinite; }
+
+    /* SVG avatar initials background */
+    .avatar-initials { background: linear-gradient(135deg, #c90317 0%, #690006 100%); }
+</style>
 <script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "text-muted": "#c4c7c8",
-                      "surface-high": "#2a2a2a",
-                      "surface-bright": "#393939",
-                      "surface": "#131313",
-                      "secondary-fixed-dim": "#ffb4ac",
-                      "on-secondary": "#690006",
-                      "on-surface": "#e5e2e1",
-                      "on-error": "#690005",
-                      "tertiary-fixed": "#ffdad5",
-                      "secondary-fixed": "#ffdad6",
-                      "surface-container-low": "#1c1b1b",
-                      "inverse-surface": "#e5e2e1",
-                      "surface-container-lowest": "#0e0e0e",
-                      "primary-fixed": "#e2e2e2",
-                      "outline": "#8e9192",
-                      "primary": "#ffffff",
-                      "surface-tint": "#c6c6c7",
-                      "on-tertiary-container": "#8f544e",
-                      "error-container": "#93000a",
-                      "on-primary-container": "#636565",
-                      "on-secondary-fixed-variant": "#93000d",
-                      "on-background": "#e5e2e1",
-                      "surface-container": "#201f1f",
-                      "secondary-container": "#c90317",
-                      "secondary": "#ffb4ac",
-                      "on-tertiary-fixed-variant": "#6c3832",
-                      "surface-variant": "#353534",
-                      "on-primary": "#2f3131",
-                      "on-primary-fixed-variant": "#454747",
-                      "surface-highest": "#353535",
-                      "surface-container-high": "#2a2a2a",
-                      "error": "#ffb4ab",
-                      "outline-variant": "#444748",
-                      "tertiary-fixed-dim": "#ffb4ab",
-                      "surface-dim": "#131313",
-                      "on-secondary-container": "#ffd7d3",
-                      "on-error-container": "#ffdad6",
-                      "on-surface-variant": "#c4c7c8",
-                      "glass-stroke": "rgba(255, 255, 255, 0.1)",
-                      "surface-void": "#0e0e0e",
-                      "primary-container": "#e2e2e2",
-                      "on-tertiary": "#51221d",
-                      "primary-fixed-dim": "#c6c6c7",
-                      "tertiary": "#ffffff",
-                      "inverse-primary": "#5d5f5f",
-                      "on-secondary-fixed": "#410002",
-                      "background": "#131313",
-                      "on-primary-fixed": "#1a1c1c",
-                      "surface-container-highest": "#353534",
-                      "glass-fill": "rgba(255, 255, 255, 0.05)",
-                      "brand-dark": "#3c3c3c",
-                      "tertiary-container": "#ffdad5",
-                      "on-tertiary-fixed": "#360e0a",
-                      "inverse-on-surface": "#313030"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.125rem",
-                      "lg": "0.25rem",
-                      "xl": "0.5rem",
-                      "full": "0.75rem"
-              },
-              "spacing": {
-                      "margin-mobile": "20px",
-                      "unit": "4px",
-                      "margin-desktop": "64px",
-                      "gutter": "24px",
-                      "section-gap": "120px",
-                      "container-max": "1440px"
-              },
-              "fontFamily": {
-                      "body-lg": ["Inter"],
-                      "display-xl-mobile": ["Plus Jakarta Sans"],
-                      "label-mono": ["JetBrains Mono"],
-                      "display-xl": ["Plus Jakarta Sans"],
-                      "headline-md": ["Plus Jakarta Sans"],
-                      "headline-lg": ["Plus Jakarta Sans"],
-                      "body-md": ["Inter"]
-              },
-              "fontSize": {
-                      "body-lg": ["18px", {"lineHeight": "29px", "fontWeight": "400"}],
-                      "display-xl-mobile": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "800"}],
-                      "label-mono": ["12px", {"lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "500"}],
-                      "display-xl": ["120px", {"lineHeight": "132px", "letterSpacing": "-0.04em", "fontWeight": "800"}],
-                      "headline-md": ["32px", {"lineHeight": "42px", "letterSpacing": "0", "fontWeight": "600"}],
-                      "headline-lg": ["64px", {"lineHeight": "76px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                      "body-md": ["16px", {"lineHeight": "26px", "fontWeight": "400"}]
-              }
-            },
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "text-muted": "#c4c7c8",
+                  "surface-high": "#2a2a2a",
+                  "surface-bright": "#393939",
+                  "surface": "#131313",
+                  "secondary-fixed-dim": "#ffb4ac",
+                  "on-secondary": "#690006",
+                  "on-surface": "#e5e2e1",
+                  "on-error": "#690005",
+                  "tertiary-fixed": "#ffdad5",
+                  "secondary-fixed": "#ffdad6",
+                  "surface-container-low": "#1c1b1b",
+                  "inverse-surface": "#e5e2e1",
+                  "surface-container-lowest": "#0e0e0e",
+                  "primary-fixed": "#e2e2e2",
+                  "outline": "#8e9192",
+                  "primary": "#ffffff",
+                  "surface-tint": "#c6c6c7",
+                  "on-tertiary-container": "#8f544e",
+                  "error-container": "#93000a",
+                  "on-primary-container": "#636565",
+                  "on-secondary-fixed-variant": "#93000d",
+                  "on-background": "#e5e2e1",
+                  "surface-container": "#201f1f",
+                  "secondary-container": "#c90317",
+                  "secondary": "#ffb4ac",
+                  "on-tertiary-fixed-variant": "#6c3832",
+                  "surface-variant": "#353534",
+                  "on-primary": "#2f3131",
+                  "on-primary-fixed-variant": "#454747",
+                  "surface-highest": "#353535",
+                  "surface-container-high": "#2a2a2a",
+                  "error": "#ffb4ab",
+                  "outline-variant": "#444748",
+                  "tertiary-fixed-dim": "#ffb4ab",
+                  "surface-dim": "#131313",
+                  "on-secondary-container": "#ffd7d3",
+                  "on-error-container": "#ffdad6",
+                  "on-surface-variant": "#c4c7c8",
+                  "glass-stroke": "rgba(255, 255, 255, 0.1)",
+                  "surface-void": "#0e0e0e",
+                  "primary-container": "#e2e2e2",
+                  "on-tertiary": "#51221d",
+                  "primary-fixed-dim": "#c6c6c7",
+                  "tertiary": "#ffffff",
+                  "inverse-primary": "#5d5f5f",
+                  "on-secondary-fixed": "#410002",
+                  "background": "#131313",
+                  "on-primary-fixed": "#1a1c1c",
+                  "surface-container-highest": "#353534",
+                  "glass-fill": "rgba(255, 255, 255, 0.05)",
+                  "brand-dark": "#3c3c3c",
+                  "tertiary-container": "#ffdad5",
+                  "on-tertiary-fixed": "#360e0a",
+                  "inverse-on-surface": "#313030"
           },
-        }
-    </script>
+          "borderRadius": {
+                  "DEFAULT": "0.125rem",
+                  "lg": "0.25rem",
+                  "xl": "0.5rem",
+                  "full": "0.75rem"
+          },
+          "spacing": {
+                  "margin-mobile": "20px",
+                  "unit": "4px",
+                  "margin-desktop": "64px",
+                  "gutter": "24px",
+                  "section-gap": "120px",
+                  "container-max": "1440px"
+          },
+          "fontFamily": {
+                  "body-lg": ["Inter"],
+                  "display-xl-mobile": ["Plus Jakarta Sans"],
+                  "label-mono": ["JetBrains Mono"],
+                  "display-xl": ["Plus Jakarta Sans"],
+                  "headline-md": ["Plus Jakarta Sans"],
+                  "headline-lg": ["Plus Jakarta Sans"],
+                  "body-md": ["Inter"]
+          },
+          "fontSize": {
+                  "body-lg": ["18px", {"lineHeight": "29px", "fontWeight": "400"}],
+                  "display-xl-mobile": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                  "label-mono": ["12px", {"lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                  "display-xl": ["120px", {"lineHeight": "132px", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                  "headline-md": ["32px", {"lineHeight": "42px", "letterSpacing": "0", "fontWeight": "600"}],
+                  "headline-lg": ["64px", {"lineHeight": "76px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "26px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+</script>
 </head>
 <body class="font-body-md text-on-background selection:bg-secondary-container selection:text-white">
-<!-- WebGL Background Overlay -->
-<div class="fixed inset-0 z-[-1] pointer-events-none opacity-40">
+
+<!-- Corner decoration -->
+<div class="fixed top-0 right-0 p-8 pointer-events-none opacity-20 hidden md:block">
+    <div class="w-64 h-64 border-r-2 border-t-2 border-secondary-container"></div>
 </div>
+
 <div class="flex">
-<!-- SideNavBar (Authority: JSON) -->
+<!-- ── Sidebar ─────────────────────────────────────────────────────────── -->
 <aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-glass-stroke flex flex-col py-8 z-50">
-<div class="px-6 mb-12">
-<h1 class="font-headline-md text-headline-md text-primary tracking-tighter"><a class="hover:text-secondary-fixed transition-colors" href="/">PRC Engine</a></h1>
-<p class="font-label-mono text-label-mono text-text-muted mt-2" id="profile-username">Pro Analyst</p>
-</div>
-<nav class="flex-1 space-y-1">
-<!-- Overview -->
-<a class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke" href="/Frontend/src/pages/dashboard.html">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="font-label-mono text-label-mono">Overview</span>
-</a>
-<!-- Price Tracker -->
-<a class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke" href="/Frontend/src/pages/price-tracking.html">
-<span class="material-symbols-outlined">analytics</span>
-<span class="font-label-mono text-label-mono">Price Tracker</span>
-</a>
-<!-- Alerts -->
-<a class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke" href="#">
-<span class="material-symbols-outlined">notifications_active</span>
-<span class="font-label-mono text-label-mono">Alerts</span>
-</a>
-<!-- Settings (ACTIVE) -->
-<a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 flex items-center gap-3 transition-transform translate-x-1" href="/Frontend/src/pages/profile.html">
-<span class="material-symbols-outlined">tune</span>
-<span class="font-label-mono text-label-mono">Settings</span>
-</a>
-</nav>
-<div class="px-4 mt-auto">
-<button class="w-full py-3 bg-primary text-on-primary font-label-mono text-label-mono font-bold rounded-none magnetic-btn transition-all flex items-center justify-center gap-2">
-<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
-                    Add Product
-                </button>
-<div class="mt-8 border-t border-glass-stroke pt-6">
-<a class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke" href="#">
-<span class="material-symbols-outlined">help</span>
-<span class="font-label-mono text-label-mono">Support</span>
-</a>
-<a id="logout-btn" class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span class="font-label-mono text-label-mono">Logout</span>
-</a>
-</div>
-</div>
+    <div class="px-6 mb-12">
+        <h1 class="font-headline-md text-headline-md text-primary tracking-tighter">
+            <a class="hover:text-secondary-fixed transition-colors" href="/">PRC Engine</a>
+        </h1>
+        <p class="font-label-mono text-label-mono text-text-muted mt-2" id="sidebar-username">—</p>
+    </div>
+    <nav class="flex-1 space-y-1">
+        <a class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke"
+           href="/Frontend/src/pages/price-tracking.html">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="font-label-mono text-label-mono">Price Tracker</span>
+        </a>
+        <a class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke" href="#">
+            <span class="material-symbols-outlined">notifications_active</span>
+            <span class="font-label-mono text-label-mono">Alerts</span>
+        </a>
+        <!-- Settings (ACTIVE) -->
+        <a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 flex items-center gap-3 transition-transform translate-x-1"
+           href="/Frontend/src/pages/profile.html">
+            <span class="material-symbols-outlined">tune</span>
+            <span class="font-label-mono text-label-mono">Settings</span>
+        </a>
+    </nav>
+    <div class="px-4 mt-auto">
+        <button class="w-full py-3 bg-primary text-on-primary font-label-mono text-label-mono font-bold rounded-none magnetic-btn transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+            Add Product
+        </button>
+        <div class="mt-8 border-t border-glass-stroke pt-6">
+            <a class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke" href="#">
+                <span class="material-symbols-outlined">help</span>
+                <span class="font-label-mono text-label-mono">Support</span>
+            </a>
+            <a id="logout-btn" class="text-text-muted px-4 py-3 hover:text-primary flex items-center gap-3 transition-colors hover:bg-glass-stroke" href="#">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="font-label-mono text-label-mono">Logout</span>
+            </a>
+        </div>
+    </div>
 </aside>
-<!-- Main Content Area -->
-<main class="ml-64 w-full min-h-screen px-margin-desktop py-12 max-w-container-max mx-auto">
-<!-- Header Section -->
-<header class="mb-section-gap">
-<div class="flex justify-between items-end">
-<div>
-<span class="font-label-mono text-label-mono text-secondary tracking-widest uppercase mb-4 block">System / Account</span>
-<h2 class="font-headline-lg text-headline-lg text-primary">Configuration</h2>
-</div>
-<div class="flex items-center gap-4">
-<div class="text-right">
-<p class="font-label-mono text-label-mono text-text-muted">Last sync</p>
-<p class="font-label-mono text-label-mono text-primary">04:12:00 UTC</p>
-</div>
-<div class="w-12 h-12 bg-secondary-container flex items-center justify-center rounded-none">
-<span class="material-symbols-outlined text-white">sync_alt</span>
-</div>
-</div>
-</div>
-</header>
-<!-- Bento Grid Layout -->
-<div class="grid grid-cols-12 gap-gutter">
-<!-- Profile Overview (Analyst Card) -->
-<div class="col-span-12 lg:col-span-4 glass-card p-8 flex flex-col items-center text-center">
-<div class="relative mb-6">
-<div class="w-32 h-32 rounded-none border-2 border-secondary-container p-1">
-<img class="w-full h-full object-cover" data-alt="A cinematic, high-contrast close-up portrait of a professional male analyst in a futuristic dark setting. He is wearing high-tech minimalist eyewear that reflects digital data streams. The lighting is dramatic, with cold white highlights and deep shadows, emphasizing the technical and professional 'PRC Engine' brand aesthetic. The background is a soft-focus dark industrial office with subtle glowing red accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvyKEIlG4JJOJF0vhH3d9MvQNp7NHrk5AfYVlL5HOP6_hz-27hTDZMMM5hVD8dv_rgmlhzBgFWgywvKTPCIQRcjRXAwLUXH5m8W47fSqhM2aP70H47SEz3FBot2ZF1YYJh-lw-da41IKm65B57CkWXFopsGdUr3TsRs5wXTgQrMWTJdYiv3Vw0xiQcXh8ZT1x33iednm_moA2cZNsbLdDcsOoPlq1tDkWNKzRr-lW4LR9uwnr5RgcL156ge6y4ilt_UhUZtjn7OA"/>
-</div>
-<div class="absolute -bottom-2 -right-2 bg-secondary-container px-2 py-1">
-<span class="font-label-mono text-[10px] text-white font-bold">VERIFIED</span>
-</div>
-</div>
-<h3 class="font-headline-md text-headline-md text-primary mb-1">Alex Thorne</h3>
-<p class="font-label-mono text-label-mono text-secondary mb-8">Lead Technical Analyst</p>
-<div class="w-full space-y-4 pt-6 border-t border-glass-stroke">
-<div class="flex justify-between">
-<span class="font-label-mono text-label-mono text-text-muted">Active Assets</span>
-<span class="font-label-mono text-label-mono text-primary">1,204</span>
-</div>
-<div class="flex justify-between">
-<span class="font-label-mono text-label-mono text-text-muted">Analysis Level</span>
-<span class="font-label-mono text-label-mono text-primary">Tier 3 / Pro</span>
-</div>
-<div class="flex justify-between">
-<span class="font-label-mono text-label-mono text-text-muted">Node Uptime</span>
-<span class="font-label-mono text-label-mono text-primary">99.98%</span>
-</div>
-</div>
-</div>
-<!-- API Configuration -->
-<div class="col-span-12 lg:col-span-8 glass-card p-8">
-<div class="flex justify-between items-center mb-8">
-<div>
-<h3 class="font-headline-md text-headline-md text-primary mb-1">API Integration</h3>
-<p class="font-body-md text-body-md text-text-muted">Manage secure endpoints and cryptographic keys.</p>
-</div>
-<span class="material-symbols-outlined text-secondary" style="font-size: 32px;">hub</span>
-</div>
-<div class="space-y-8">
-<div>
-<label class="font-label-mono text-label-mono text-text-muted block mb-2 uppercase">Main API Access Key</label>
-<div class="flex gap-4">
-<div class="flex-1 bg-surface-void border-b-2 border-glass-stroke p-4 flex items-center justify-between">
-<code class="font-label-mono text-label-mono text-primary">prc_live_9482_xk92_8810_vll3</code>
-<span class="material-symbols-outlined text-text-muted cursor-pointer hover:text-primary transition-colors">content_copy</span>
-</div>
-<button class="px-6 py-4 border-2 border-secondary-container text-primary font-label-mono text-label-mono hover:bg-secondary-container transition-all uppercase">Rotate</button>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div>
-<label class="font-label-mono text-label-mono text-text-muted block mb-2 uppercase">Webhook URL</label>
-<div class="bg-surface-void border-b-2 border-glass-stroke p-4">
-<input class="bg-transparent border-none w-full font-label-mono text-label-mono text-primary focus:ring-0 p-0" type="text" value="https://api.prc-engine.io/v1/hook"/>
-</div>
-</div>
-<div>
-<label class="font-label-mono text-label-mono text-text-muted block mb-2 uppercase">Secret Token</label>
-<div class="bg-surface-void border-b-2 border-glass-stroke p-4 flex items-center justify-between">
-<span class="font-label-mono text-label-mono text-text-muted">••••••••••••••••</span>
-<span class="material-symbols-outlined text-text-muted cursor-pointer hover:text-primary transition-colors">visibility</span>
-</div>
-</div>
-</div>
-<div class="pt-4">
-<div class="flex items-center gap-4 p-4 border border-glass-stroke bg-glass-fill">
-<span class="material-symbols-outlined text-secondary">warning</span>
-<p class="text-body-md font-body-md text-text-muted italic">API keys grant full access to your tracking automation. Do not share.</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Subscription Details -->
-<div class="col-span-12 lg:col-span-7 glass-card p-8">
-<h3 class="font-headline-md text-headline-md text-primary mb-6">Service Plan</h3>
-<div class="flex items-center gap-8 mb-8">
-<div class="w-24 h-24 bg-white text-surface-void flex flex-col items-center justify-center">
-<span class="font-label-mono text-2xl font-bold">PRO</span>
-<span class="font-label-mono text-[10px]">EDITION</span>
-</div>
-<div>
-<h4 class="font-body-lg text-body-lg text-primary font-bold">Engine Enterprise v2.4</h4>
-<p class="font-body-md text-body-md text-text-muted">Next renewal: December 24, 2024</p>
-<div class="mt-4 flex gap-4">
-<span class="bg-surface-high px-3 py-1 font-label-mono text-[10px] text-primary">RECURRING</span>
-<span class="bg-surface-high px-3 py-1 font-label-mono text-[10px] text-primary">CREDIT CARD •••• 9012</span>
-</div>
-</div>
-</div>
-<div class="space-y-4">
-<div class="flex items-center justify-between p-4 border border-glass-stroke hover:border-white transition-colors cursor-pointer group">
-<div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-text-muted group-hover:text-primary">receipt_long</span>
-<span class="font-label-mono text-label-mono">View Invoice History</span>
-</div>
-<span class="material-symbols-outlined text-text-muted group-hover:translate-x-1 transition-transform">arrow_forward</span>
-</div>
-<div class="flex items-center justify-between p-4 border border-glass-stroke hover:border-white transition-colors cursor-pointer group">
-<div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-text-muted group-hover:text-primary">credit_card</span>
-<span class="font-label-mono text-label-mono">Update Payment Methods</span>
-</div>
-<span class="material-symbols-outlined text-text-muted group-hover:translate-x-1 transition-transform">arrow_forward</span>
-</div>
-</div>
-</div>
-<!-- Usage Analytics Small Card -->
-<div class="col-span-12 lg:col-span-5 glass-card p-8 flex flex-col justify-between">
-<div>
-<h3 class="font-headline-md text-headline-md text-primary mb-2">Usage Limit</h3>
-<p class="font-label-mono text-label-mono text-text-muted uppercase tracking-widest">Compute Cycle Status</p>
-</div>
-<div class="my-8">
-<div class="flex justify-between mb-2">
-<span class="font-label-mono text-label-mono text-primary">82.4%</span>
-<span class="font-label-mono text-label-mono text-text-muted">8,240 / 10,000 requests</span>
-</div>
-<div class="h-2 bg-surface-void w-full overflow-hidden">
-<div class="h-full bg-secondary-container w-[82.4%] shadow-[0_0_15px_rgba(201,3,23,0.5)]"></div>
-</div>
-</div>
-<button class="w-full py-4 border border-white text-primary font-label-mono text-label-mono hover:bg-white hover:text-surface-void transition-all uppercase font-bold">
-                        Upgrade Capacity
-                    </button>
-</div>
-</div>
-<!-- Global Footer (Authority: JSON) -->
-<footer class="w-full py-8 mt-section-gap border-t border-glass-stroke">
-<div class="flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto">
-<p class="font-label-mono text-label-mono text-text-muted">© 2024 PRC Engine. Real-time technical precision.</p>
-<div class="flex gap-8 mt-4 md:mt-0">
-<a class="font-label-mono text-label-mono text-text-muted hover:text-primary hover:underline transition-all" href="#">Privacy Policy</a>
-<a class="font-label-mono text-label-mono text-text-muted hover:text-primary hover:underline transition-all" href="#">Terms of Service</a>
-<a class="font-label-mono text-label-mono text-text-muted hover:text-primary hover:underline transition-all" href="#">API Documentation</a>
-</div>
-</div>
-</footer>
+
+<!-- ── Main Content ────────────────────────────────────────────────────── -->
+<main class="ml-64 w-full min-h-screen px-margin-desktop py-12">
+
+    <!-- Page header -->
+    <header class="mb-16">
+        <span class="font-label-mono text-label-mono text-secondary tracking-widest uppercase mb-4 block">System / Account</span>
+        <h2 class="font-headline-lg text-headline-lg text-primary">Profile</h2>
+    </header>
+
+    <!-- Profile card -->
+    <div class="max-w-lg glass-card p-10" id="profile-card">
+
+        <!-- ── Photo ── -->
+        <div class="flex flex-col items-center mb-10">
+            <div class="relative cursor-pointer group" id="photo-wrapper" title="Click to change photo">
+                <!-- Avatar container -->
+                <div class="w-32 h-32 border-2 border-secondary-container overflow-hidden relative" id="avatar-container">
+                    <!-- Initials fallback (shown when no photo) -->
+                    <div id="avatar-initials"
+                         class="avatar-initials w-full h-full flex items-center justify-center text-white font-headline-md text-headline-md select-none">
+                        ?
+                    </div>
+                    <!-- Actual photo (hidden until loaded) -->
+                    <img id="avatar-img"
+                         class="w-full h-full object-cover absolute inset-0 hidden"
+                         alt="Profile photo"/>
+                </div>
+
+                <!-- Camera overlay -->
+                <div id="photo-overlay"
+                     class="absolute inset-0 bg-black/60 flex items-center justify-center"
+                     aria-hidden="true">
+                    <span class="material-symbols-outlined text-white" style="font-size:32px;font-variation-settings:'FILL' 1;">photo_camera</span>
+                </div>
+            </div>
+
+            <!-- Hidden file input -->
+            <input id="photo-input" type="file" accept="image/jpeg,image/png,image/webp" class="hidden"/>
+
+            <!-- Upload status -->
+            <div id="photo-status" class="mt-3 min-h-[20px] text-center">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ── Divider ── -->
+        <div class="border-t border-glass-stroke mb-8"></div>
+
+        <!-- ── Fields ── -->
+        <form id="profile-form" class="space-y-8" novalidate>
+
+            <!-- Full Name -->
+            <div>
+                <label class="font-label-mono text-label-mono text-text-muted block mb-2 uppercase tracking-widest"
+                       for="field-name">Full Name</label>
+                <div class="bg-surface-void border-b-2 border-glass-stroke px-4 py-3 transition-colors focus-within:border-secondary-container">
+                    <input id="field-name"
+                           class="profile-input bg-transparent border-none w-full font-body-md text-body-md text-primary focus:ring-0 p-0"
+                           type="text"
+                           placeholder="Your full name"
+                           autocomplete="name"/>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label class="font-label-mono text-label-mono text-text-muted block mb-2 uppercase tracking-widest"
+                       for="field-email">Email</label>
+                <div class="bg-surface-void border-b-2 border-glass-stroke px-4 py-3 transition-colors focus-within:border-secondary-container">
+                    <input id="field-email"
+                           class="profile-input bg-transparent border-none w-full font-body-md text-body-md text-primary focus:ring-0 p-0"
+                           type="email"
+                           placeholder="you@example.com"
+                           autocomplete="email"/>
+                </div>
+            </div>
+
+            <!-- Phone -->
+            <div>
+                <label class="font-label-mono text-label-mono text-text-muted block mb-2 uppercase tracking-widest"
+                       for="field-phone">Phone Number</label>
+                <div class="bg-surface-void border-b-2 border-glass-stroke px-4 py-3 transition-colors focus-within:border-secondary-container">
+                    <input id="field-phone"
+                           class="profile-input bg-transparent border-none w-full font-body-md text-body-md text-primary focus:ring-0 p-0"
+                           type="tel"
+                           placeholder="+1 555 000 0000"
+                           autocomplete="tel"/>
+                </div>
+            </div>
+
+            <!-- Save button -->
+            <div class="pt-2">
+                <button id="save-btn"
+                        type="submit"
+                        class="w-full py-4 bg-primary text-on-primary font-label-mono text-label-mono font-bold
+                               hover:bg-secondary-container hover:text-white transition-all uppercase magnetic-btn
+                               flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                    <span id="save-icon" class="material-symbols-outlined" style="font-size:18px;">save</span>
+                    <span id="save-label">Save Changes</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Save status -->
+        <div id="save-status" class="mt-4 min-h-[20px] text-center"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full py-8 mt-24 border-t border-glass-stroke">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="font-label-mono text-label-mono text-text-muted">© 2024 PRC Engine. Real-time technical precision.</p>
+            <div class="flex gap-8 mt-4 md:mt-0">
+                <a class="font-label-mono text-label-mono text-text-muted hover:text-primary hover:underline transition-all" href="#">Privacy Policy</a>
+                <a class="font-label-mono text-label-mono text-text-muted hover:text-primary hover:underline transition-all" href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
 </main>
 </div>
-<!-- UI Overlay Particles -->
-<div class="fixed top-0 right-0 p-8 pointer-events-none opacity-20 hidden md:block">
-<div class="w-64 h-64 border-r-2 border-t-2 border-secondary-container"></div>
-</div>
+
+<!-- ── Toast container ─────────────────────────────────────────────────────── -->
+<div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 items-center pointer-events-none"></div>
+
 <script>
-        // Micro-interaction for primary buttons
-        document.querySelectorAll('.magnetic-btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0)';
-            });
-        });
+(function () {
+    const BASE = 'http://localhost:8000';
+    const sessionId = localStorage.getItem('prc_session_id');
 
-        // Hover scale for cards
-        document.querySelectorAll('.glass-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                card.style.transition = 'all 0.3s cubic-bezier(0.23, 1, 0.32, 1)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-            });
-        });
-    </script>
-</body>
-<script>
-(function(){
-  const BASE = 'http://localhost:8000';
-  const sessionId = localStorage.getItem('prc_session_id');
-  const username  = localStorage.getItem('prc_username');
+    // ── Auth guard ──────────────────────────────────────────────────────────
+    if (!sessionId) {
+        sessionStorage.setItem('prc_login_redirect', 'profile.html');
+        window.location.href = '/Frontend/src/pages/login.html';
+        return;
+    }
 
-  if (!sessionId) {
-    sessionStorage.setItem('prc_login_redirect', 'profile.html');
-    window.location.href = '/Frontend/src/pages/login.html';
-    return;
-  }
+    // ── DOM refs ────────────────────────────────────────────────────────────
+    const sidebarUsername  = document.getElementById('sidebar-username');
+    const avatarInitials   = document.getElementById('avatar-initials');
+    const avatarImg        = document.getElementById('avatar-img');
+    const photoWrapper     = document.getElementById('photo-wrapper');
+    const photoInput       = document.getElementById('photo-input');
+    const photoStatus      = document.getElementById('photo-status');
+    const fieldName        = document.getElementById('field-name');
+    const fieldEmail       = document.getElementById('field-email');
+    const fieldPhone       = document.getElementById('field-phone');
+    const profileForm      = document.getElementById('profile-form');
+    const saveBtn          = document.getElementById('save-btn');
+    const saveIcon         = document.getElementById('save-icon');
+    const saveLabel        = document.getElementById('save-label');
+    const saveStatus       = document.getElementById('save-status');
+    const logoutBtn        = document.getElementById('logout-btn');
 
-  const userEl = document.getElementById('profile-username');
-  if (userEl && username) userEl.textContent = username.toUpperCase();
+    // ── Toast helper ────────────────────────────────────────────────────────
+    function showToast(msg, isError = false) {
+        const container = document.getElementById('toast-container');
+        const el = document.createElement('div');
+        el.className = [
+            'toast-enter px-6 py-3 font-label-mono text-label-mono text-white',
+            isError ? 'bg-error-container border border-error' : 'bg-secondary-container',
+        ].join(' ');
+        el.textContent = msg;
+        container.appendChild(el);
+        setTimeout(() => {
+            el.style.opacity = '0';
+            el.style.transition = 'opacity 0.3s';
+            setTimeout(() => el.remove(), 400);
+        }, 3500);
+    }
 
-  const logoutBtn = document.getElementById('logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      try { await fetch(BASE + '/auth/logout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({session_id: sessionId}) }); } catch(_) {}
-      localStorage.removeItem('prc_session_id');
-      localStorage.removeItem('prc_username');
-      window.location.href = '/Frontend/src/pages/login.html';
+    // ── Photo helpers ───────────────────────────────────────────────────────
+    function getInitial(name, username) {
+        const src = (name || username || '?').trim();
+        return src[0].toUpperCase();
+    }
+
+    function showPhoto(url) {
+        if (url) {
+            avatarImg.src = url;
+            avatarImg.classList.remove('hidden');
+            avatarInitials.classList.add('hidden');
+        } else {
+            avatarImg.classList.add('hidden');
+            avatarInitials.classList.remove('hidden');
+        }
+    }
+
+    function setPhotoStatus(html, isError = false) {
+        photoStatus.innerHTML = html;
+        photoStatus.className = 'mt-3 min-h-[20px] text-center font-label-mono text-label-mono ' +
+            (isError ? 'text-error' : 'text-text-muted');
+    }
+
+    // ── Load profile ────────────────────────────────────────────────────────
+    async function loadProfile() {
+        try {
+            const res = await fetch(`${BASE}/profile/user?session_id=${encodeURIComponent(sessionId)}`);
+            if (!res.ok) throw new Error(await res.text());
+            const data = await res.json();
+
+            // Sidebar
+            const displayName = data.username || '';
+            if (sidebarUsername) sidebarUsername.textContent = displayName.toUpperCase();
+            if (localStorage.getItem('prc_username')) {
+                // keep localStorage in sync
+            }
+
+            // Fields
+            fieldName.value  = data.full_name    || '';
+            fieldEmail.value = data.email         || '';
+            fieldPhone.value = data.phone_number  || '';
+
+            // Photo / initials
+            avatarInitials.textContent = getInitial(data.full_name, data.username);
+            showPhoto(data.photo_url ? BASE + data.photo_url : null);
+
+        } catch (err) {
+            showToast('Failed to load profile: ' + err.message, true);
+        }
+    }
+
+    loadProfile();
+
+    // ── Photo upload ────────────────────────────────────────────────────────
+    photoWrapper.addEventListener('click', () => photoInput.click());
+
+    photoInput.addEventListener('change', async () => {
+        const file = photoInput.files[0];
+        if (!file) return;
+
+        // Client-side type check
+        const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!allowed.includes(file.type)) {
+            setPhotoStatus('❌ Unsupported type. Use JPG, PNG or WebP.', true);
+            return;
+        }
+        // Client-side size check (5 MB)
+        if (file.size > 5 * 1024 * 1024) {
+            setPhotoStatus('❌ File too large. Maximum is 5 MB.', true);
+            return;
+        }
+
+        // Show spinner
+        setPhotoStatus('<svg class="spinner inline-block" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="10"/></svg> Uploading…');
+
+        const form = new FormData();
+        form.append('session_id', sessionId);
+        form.append('file', file);
+
+        try {
+            const res = await fetch(`${BASE}/profile/photo`, { method: 'POST', body: form });
+            const data = await res.json();
+
+            if (!res.ok || !data.status) {
+                throw new Error(data.detail || data.message || 'Upload failed');
+            }
+
+            // Show new photo immediately
+            showPhoto(BASE + data.photo_url);
+            setPhotoStatus('✓ Photo updated');
+            setTimeout(() => setPhotoStatus(''), 3000);
+            showToast('Profile photo updated.');
+        } catch (err) {
+            setPhotoStatus('❌ ' + err.message, true);
+        } finally {
+            // Reset so the same file can be re-selected if needed
+            photoInput.value = '';
+        }
     });
-  }
+
+    // ── Save profile ────────────────────────────────────────────────────────
+    profileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        saveBtn.disabled = true;
+        saveIcon.textContent = 'hourglass_empty';
+        saveIcon.classList.add('spinner');
+        saveLabel.textContent = 'Saving…';
+
+        try {
+            const res = await fetch(`${BASE}/profile/update`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    session_id:   sessionId,
+                    full_name:    fieldName.value,
+                    email:        fieldEmail.value,
+                    phone_number: fieldPhone.value,
+                }),
+            });
+            const data = await res.json();
+
+            if (!res.ok || !data.status) {
+                throw new Error(data.detail || data.message || 'Save failed');
+            }
+
+            // Update initials in case name changed
+            avatarInitials.textContent = getInitial(fieldName.value, null);
+            showToast('Profile saved successfully.');
+        } catch (err) {
+            showToast('Save failed: ' + err.message, true);
+        } finally {
+            saveBtn.disabled = false;
+            saveIcon.classList.remove('spinner');
+            saveIcon.textContent = 'save';
+            saveLabel.textContent = 'Save Changes';
+        }
+    });
+
+    // ── Logout ──────────────────────────────────────────────────────────────
+    logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+            await fetch(`${BASE}/auth/logout`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId }),
+            });
+        } catch (_) {}
+        localStorage.removeItem('prc_session_id');
+        localStorage.removeItem('prc_username');
+        window.location.href = '/Frontend/src/pages/login.html';
+    });
+
+    // ── Magnetic button effect ───────────────────────────────────────────────
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        });
+        btn.addEventListener('mouseleave', () => { btn.style.transform = 'translate(0, 0)'; });
+    });
+
+    // ── Glass card hover ─────────────────────────────────────────────────────
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            card.style.transition = 'all 0.3s cubic-bezier(0.23, 1, 0.32, 1)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        });
+    });
 })();
 </script>
+</body>
 </html>

@@ -113,6 +113,46 @@ def create_schema():
                             ) THEN
                                 ALTER TABLE app.user_tracked_product ADD COLUMN notify BOOLEAN DEFAULT FALSE;
                             END IF;
+
+                            -- profile.full_name
+                            IF NOT EXISTS (
+                                SELECT 1 FROM information_schema.columns
+                                WHERE table_schema = 'app'
+                                  AND table_name   = 'profile'
+                                  AND column_name  = 'full_name'
+                            ) THEN
+                                ALTER TABLE app.profile ADD COLUMN full_name VARCHAR(255) DEFAULT NULL;
+                            END IF;
+
+                            -- profile.email
+                            IF NOT EXISTS (
+                                SELECT 1 FROM information_schema.columns
+                                WHERE table_schema = 'app'
+                                  AND table_name   = 'profile'
+                                  AND column_name  = 'email'
+                            ) THEN
+                                ALTER TABLE app.profile ADD COLUMN email VARCHAR(255) DEFAULT NULL;
+                            END IF;
+
+                            -- profile.phone_number
+                            IF NOT EXISTS (
+                                SELECT 1 FROM information_schema.columns
+                                WHERE table_schema = 'app'
+                                  AND table_name   = 'profile'
+                                  AND column_name  = 'phone_number'
+                            ) THEN
+                                ALTER TABLE app.profile ADD COLUMN phone_number VARCHAR(20) DEFAULT NULL;
+                            END IF;
+
+                            -- profile.photo_path
+                            IF NOT EXISTS (
+                                SELECT 1 FROM information_schema.columns
+                                WHERE table_schema = 'app'
+                                  AND table_name   = 'profile'
+                                  AND column_name  = 'photo_path'
+                            ) THEN
+                                ALTER TABLE app.profile ADD COLUMN photo_path VARCHAR(500) DEFAULT NULL;
+                            END IF;
                         END$$;
 
                         ------------------------------------------------------------
@@ -124,7 +164,7 @@ def create_schema():
                             price NUMERIC(10,2) NOT NULL,
                             discount NUMERIC(10,2) DEFAULT 0,
                             recorded_at TIMESTAMP DEFAULT NOW()
-                        ); 
-                        """
-                );
+                        );
+                        """)
             conn.commit()
+            print("INFO:\tCreated schema")

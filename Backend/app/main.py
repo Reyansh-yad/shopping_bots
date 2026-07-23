@@ -1,4 +1,6 @@
+import os
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.routers import auth, search, profile
@@ -24,6 +26,11 @@ async def lifespan(app: FastAPI):
     pool.close()
 
 app = FastAPI(lifespan=lifespan)
+
+# ── Static file serving (profile photo uploads) ─────────────────────────────
+_AVATARS_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads", "avatars")
+os.makedirs(_AVATARS_DIR, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "..", "uploads")), name="uploads")
 
 # ── CORS ────────────────────────────────────────────────────────────────────
 # Allow the Vite dev server (port 5173) and any other local origins

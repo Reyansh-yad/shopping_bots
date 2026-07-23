@@ -287,9 +287,9 @@
   const errEl = document.getElementById('login-error');
   const btn = document.getElementById('login-submit');
 
-  // If already logged in, go straight to dashboard
+  // If already logged in, go straight to price tracker
   if (localStorage.getItem('prc_session_id')) {
-    window.location.href = '/Frontend/src/pages/dashboard.html';
+    window.location.href = '/Frontend/src/pages/price-tracking.html';
     return;
   }
 
@@ -313,7 +313,7 @@
         localStorage.setItem('prc_session_id', data.session_id);
         localStorage.setItem('prc_username', username);
         // Check if there's a redirect target after login
-        const redirect = sessionStorage.getItem('prc_login_redirect') || '/Frontend/src/pages/dashboard.html';
+        const redirect = sessionStorage.getItem('prc_login_redirect') || '/Frontend/src/pages/price-tracking.html';
         sessionStorage.removeItem('prc_login_redirect');
         window.location.href = redirect;
       } else {

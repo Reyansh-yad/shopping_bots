@@ -82,3 +82,14 @@ class GetStatsRequest(BaseModel):
 
 class GetTrackedRequest(BaseModel):
     session_id: str
+
+
+class UpdateProfileRequest(BaseModel):
+    session_id: str
+    full_name: Optional[str] = None
+    email: Optional[str] = None
+    phone_number: Optional[str] = None
+
+
+class GetUserProfileRequest(BaseModel):
+    session_id: str

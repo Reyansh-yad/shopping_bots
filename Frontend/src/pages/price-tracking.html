@@ -1,535 +1,985 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>PRC Engine - Price Tracker Pro</title>
+<title>PRC Engine - Price Tracker</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "text-muted": "#c4c7c8",
-                        "surface-high": "#2a2a2a",
-                        "surface-bright": "#393939",
-                        "surface": "#131313",
-                        "secondary-fixed-dim": "#ffb4ac",
-                        "on-secondary": "#690006",
-                        "on-surface": "#e5e2e1",
-                        "on-error": "#690005",
-                        "tertiary-fixed": "#ffdad5",
-                        "secondary-fixed": "#ffdad6",
-                        "surface-container-low": "#1c1b1b",
-                        "inverse-surface": "#e5e2e1",
-                        "surface-container-lowest": "#0e0e0e",
-                        "primary-fixed": "#e2e2e2",
-                        "outline": "#8e9192",
-                        "primary": "#ffffff",
-                        "surface-tint": "#c6c6c7",
-                        "on-tertiary-container": "#8f544e",
-                        "error-container": "#93000a",
-                        "on-primary-container": "#636565",
-                        "on-secondary-fixed-variant": "#93000d",
-                        "on-background": "#e5e2e1",
-                        "surface-container": "#201f1f",
-                        "secondary-container": "#c90317",
-                        "secondary": "#ffb4ac",
-                        "on-tertiary-fixed-variant": "#6c3832",
-                        "surface-variant": "#353534",
-                        "on-primary": "#2f3131",
-                        "on-primary-fixed-variant": "#454747",
-                        "surface-highest": "#353535",
-                        "surface-container-high": "#2a2a2a",
-                        "error": "#ffb4ab",
-                        "outline-variant": "#444748",
-                        "tertiary-fixed-dim": "#ffb4ab",
-                        "surface-dim": "#131313",
-                        "on-secondary-container": "#ffd7d3",
-                        "on-error-container": "#ffdad6",
-                        "on-surface-variant": "#c4c7c8",
-                        "glass-stroke": "rgba(255, 255, 255, 0.1)",
-                        "surface-void": "#0e0e0e",
-                        "primary-container": "#e2e2e2",
-                        "on-tertiary": "#51221d",
-                        "primary-fixed-dim": "#c6c6c7",
-                        "tertiary": "#ffffff",
-                        "inverse-primary": "#5d5f5f",
-                        "on-secondary-fixed": "#410002",
-                        "background": "#131313",
-                        "on-primary-fixed": "#1a1c1c",
-                        "surface-container-highest": "#353534",
-                        "glass-fill": "rgba(255, 255, 255, 0.05)",
-                        "brand-dark": "#3c3c3c",
-                        "tertiary-container": "#ffdad5",
-                        "on-tertiary-fixed": "#360e0a",
-                        "inverse-on-surface": "#313030"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "margin-mobile": "20px",
-                        "unit": "4px",
-                        "margin-desktop": "64px",
-                        "gutter": "24px",
-                        "section-gap": "120px",
-                        "container-max": "1440px"
-                    },
-                    "fontFamily": {
-                        "body-lg": ["Inter"],
-                        "display-xl-mobile": ["Plus Jakarta Sans"],
-                        "label-mono": ["JetBrains Mono"],
-                        "display-xl": ["Plus Jakarta Sans"],
-                        "headline-md": ["Plus Jakarta Sans"],
-                        "headline-lg": ["Plus Jakarta Sans"],
-                        "body-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "body-lg": ["18px", { "lineHeight": "29px", "fontWeight": "400" }],
-                        "display-xl-mobile": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
-                        "label-mono": ["12px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "500" }],
-                        "display-xl": ["120px", { "lineHeight": "132px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
-                        "headline-md": ["32px", { "lineHeight": "42px", "letterSpacing": "0", "fontWeight": "600" }],
-                        "headline-lg": ["64px", { "lineHeight": "76px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }]
-                    }
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "text-muted": "#c4c7c8",
+                    "surface-high": "#2a2a2a",
+                    "surface-bright": "#393939",
+                    "surface": "#131313",
+                    "on-surface": "#e5e2e1",
+                    "surface-container-low": "#1c1b1b",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed": "#e2e2e2",
+                    "outline": "#8e9192",
+                    "primary": "#ffffff",
+                    "on-background": "#e5e2e1",
+                    "surface-container": "#201f1f",
+                    "secondary-container": "#c90317",
+                    "secondary": "#ffb4ac",
+                    "surface-highest": "#353535",
+                    "surface-container-high": "#2a2a2a",
+                    "error": "#ffb4ab",
+                    "outline-variant": "#444748",
+                    "surface-dim": "#131313",
+                    "glass-stroke": "rgba(255, 255, 255, 0.1)",
+                    "surface-void": "#0e0e0e",
+                    "primary-container": "#e2e2e2",
+                    "background": "#131313",
+                    "surface-container-highest": "#353534",
+                    "glass-fill": "rgba(255, 255, 255, 0.05)",
+                    "brand-dark": "#3c3c3c",
+                    "on-primary": "#2f3131",
+                },
+                "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+                },
+                "spacing": {
+                    "margin-mobile": "20px",
+                    "unit": "4px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "section-gap": "120px",
+                    "container-max": "1440px"
+                },
+                "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "display-xl-mobile": ["Plus Jakarta Sans"],
+                    "label-mono": ["JetBrains Mono"],
+                    "display-xl": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"]
+                },
+                "fontSize": {
+                    "body-lg": ["18px", { "lineHeight": "29px", "fontWeight": "400" }],
+                    "display-xl-mobile": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                    "label-mono": ["12px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                    "display-xl": ["120px", { "lineHeight": "132px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                    "headline-md": ["32px", { "lineHeight": "42px", "letterSpacing": "0", "fontWeight": "600" }],
+                    "headline-lg": ["64px", { "lineHeight": "76px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }]
                 }
             }
         }
-    </script>
+    }
+</script>
 <style>
-        body { background-color: #131313; color: #ffffff; }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-        }
-        .btn-primary {
-            background-color: #ffffff;
-            color: #131313;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-primary:hover {
-            transform: scale(0.98);
-        }
-        .chart-bar {
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-        .chart-bar:hover {
-            transform: scaleY(1.05);
-            background-color: #ffffff;
-        }
-        /* Custom Toggle */
-        .toggle-checkbox:checked {
-            right: 0;
-            border-color: #c90317;
-        }
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #c90317;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-    </style>
+    body { background-color: #131313; color: #ffffff; }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+    }
+    .bento-card {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        backdrop-filter: blur(16px);
+        border-radius: 8px;
+        padding: 20px;
+        transition: border-color 0.2s ease;
+    }
+    .bento-card:hover { border-color: rgba(255,255,255,0.18); }
+
+    .btn-primary {
+        background-color: #ffffff;
+        color: #131313;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-primary:hover { transform: scale(0.98); }
+
+    .chart-bar {
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .chart-bar:hover {
+        transform: scaleY(1.05);
+        background-color: #ffffff;
+    }
+
+    /* Custom Toggle */
+    .toggle-checkbox:checked { right: 0; border-color: #c90317; }
+    .toggle-checkbox:checked + .toggle-label { background-color: #c90317; }
+
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+    /* Search Result Cards */
+    .search-result-card {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    .search-result-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+    .search-result-card img { width: 100%; height: 160px; object-fit: cover; background: #1c1b1b; }
+    .search-result-card .card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .search-result-card .card-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .search-result-card .card-price { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #fff; font-weight: 700; }
+    .search-result-card .card-store { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #c4c7c8; text-transform: uppercase; letter-spacing: 0.08em; }
+    .search-result-card .card-rating { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #c4c7c8; }
+    .card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 8px; }
+    .btn-view-deal {
+        flex: 1; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+        color: #c4c7c8; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
+        padding: 7px 8px; transition: all 0.2s; text-decoration: none; display: block;
+    }
+    .btn-view-deal:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+    .btn-track-card {
+        flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+        background: #ffffff; color: #131313; border-radius: 4px; padding: 7px 8px;
+        border: none; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-track-card:hover { background: #e0e0e0; }
+    .btn-track-card.tracked { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+    .btn-track-card.loading { opacity: 0.6; cursor: not-allowed; }
+    .btn-track-card.error { background: rgba(201,3,23,0.15); color: #f87171; border: 1px solid rgba(201,3,23,0.3); }
+
+    /* Toast */
+    #prc-toast {
+        position: fixed; bottom: 32px; right: 32px; z-index: 9999;
+        background: #201f1f; border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 8px; padding: 14px 20px; font-family: 'JetBrains Mono', monospace;
+        font-size: 12px; color: #fff; display: none; align-items: center; gap: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.6); max-width: 340px;
+        animation: slideUp 0.3s ease;
+    }
+    #prc-toast.show { display: flex; }
+    #prc-toast.toast-success { border-color: rgba(74,222,128,0.4); }
+    #prc-toast.toast-error { border-color: rgba(201,3,23,0.5); }
+    @keyframes slideUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+
+    /* Tracked Item */
+    .tracked-item-card {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        padding: 18px 20px;
+        transition: border-color 0.2s;
+    }
+    .tracked-item-card:hover { border-color: rgba(255,255,255,0.18); }
+    .btn-untrack {
+        font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+        color: #c4c7c8; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px;
+        padding: 5px 12px; background: transparent; cursor: pointer;
+        transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .btn-untrack:hover { color: #f87171; border-color: rgba(201,3,23,0.5); }
+
+    /* Search section */
+    #search-results-grid {
+        display: none;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+    }
+    #search-results-grid.visible { display: grid; }
+    #search-state-msg { display: none; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #c4c7c8; padding: 20px 0; }
+    #search-state-msg.visible { display: block; }
+
+    /* Stat pill */
+    .stat-pill { display: flex; flex-direction: column; gap: 4px; }
+    .stat-pill .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: #fff; line-height: 1; }
+    .stat-pill .stat-lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #c4c7c8; text-transform: uppercase; letter-spacing: 0.15em; }
+</style>
 </head>
 <body class="font-body-md text-body-md antialiased overflow-x-hidden min-h-screen flex bg-background">
-<!-- SideNavBar (from COMPONENTS_6) -->
+
+<!-- Toast Notification -->
+<div id="prc-toast">
+    <span id="prc-toast-icon" class="material-symbols-outlined text-[18px]">check_circle</span>
+    <span id="prc-toast-msg">Action completed.</span>
+</div>
+
+<!-- SideNavBar -->
 <nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-glass-stroke py-8 z-40">
-<div class="px-6 mb-8 flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-glass-fill border border-glass-stroke flex items-center justify-center overflow-hidden">
-<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM-ctdIFzGqZKxQODrpkWZCd4l0RPQaJupO0PCQt3NahGJvJ4goggXxxrk23etiOWyXUTkpk495v3RzT4PVRaqSoT1sW3n4sUgRyGelI02VoqKAzU6KSd-uH0_gzwTQmoWs0wTMQV4wzdBqHbN0bLQI6pBjZHxkBGEH3EVnakmUh_Zu_AuBR2hvrTFV_9iqdSFmZt8AIrmD-J6VnT25CZ8tHyQkSwBZjkFNmefUJGCI-63TyBTVmbdW4qJVj8vkE3KMk6ImT8sNw"/>
-</div>
-<div>
-<h1 class="font-headline-md text-headline-md text-primary text-xl leading-tight"><a class="hover:text-secondary-fixed transition-colors" href="/">PRC Engine</a></h1>
-<p class="font-label-mono text-label-mono text-text-muted mt-1" id="tracker-username">Pro Analyst</p>
-</div>
-</div>
-<div class="flex flex-col flex-grow gap-2 px-2 mt-4">
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="/Frontend/src/pages/dashboard.html">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
-<span class="font-label-mono text-label-mono">Overview</span>
-</a>
-<a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 hover:bg-glass-stroke transition-colors rounded-r-lg flex items-center gap-3" href="/Frontend/src/pages/price-tracking.html">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
-<span class="font-label-mono text-label-mono">Price Tracker</span>
-</a>
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications_active</span>
-<span class="font-label-mono text-label-mono">Alerts</span>
-</a>
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="/Frontend/src/pages/profile.html">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">tune</span>
-<span class="font-label-mono text-label-mono">Settings</span>
-</a>
-</div>
-<div class="px-6 mt-auto mb-6">
-<button class="w-full btn-primary py-3 font-label-mono text-label-mono font-bold flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-sm">add</span> Add Product
-        </button>
-</div>
-<div class="flex flex-col gap-2 px-2 border-t border-glass-stroke pt-4">
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
-<span class="font-label-mono text-label-mono">Support</span>
-</a>
-<a id="logout-btn" class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
-<span class="font-label-mono text-label-mono">Logout</span>
-</a>
-</div>
+    <div class="px-6 mb-8 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-glass-fill border border-glass-stroke flex items-center justify-center overflow-hidden">
+            <span class="material-symbols-outlined text-text-muted text-[22px]" style="font-variation-settings:'FILL' 1;">person</span>
+        </div>
+        <div>
+            <h1 class="font-headline-md text-primary text-xl leading-tight"><a class="hover:text-secondary transition-colors" href="/">PRC Engine</a></h1>
+            <p class="font-label-mono text-label-mono text-text-muted mt-1" id="tracker-username">Pro Analyst</p>
+        </div>
+    </div>
+    <div class="flex flex-col flex-grow gap-1 px-2 mt-4">
+        <a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 hover:bg-glass-stroke transition-colors rounded-r-lg flex items-center gap-3" href="/Frontend/src/pages/price-tracking.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">analytics</span>
+            <span class="font-label-mono text-label-mono">Price Tracker</span>
+        </a>
+        <a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">notifications_active</span>
+            <span class="font-label-mono text-label-mono">Alerts</span>
+        </a>
+        <a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="/Frontend/src/pages/profile.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">tune</span>
+            <span class="font-label-mono text-label-mono">Settings</span>
+        </a>
+    </div>
+    <div class="flex flex-col gap-2 px-2 border-t border-glass-stroke pt-4 mt-auto">
+        <a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">help</span>
+            <span class="font-label-mono text-label-mono">Support</span>
+        </a>
+        <a id="logout-btn" class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">logout</span>
+            <span class="font-label-mono text-label-mono">Logout</span>
+        </a>
+    </div>
 </nav>
+
 <!-- Main Content -->
 <main class="flex-1 ml-0 md:ml-64 w-full relative">
-<header class="fixed top-0 w-full md:w-[calc(100%-16rem)] bg-background/80 backdrop-blur-md border-b border-glass-stroke z-50">
-<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<div class="md:hidden font-headline-md text-headline-md font-bold tracking-tighter text-primary text-2xl">PRC Engine</div>
-<div class="hidden md:block">
-<div class="relative w-64">
-<input class="w-full bg-transparent border-0 border-b-2 border-glass-stroke focus:border-primary focus:ring-0 text-primary font-label-mono text-sm py-2 px-0 transition-colors placeholder:text-text-muted/50" placeholder="Search SKU or Name..." type="text"/>
-</div>
-</div>
-<nav class="hidden lg:flex items-center gap-8">
-<a class="text-text-muted font-medium hover:text-primary transition-colors px-3 py-1" href="/Frontend/src/pages/dashboard.html">Dashboard</a>
-<a class="text-primary font-bold border-b-2 border-secondary-container pb-1 px-1" href="/Frontend/src/pages/price-tracking.html">Tracking</a>
-<a class="text-text-muted font-medium hover:text-primary transition-colors px-3 py-1" href="#">History</a>
-<a class="text-text-muted font-medium hover:text-primary transition-colors px-3 py-1" href="#">Notifications</a>
-</nav>
-<div class="flex items-center gap-4">
-<button class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all">
-<span class="material-symbols-outlined">account_circle</span>
-</button>
-<button class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all">
-<span class="material-symbols-outlined">settings</span>
-</button>
-</div>
-</div>
-</header>
-<div class="pt-24 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<!-- Page Header -->
-<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
-<div>
-<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Price Tracker</h2>
-<p class="text-text-muted mt-2 max-w-2xl">High-precision monitoring of SKU deltas across global merchants with granular automation controls.</p>
-</div>
-<div class="flex gap-4 w-full md:w-auto">
-<button class="flex-1 md:flex-none border border-glass-stroke text-primary bg-transparent hover:bg-primary/10 transition-colors py-2 px-6 rounded-sm font-label-mono text-label-mono flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-sm">filter_list</span> Filter
-                </button>
-<button class="flex-1 md:flex-none btn-primary py-2 px-6 font-label-mono text-label-mono font-bold">Export CSV</button>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-<!-- Left Content: Active Targets & Detail Configs -->
-<div class="lg:col-span-8 space-y-12">
-<section>
-<div class="flex items-center justify-between border-b border-glass-stroke pb-4 mb-6">
-<h3 class="font-headline-md text-headline-md text-primary text-xl">Active Targets</h3>
-<span class="text-label-mono text-text-muted text-xs">3 Products Active</span>
-</div>
-<!-- High Detail Tracking Card -->
-<div class="glass-card mb-8">
-<div class="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-<div class="flex items-center gap-6">
-<div class="w-24 h-24 bg-surface-container-high rounded border border-glass-stroke flex-shrink-0 flex items-center justify-center overflow-hidden">
-<img alt="RTX 4090" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRar-ll-PQDhtsLj8ggqgQn1pkX0hma3cpLirlaG62AaKjOa0KBQPNjkitQS5CpDwm_18hv20DESUQ2u_-vfeK0-J9nmZ8LHGGUUY_it8T_LBfiwZAGGfUzmEtd5ZRgCwXB0gpkDub0tg_r1nw8IvBsUff9VNWcNZhpVHHTocAN4ZhL5OtchZgDM-hlQfjzn4Q-wzhcj3aRmRL_BhOPYcqamNyS4j93Rk1tQLZtOGIFMwEaNP8DnWoKcnktvxCqbpnoGyHRlCCXg"/>
-</div>
-<div>
-<h4 class="text-primary font-headline-md text-lg leading-tight">RTX 4090 Founders Edition</h4>
-<div class="flex flex-wrap gap-2 mt-3">
-<span class="bg-surface-high px-3 py-1 rounded text-text-muted font-label-mono text-[10px]">NV-4090-FE</span>
-<span class="text-secondary-container font-label-mono text-[10px] flex items-center gap-1.5">
-<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span> Tracking
-                                        </span>
-</div>
-</div>
-</div>
-<div class="flex items-center gap-10">
-<div class="text-right">
-<div class="font-label-mono text-label-mono text-text-muted mb-1">Current</div>
-<div class="font-label-mono text-primary text-2xl tracking-tight">$1,599.99</div>
-</div>
-<div class="text-right">
-<div class="font-label-mono text-label-mono text-text-muted mb-1">Target</div>
-<div class="font-label-mono text-secondary-container text-2xl tracking-tight">$1,450.00</div>
-</div>
-<div class="flex flex-col items-center">
-<span class="font-label-mono text-text-muted text-[10px] mb-2">Alert</span>
-<div class="relative inline-block w-10 h-5 align-middle select-none">
-<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 transition-all border-secondary-container right-0" id="t1" type="checkbox"/>
-<label class="toggle-label block overflow-hidden h-5 rounded-full bg-secondary-container cursor-pointer" for="t1"></label>
-</div>
-</div>
-</div>
-</div>
-<!-- Merchant Comparison Table -->
-<div class="px-6 pb-6">
-<div class="bg-surface-void/50 rounded-lg p-5 border border-glass-stroke">
-<p class="text-label-mono text-text-muted text-[11px] uppercase mb-4 tracking-widest font-bold">Merchant Comparison Matrix</p>
-<div class="grid grid-cols-4 gap-4 text-sm font-label-mono">
-<div class="text-text-muted pb-3 border-b border-glass-stroke/50">Retailer</div>
-<div class="text-text-muted pb-3 border-b border-glass-stroke/50">Availability</div>
-<div class="text-text-muted pb-3 border-b border-glass-stroke/50">Shipping</div>
-<div class="text-text-muted pb-3 border-b border-glass-stroke/50 text-right">Price</div>
-<div class="text-primary font-bold py-1">BestBuy</div>
-<div class="text-green-500 py-1">In Stock</div>
-<div class="text-text-muted py-1">Ships Free</div>
-<div class="text-primary text-right py-1 font-bold">$1,599.99</div>
-<div class="text-primary/70 py-1">Amazon</div>
-<div class="text-error py-1">Out of Stock</div>
-<div class="text-text-muted/50 py-1">—</div>
-<div class="text-primary/70 text-right py-1">$1,649.00</div>
-<div class="text-primary/70 py-1">Newegg</div>
-<div class="text-green-500 py-1">In Stock</div>
-<div class="text-text-muted py-1">$9.99 S&amp;H</div>
-<div class="text-primary/70 text-right py-1">$1,605.50</div>
-</div>
-</div>
-</div>
-<!-- Granular Tracking Configuration -->
-<div class="border-t border-glass-stroke bg-surface-container-low/50 p-6 rounded-b-xl grid grid-cols-1 md:grid-cols-3 gap-8">
-<div>
-<label class="block font-label-mono text-text-muted text-[10px] uppercase mb-2 tracking-widest">Check Interval</label>
-<select class="w-full bg-surface-void border border-glass-stroke rounded-sm text-primary text-xs font-label-mono p-2.5 focus:ring-1 focus:ring-primary focus:border-primary outline-none">
-<option>Real-time (15s)</option>
-<option selected="">High Priority (1m)</option>
-<option>Standard (15m)</option>
-<option>Daily (24h)</option>
-</select>
-</div>
-<div>
-<label class="block font-label-mono text-text-muted text-[10px] uppercase mb-2 tracking-widest">Proxy Pool</label>
-<select class="w-full bg-surface-void border border-glass-stroke rounded-sm text-primary text-xs font-label-mono p-2.5 focus:ring-1 focus:ring-primary focus:border-primary outline-none">
-<option selected="">Global Residentials</option>
-<option>US Datacenter v2</option>
-<option>Europe High-Anonymity</option>
-</select>
-</div>
-<div>
-<label class="block font-label-mono text-text-muted text-[10px] uppercase mb-2 tracking-widest">Target Region</label>
-<div class="flex gap-2">
-<button class="flex-1 bg-primary text-background text-[11px] py-2 rounded-sm font-bold font-label-mono transition-transform active:scale-95">USA</button>
-<button class="flex-1 bg-glass-fill border border-glass-stroke text-primary text-[11px] py-2 rounded-sm font-label-mono hover:bg-glass-stroke">CAN</button>
-<button class="flex-1 bg-glass-fill border border-glass-stroke text-primary text-[11px] py-2 rounded-sm font-label-mono hover:bg-glass-stroke">EU</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Secondary Item -->
-<div class="glass-card p-6 flex flex-col sm:flex-row items-center justify-between gap-6 opacity-80 hover:opacity-100 transition-all border-dashed border-glass-stroke/30">
-<div class="flex items-center gap-5">
-<div class="w-14 h-14 bg-surface-container-high rounded border border-glass-stroke flex items-center justify-center">
-<span class="material-symbols-outlined text-outline text-2xl">photo_camera</span>
-</div>
-<div>
-<h4 class="text-primary font-semibold">Sony Alpha a7 IV Body</h4>
-<p class="text-text-muted text-[11px] font-label-mono mt-1">Interval: 15m • Region: USA • Pro Proxy Pool</p>
-</div>
-</div>
-<div class="flex items-center gap-8">
-<div class="text-right">
-<span class="block text-text-muted text-[10px] font-label-mono uppercase tracking-widest mb-1">Current</span>
-<span class="text-primary font-label-mono text-lg">$2,498.00</span>
-</div>
-<button class="text-text-muted hover:text-primary transition-colors p-2 rounded-full hover:bg-glass-fill">
-<span class="material-symbols-outlined">expand_more</span>
-</button>
-</div>
-</div>
-</section>
-</div>
-<!-- Right Sidebar: Stats & Logs -->
-<div class="lg:col-span-4 space-y-gutter">
-<!-- Advanced Price History Chart -->
-<div class="glass-card p-8 flex flex-col h-[420px]">
-<div class="flex justify-between items-start mb-8">
-<h3 class="font-headline-md text-primary text-lg">Price History</h3>
-<div class="flex items-center gap-3">
-<div class="flex items-center gap-1.5">
-<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
-<span class="text-[10px] font-label-mono text-text-muted uppercase tracking-tighter">Price</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="w-2.5 h-2.5 rounded-full bg-primary/20"></span>
-<span class="text-[10px] font-label-mono text-text-muted uppercase tracking-tighter">Stock</span>
-</div>
-</div>
-</div>
-<div class="flex-grow flex items-end justify-between gap-2 px-2 relative mb-2">
-<!-- Multi-axis visual simulation -->
-<div class="absolute inset-0 flex flex-col justify-between opacity-5 pointer-events-none">
-<div class="border-t border-primary h-px"></div>
-<div class="border-t border-primary h-px"></div>
-<div class="border-t border-primary h-px"></div>
-<div class="border-t border-primary h-px"></div>
-</div>
-<div class="group relative flex-1">
-<div class="w-full bg-glass-stroke rounded-t chart-bar h-[60%] mb-1.5"></div>
-<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
-</div>
-<div class="group relative flex-1">
-<div class="w-full bg-glass-stroke rounded-t chart-bar h-[65%] mb-1.5"></div>
-<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
-</div>
-<div class="group relative flex-1">
-<div class="w-full bg-glass-stroke rounded-t chart-bar h-[55%] mb-1.5"></div>
-<div class="w-full bg-secondary-container/20 h-1.5 rounded-full"></div>
-</div>
-<div class="group relative flex-1">
-<div class="w-full bg-glass-stroke rounded-t chart-bar h-[70%] mb-1.5"></div>
-<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
-</div>
-<div class="group relative flex-1">
-<div class="w-full bg-glass-stroke rounded-t chart-bar h-[85%] mb-1.5"></div>
-<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
-</div>
-<div class="group relative flex-1">
-<div class="w-full bg-secondary-container rounded-t chart-bar h-[95%] mb-1.5"></div>
-<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
-</div>
-<div class="group relative flex-1">
-<div class="w-full bg-glass-stroke rounded-t chart-bar h-[70%] mb-1.5"></div>
-<div class="w-full bg-secondary-container/20 h-1.5 rounded-full"></div>
-</div>
-</div>
-<div class="flex justify-between mt-4 font-label-mono text-text-muted text-[10px] opacity-70 tracking-widest">
-<span>7 DAYS AGO</span>
-<span>TODAY</span>
-</div>
-<div class="mt-6 pt-5 border-t border-glass-stroke">
-<div class="flex items-center gap-2 mb-1">
-<span class="material-symbols-outlined text-secondary-container text-sm">trending_down</span>
-<p class="text-[11px] text-text-muted leading-tight font-medium uppercase tracking-tight">Volatility Analysis</p>
-</div>
-<p class="text-[12px] text-primary/80 leading-relaxed">Current volatility: <span class="text-primary font-bold">Medium</span>. Significant drop of 8.5% detected at <span class="text-secondary-container font-bold">12:04 PM</span>.</p>
-</div>
-</div>
-<!-- Detailed Delta Log -->
-<div class="glass-card p-8 h-[500px] flex flex-col">
-<h3 class="font-headline-md text-primary text-lg mb-6">Full Delta Log</h3>
-<div class="flex-grow overflow-y-auto custom-scrollbar pr-3 space-y-4">
-<!-- Log Entry 1: Price Drop -->
-<div class="p-4 bg-surface-void/40 rounded border-l-4 border-secondary-container">
-<div class="flex justify-between items-start mb-3">
-<span class="font-label-mono text-primary text-xs font-bold">RTX 4090 FE</span>
-<span class="text-[10px] text-text-muted font-label-mono uppercase tracking-widest">Just Now</span>
-</div>
-<div class="flex justify-between items-end">
-<div>
-<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Price Delta</p>
-<p class="text-secondary-container font-label-mono text-lg font-bold">-$149.01 (8.5%)</p>
-</div>
-<div class="text-right">
-<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Previous</p>
-<p class="text-primary/60 font-label-mono text-xs">$1,749.00</p>
-</div>
-</div>
-</div>
-<!-- Log Entry 2: Price Increase -->
-<div class="p-4 bg-surface-void/20 rounded border-l-4 border-green-500/50">
-<div class="flex justify-between items-start mb-3">
-<span class="font-label-mono text-primary text-xs font-bold">Ryzen 9 7950X</span>
-<span class="text-[10px] text-text-muted font-label-mono uppercase tracking-widest">2h ago</span>
-</div>
-<div class="flex justify-between items-end">
-<div>
-<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Price Delta</p>
-<p class="text-green-500 font-label-mono text-lg font-bold">+$20.00 (3.7%)</p>
-</div>
-<div class="text-right">
-<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Previous</p>
-<p class="text-primary/60 font-label-mono text-xs">$529.00</p>
-</div>
-</div>
-</div>
-<!-- Log Entry 3: Restock -->
-<div class="p-4 bg-surface-void/20 rounded border-l-4 border-blue-500/50">
-<div class="flex justify-between items-start mb-3">
-<span class="font-label-mono text-primary text-xs font-bold">MacBook Pro 16</span>
-<span class="text-[10px] text-text-muted font-label-mono uppercase tracking-widest">12 Oct</span>
-</div>
-<div class="flex items-center gap-3">
-<div class="bg-blue-500/20 p-2 rounded">
-<span class="material-symbols-outlined text-blue-500 text-sm">inventory_2</span>
-</div>
-<p class="text-xs text-primary font-medium">Restocked at Apple Store (Official)</p>
-</div>
-</div>
-<!-- Log Entry 4: Historical Drop -->
-<div class="p-4 bg-surface-void/20 rounded border-l-4 border-secondary-container/40">
-<div class="flex justify-between items-start mb-3">
-<span class="font-label-mono text-primary text-xs font-bold">RTX 4090 FE</span>
-<span class="text-[10px] text-text-muted font-label-mono uppercase tracking-widest">11 Oct</span>
-</div>
-<div class="flex justify-between items-end">
-<div>
-<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Price Delta</p>
-<p class="text-secondary-container font-label-mono text-lg">-$50.00 (2.8%)</p>
-</div>
-<div class="text-right">
-<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Previous</p>
-<p class="text-primary/60 font-label-mono text-xs">$1,799.00</p>
-</div>
-</div>
-</div>
-</div>
-<button class="w-full mt-6 border border-glass-stroke text-text-muted hover:text-primary hover:border-primary/50 transition-all py-3.5 rounded-sm font-label-mono text-xs uppercase tracking-[0.2em] font-bold">
-                        Download Full History
+    <!-- Sticky Header -->
+    <header class="fixed top-0 w-full md:w-[calc(100%-16rem)] bg-background/80 backdrop-blur-md border-b border-glass-stroke z-50">
+        <div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto gap-4">
+            <div class="md:hidden font-headline-md font-bold tracking-tighter text-primary text-2xl">PRC Engine</div>
+            <!-- Top Search Bar -->
+            <form id="header-search-form" class="hidden md:flex items-center flex-1 max-w-sm gap-2">
+                <div class="relative w-full">
+                    <input id="header-search-input"
+                        class="w-full bg-transparent border-0 border-b-2 border-glass-stroke focus:border-primary focus:ring-0 text-primary font-label-mono text-sm py-2 px-0 transition-colors placeholder:text-text-muted/50"
+                        placeholder="Search products…" type="text" autocomplete="off"/>
+                    <button type="submit" class="absolute right-0 top-1 text-text-muted hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">search</span>
                     </button>
-</div>
-</div>
-</div>
-</div>
+                </div>
+            </form>
+            <nav class="hidden lg:flex items-center gap-8">
+                <a class="text-primary font-bold border-b-2 border-secondary-container pb-1 px-1 font-body-md" href="/Frontend/src/pages/price-tracking.html">Tracking</a>
+                <a class="text-text-muted font-medium hover:text-primary transition-colors px-3 py-1 font-body-md" href="#">History</a>
+                <a class="text-text-muted font-medium hover:text-primary transition-colors px-3 py-1 font-body-md" href="#">Notifications</a>
+            </nav>
+            <div class="flex items-center gap-4 ml-auto md:ml-0">
+                <a href="/Frontend/src/pages/profile.html" class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="pt-24 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+
+        <!-- ══ Page Header + Stats ══ -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
+            <div>
+                <h2 class="text-[56px] leading-none font-bold text-primary tracking-tighter">Price Tracker</h2>
+                <p class="text-text-muted mt-2 font-label-mono text-[11px] uppercase tracking-widest">High-precision SKU monitoring • Real-time scraping</p>
+            </div>
+            <!-- Live Stats -->
+            <div class="flex gap-8 md:gap-12 shrink-0">
+                <div class="stat-pill">
+                    <div class="stat-val" id="stat-total-tracked">—</div>
+                    <div class="stat-lbl">Tracked</div>
+                </div>
+                <div class="stat-pill">
+                    <div class="stat-val text-secondary-container" id="stat-price-drops">—</div>
+                    <div class="stat-lbl">Drops Today</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ Section 1: Browse / Compare Prices ══ -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between border-b border-glass-stroke pb-4 mb-6">
+                <h3 class="text-xl font-bold text-primary font-headline-md">Browse &amp; Compare Prices</h3>
+                <span class="text-text-muted font-label-mono text-[10px] uppercase tracking-widest">Search to discover products</span>
+            </div>
+
+            <!-- URL Track Bar -->
+            <div class="flex items-center gap-3 mb-6">
+                <div class="flex items-center flex-1 bg-surface-container-high/50 border border-glass-stroke rounded-sm overflow-hidden">
+                    <span class="material-symbols-outlined text-text-muted text-[18px] ml-4 shrink-0">link</span>
+                    <input id="url-track-input"
+                        class="bg-transparent border-none flex-1 px-3 py-3 font-label-mono text-[12px] text-primary focus:ring-0 placeholder-text-muted/30"
+                        placeholder="Paste a product URL to track directly…" type="url"/>
+                    <input id="url-track-name" class="bg-transparent border-none border-l border-glass-stroke w-48 px-3 py-3 font-label-mono text-[12px] text-primary focus:ring-0 placeholder-text-muted/30" placeholder="Product name (optional)" type="text"/>
+                    <button id="url-track-btn" class="bg-surface-bright text-primary px-6 py-3 font-label-mono text-[12px] uppercase font-bold hover:bg-primary hover:text-background transition-colors shrink-0">Track URL</button>
+                </div>
+            </div>
+
+            <!-- Mobile search bar -->
+            <form id="mobile-search-form" class="md:hidden flex gap-2 mb-4">
+                <input id="mobile-search-input" class="flex-1 bg-surface-container-high border border-glass-stroke rounded-sm px-4 py-3 font-label-mono text-sm text-primary focus:ring-0 placeholder:text-text-muted/50" placeholder="Search products…" type="text"/>
+                <button type="submit" class="btn-primary px-4 py-3 font-label-mono text-sm font-bold">Go</button>
+            </form>
+
+            <!-- Sort -->
+            <div class="flex items-center gap-3 mb-4" id="search-controls" style="display:none!important">
+                <span class="font-label-mono text-[10px] text-text-muted uppercase tracking-widest">Sort:</span>
+                <select id="sort-select" class="bg-surface-void border border-glass-stroke rounded-sm text-primary text-xs font-label-mono px-3 py-1.5 focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+                    <option value="relevance">Relevance</option>
+                    <option value="price-asc">Price ↑</option>
+                    <option value="price-desc">Price ↓</option>
+                    <option value="rating-desc">Rating ↓</option>
+                </select>
+                <button id="search-close-btn" class="ml-auto font-label-mono text-[10px] text-text-muted hover:text-primary uppercase tracking-widest transition-colors">✕ Clear</button>
+            </div>
+
+            <!-- Search state message -->
+            <div id="search-state-msg"></div>
+
+            <!-- Search Results Grid -->
+            <div id="search-results-grid"></div>
+        </section>
+
+        <!-- ══ Main Grid ══ -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+
+            <!-- ══ Left: Active Targets ══ -->
+            <div class="lg:col-span-8 space-y-6">
+                <section>
+                    <div class="flex items-center justify-between border-b border-glass-stroke pb-4 mb-6">
+                        <h3 class="text-xl font-bold text-primary font-headline-md">Active Targets</h3>
+                        <span id="tracked-count-label" class="text-text-muted font-label-mono text-[10px] uppercase tracking-widest">Loading…</span>
+                    </div>
+                    <!-- Tracked items list - dynamically populated -->
+                    <div id="tracked-items-list" class="space-y-4">
+                        <div class="text-text-muted font-label-mono text-[12px] py-8 text-center opacity-50">
+                            <span class="material-symbols-outlined text-[32px] block mb-2">hourglass_empty</span>
+                            Loading tracked items…
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ══ Right Sidebar ══ -->
+            <div class="lg:col-span-4 space-y-gutter">
+
+                <!-- Top Movers -->
+                <div class="glass-card p-6 flex flex-col">
+                    <div class="flex justify-between items-center mb-5">
+                        <h3 class="font-label-mono text-[10px] text-text-muted uppercase tracking-widest">Top Movers</h3>
+                        <span class="material-symbols-outlined text-text-muted/30 text-[18px]">rocket_launch</span>
+                    </div>
+                    <div id="top-movers-list" class="flex flex-col gap-4">
+                        <div class="text-text-muted font-label-mono text-[11px] text-center py-4 opacity-50">Loading…</div>
+                    </div>
+                </div>
+
+                <!-- Full Delta Log -->
+                <div class="glass-card p-6 flex flex-col" style="max-height: 520px;">
+                    <h3 class="font-label-mono text-[10px] text-text-muted uppercase tracking-widest mb-5">Activity Log</h3>
+                    <div id="delta-log-list" class="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-3">
+                        <div class="text-text-muted font-label-mono text-[11px] text-center py-4 opacity-50">Loading…</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </main>
+
 <script>
-    document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
-        toggle.addEventListener('change', (e) => {
-            console.log(`Alert state for ${e.target.id}: ${e.target.checked}`);
+(function () {
+    const BASE = 'http://localhost:8000';
+    const sessionId = localStorage.getItem('prc_session_id');
+    const username = localStorage.getItem('prc_username');
+
+    // ── Auth guard ──────────────────────────────────────────────────
+    if (!sessionId) {
+        sessionStorage.setItem('prc_login_redirect', 'price-tracking.html');
+        window.location.href = '/Frontend/src/pages/login.html';
+        return;
+    }
+
+    // ── Username display ────────────────────────────────────────────
+    const userEl = document.getElementById('tracker-username');
+    if (userEl && username) userEl.textContent = username.toUpperCase();
+
+    // ── Logout ──────────────────────────────────────────────────────
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await fetch(BASE + '/auth/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId })
+                });
+            } catch (_) {}
+            localStorage.removeItem('prc_session_id');
+            localStorage.removeItem('prc_username');
+            window.location.href = '/Frontend/src/pages/login.html';
         });
+    }
+
+    // ── Currency formatter (Nepali Rupee) ───────────────────────────
+    function fmtNPR(val) {
+        if (val == null || isNaN(Number(val))) return 'N/A';
+        const n = Number(val);
+        return 'रू ' + n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // ── Toast ────────────────────────────────────────────────────────
+    let _toastTimer = null;
+    function showToast(msg, type = 'success') {
+        const toast = document.getElementById('prc-toast');
+        const msgEl = document.getElementById('prc-toast-msg');
+        const iconEl = document.getElementById('prc-toast-icon');
+        if (!toast) return;
+        toast.className = 'show ' + (type === 'error' ? 'toast-error' : 'toast-success');
+        msgEl.textContent = msg;
+        iconEl.textContent = type === 'error' ? 'error' : 'check_circle';
+        iconEl.style.color = type === 'error' ? '#f87171' : '#4ade80';
+        clearTimeout(_toastTimer);
+        _toastTimer = setTimeout(() => { toast.className = ''; }, 3500);
+    }
+
+    // ── State: set of tracked product_links for quick lookup ─────────
+    const trackedLinks = new Set();
+
+    // ── Fetch & render stats ─────────────────────────────────────────
+    async function loadStats() {
+        try {
+            const res = await fetch(BASE + '/profile/stats', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId })
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            const t = document.getElementById('stat-total-tracked');
+            const d = document.getElementById('stat-price-drops');
+            if (t) t.textContent = data.totalTracked ?? '—';
+            if (d) d.textContent = data.priceDropsToday ?? '0';
+        } catch (_) {}
+    }
+
+    // ── Fetch & render tracked items ─────────────────────────────────
+    async function loadTrackedItems() {
+        const list = document.getElementById('tracked-items-list');
+        const countLabel = document.getElementById('tracked-count-label');
+        if (!list) return;
+
+        list.innerHTML = `<div class="text-text-muted font-label-mono text-[12px] py-8 text-center opacity-50">
+            <span class="material-symbols-outlined text-[32px] block mb-2">hourglass_empty</span>Loading…</div>`;
+
+        try {
+            const res = await fetch(BASE + '/profile/tracked', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId })
+            });
+            if (!res.ok) throw new Error('fetch failed');
+            const data = await res.json();
+            const items = data.items || [];
+
+            // Update trackedLinks set
+            trackedLinks.clear();
+            items.forEach(item => trackedLinks.add(item.product_link));
+
+            // Update count label
+            if (countLabel) countLabel.textContent = `${items.length} Product${items.length !== 1 ? 's' : ''} Active`;
+
+            // Update stat widget
+            const t = document.getElementById('stat-total-tracked');
+            if (t) t.textContent = items.length;
+
+            if (items.length === 0) {
+                list.innerHTML = `<div class="text-text-muted font-label-mono text-[12px] py-12 text-center opacity-50">
+                    <span class="material-symbols-outlined text-[40px] block mb-3">search_off</span>
+                    No products tracked yet.<br>Search above and click Track to get started.
+                </div>`;
+                // Also refresh search result buttons to reflect new state
+                refreshSearchCardButtons();
+                return;
+            }
+
+            list.innerHTML = '';
+            items.forEach(item => list.appendChild(buildTrackedCard(item)));
+
+            // Refresh search card buttons (so "Track" → "Tracked" where applicable)
+            refreshSearchCardButtons();
+        } catch (e) {
+            console.error(e);
+            list.innerHTML = `<div class="text-text-muted font-label-mono text-[12px] py-8 text-center opacity-50">
+                <span class="material-symbols-outlined text-[32px] block mb-2">wifi_off</span>
+                Failed to load tracked items. Is the backend running?</div>`;
+        }
+    }
+
+    function buildTrackedCard(item) {
+        const div = document.createElement('div');
+        div.className = 'tracked-item-card';
+        div.dataset.link = item.product_link;
+
+        const site = item.source_site || (() => {
+            try { return new URL(item.product_link).hostname.replace('www.', ''); } catch (_) { return ''; }
+        })();
+
+        const priceStr = fmtNPR(item.price || item.latest_price);
+        const targetStr = item.target_price ? fmtNPR(item.target_price) : null;
+        const hasDrop = item.price_history && item.price_history.length >= 2 &&
+            item.price_history[0].price < item.price_history[1].price;
+
+        div.innerHTML = `
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4 flex-1 min-w-0">
+                    <div class="w-12 h-12 bg-surface-container-high rounded border border-glass-stroke flex-shrink-0 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-text-muted/40 text-[22px]">inventory_2</span>
+                    </div>
+                    <div class="min-w-0">
+                        <a href="${item.product_link}" target="_blank" rel="noopener"
+                           class="text-primary font-semibold text-sm hover:underline block truncate">${item.product_name || 'Unknown Product'}</a>
+                        <div class="flex items-center gap-3 mt-1 flex-wrap">
+                            <span class="font-label-mono text-[9px] text-text-muted uppercase tracking-widest">${site}</span>
+                            <span class="text-secondary-container font-label-mono text-[9px] flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>Tracking
+                            </span>
+                            ${hasDrop ? `<span class="font-label-mono text-[9px] text-green-400 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[11px]">trending_down</span>Price dropped</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6 shrink-0">
+                    <div class="text-right">
+                        <div class="font-label-mono text-[9px] text-text-muted uppercase mb-1">Current</div>
+                        <div class="font-label-mono text-primary text-lg tracking-tight">${priceStr}</div>
+                    </div>
+                    ${targetStr ? `<div class="text-right">
+                        <div class="font-label-mono text-[9px] text-text-muted uppercase mb-1">Target</div>
+                        <div class="font-label-mono text-secondary-container text-lg tracking-tight">${targetStr}</div>
+                    </div>` : ''}
+                    <button class="btn-untrack" data-link="${item.product_link}">Untrack</button>
+                </div>
+            </div>`;
+
+        div.querySelector('.btn-untrack').addEventListener('click', () => handleUntrack(item.product_link, item.product_name));
+        return div;
+    }
+
+    // ── Untrack a product ────────────────────────────────────────────
+    async function handleUntrack(link, name) {
+        const card = document.querySelector(`.tracked-item-card[data-link="${CSS.escape(link)}"]`);
+        const btn = card ? card.querySelector('.btn-untrack') : null;
+        if (btn) { btn.textContent = 'Removing…'; btn.disabled = true; }
+
+        try {
+            const res = await fetch(BASE + '/profile/untrack', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId, product_link: link })
+            });
+            const data = await res.json();
+            if (data.status) {
+                showToast(`Untracked: ${name || 'product'}`, 'success');
+                await loadTrackedItems();
+                await loadStats();
+                await loadSidebarData();
+            } else {
+                showToast(data.message || 'Failed to untrack.', 'error');
+                if (btn) { btn.textContent = 'Untrack'; btn.disabled = false; }
+            }
+        } catch (e) {
+            console.error(e);
+            showToast('Error untracking product.', 'error');
+            if (btn) { btn.textContent = 'Untrack'; btn.disabled = false; }
+        }
+    }
+
+    // ── Track a product ──────────────────────────────────────────────
+    async function handleTrack(link, name, price, btn) {
+        btn.classList.add('loading');
+        btn.textContent = 'Tracking…';
+        btn.disabled = true;
+
+        try {
+            const res = await fetch(BASE + '/profile/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId, product_link: link, product_name: name, latest_price: price || 0 })
+            });
+            const data = await res.json();
+            if (data.status) {
+                btn.classList.remove('loading');
+                btn.classList.add('tracked');
+                btn.textContent = 'Tracked ✓';
+                trackedLinks.add(link);
+                showToast(`Now tracking: ${name || 'product'}`, 'success');
+                // Re-fetch tracked list, stats, and sidebar in background
+                loadTrackedItems();
+                loadStats();
+                loadSidebarData();
+            } else {
+                // Already tracked is returned as status: false
+                btn.classList.remove('loading');
+                if (data.message && data.message.includes('already')) {
+                    btn.classList.add('tracked');
+                    btn.textContent = 'Tracked ✓';
+                    trackedLinks.add(link);
+                    showToast('Product already in your tracked list.', 'success');
+                } else {
+                    btn.classList.add('error');
+                    btn.textContent = 'Error — Retry';
+                    btn.disabled = false;
+                    showToast(data.message || 'Failed to track product.', 'error');
+                }
+            }
+        } catch (e) {
+            console.error(e);
+            btn.classList.remove('loading');
+            btn.classList.add('error');
+            btn.textContent = 'Error — Retry';
+            btn.disabled = false;
+            showToast('Network error. Is the backend running?', 'error');
+        }
+    }
+
+    // ── URL Track button ─────────────────────────────────────────────
+    const urlTrackBtn = document.getElementById('url-track-btn');
+    if (urlTrackBtn) {
+        urlTrackBtn.addEventListener('click', async () => {
+            const urlInput = document.getElementById('url-track-input');
+            const nameInput = document.getElementById('url-track-name');
+            const link = urlInput ? urlInput.value.trim() : '';
+            const name = nameInput ? nameInput.value.trim() : '';
+            if (!link) { showToast('Please paste a product URL.', 'error'); return; }
+            try { new URL(link); } catch (_) { showToast('Invalid URL — please include http(s)://', 'error'); return; }
+
+            urlTrackBtn.textContent = 'Tracking…';
+            urlTrackBtn.disabled = true;
+            try {
+                const res = await fetch(BASE + '/profile/track', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId, product_link: link, product_name: name || link, latest_price: 0 })
+                });
+                const data = await res.json();
+                if (data.status) {
+                    showToast('Product added to tracking!', 'success');
+                    if (urlInput) urlInput.value = '';
+                    if (nameInput) nameInput.value = '';
+                    await loadTrackedItems();
+                    await loadStats();
+                    await loadSidebarData();
+                } else {
+                    showToast(data.message || 'Failed to track.', 'error');
+                }
+            } catch (e) {
+                showToast('Network error.', 'error');
+            } finally {
+                urlTrackBtn.textContent = 'Track URL';
+                urlTrackBtn.disabled = false;
+            }
+        });
+    }
+
+    // ── Sidebar: Top Movers ──────────────────────────────────────────
+    async function loadTopMovers() {
+        const container = document.getElementById('top-movers-list');
+        if (!container) return;
+        try {
+            const res = await fetch(BASE + '/profile/top-movers', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId })
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            const items = data.items || [];
+            if (items.length === 0) {
+                container.innerHTML = `<div class="text-text-muted font-label-mono text-[11px] text-center py-4 opacity-50">No price drops recorded yet.</div>`;
+                return;
+            }
+            container.innerHTML = items.map((m, i) => `
+                <div class="flex justify-between items-center group cursor-pointer${i < items.length - 1 ? ' pb-3 border-b border-glass-stroke' : ''}">
+                    <div class="flex flex-col min-w-0">
+                        <a href="${m.product_link}" target="_blank" rel="noopener"
+                           class="text-xs font-medium text-primary group-hover:underline truncate max-w-[140px]">${m.product_name}</a>
+                        <span class="text-[9px] text-text-muted font-label-mono uppercase">${m.source_site}</span>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <div class="text-secondary-container font-label-mono text-xs">-${fmtNPR(m.delta_amount)}</div>
+                        <div class="text-[9px] text-text-muted font-label-mono">${m.delta_pct}% off</div>
+                    </div>
+                </div>`).join('');
+        } catch (_) {}
+    }
+
+    // ── Sidebar: Activity / Delta Log ────────────────────────────────
+    async function loadActivityLog() {
+        const container = document.getElementById('delta-log-list');
+        if (!container) return;
+        try {
+            const res = await fetch(BASE + '/profile/activity', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId })
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            const events = data.events || [];
+            if (events.length === 0) {
+                container.innerHTML = `<div class="text-text-muted font-label-mono text-[11px] text-center py-4 opacity-50">No price changes recorded yet.</div>`;
+                return;
+            }
+            container.innerHTML = events.map(ev => {
+                const delta = ev.new_price - ev.old_price;
+                const pct = ev.old_price ? ((Math.abs(delta) / ev.old_price) * 100).toFixed(1) : 0;
+                const isDrop = delta < 0;
+                const borderColor = isDrop ? '#c90317' : '#4ade80';
+                const deltaColor = isDrop ? 'text-secondary-container' : 'text-green-400';
+                const sign = isDrop ? '−' : '+';
+                const ts = ev.recorded_at ? new Date(ev.recorded_at).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+                return `<div class="p-3 bg-surface-void/30 rounded border-l-2" style="border-color:${borderColor}">
+                    <div class="flex justify-between items-start mb-1.5">
+                        <span class="font-label-mono text-primary text-xs font-bold truncate max-w-[140px]">${ev.product_name}</span>
+                        <span class="text-[9px] text-text-muted font-label-mono uppercase tracking-widest shrink-0 ml-2">${ts}</span>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-[9px] text-text-muted uppercase tracking-widest mb-0.5">Delta</p>
+                            <p class="${deltaColor} font-label-mono text-sm font-bold">${sign}${fmtNPR(Math.abs(delta))} (${pct}%)</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] text-text-muted uppercase tracking-widest mb-0.5">Prev</p>
+                            <p class="text-primary/60 font-label-mono text-xs">${fmtNPR(ev.old_price)}</p>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        } catch (_) {}
+    }
+
+    async function loadSidebarData() {
+        await Promise.allSettled([loadTopMovers(), loadActivityLog()]);
+    }
+
+    // ── Search ───────────────────────────────────────────────────────
+    let currentPage = 1;
+    let currentQuery = '';
+    let currentSort = 'relevance';
+    let isLoadingMore = false;
+
+    const grid = document.getElementById('search-results-grid');
+    const stateMsg = document.getElementById('search-state-msg');
+    const searchControls = document.getElementById('search-controls');
+
+    function showSearchState(html) {
+        if (stateMsg) { stateMsg.innerHTML = html; stateMsg.classList.add('visible'); }
+        if (grid) grid.classList.remove('visible');
+    }
+
+    function hideSearchState() {
+        if (stateMsg) stateMsg.classList.remove('visible');
+    }
+
+    function normProducts(raw) {
+        if (!Array.isArray(raw)) return [];
+        return raw.map(row => {
+            const p = Array.isArray(row) ? row[0] : row;
+            if (!p) return null;
+            const link = p.product_link || p.link || '#';
+            let site = '';
+            try { site = new URL(link).hostname.replace('www.', ''); } catch (_) {}
+            return {
+                product_name: p.product_name || p.name || '',
+                rating: p.rating || 0,
+                price: p.price != null ? Number(p.price) : null,
+                product_link: link,
+                image_url: p.image_url || p.image || '',
+                source_site: site,
+            };
+        }).filter(Boolean);
+    }
+
+    function buildSearchCard(p) {
+        const div = document.createElement('div');
+        div.className = 'search-result-card';
+        const safeName = (p.product_name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const priceStr = p.price != null ? fmtNPR(p.price) : 'Price N/A';
+        const stars = p.rating ? `⭐ ${Number(p.rating).toFixed(1)}` : '';
+        const isTracked = trackedLinks.has(p.product_link);
+
+        div.innerHTML = `
+            <img src="${p.image_url || ''}" alt="${safeName}" loading="lazy"
+                 onerror="this.src='https://placehold.co/280x160/1c1b1b/444?text=No+Image'"/>
+            <div class="card-body">
+                <div class="card-title" title="${safeName}">${p.product_name || 'Untitled'}</div>
+                <div class="card-price">${priceStr}</div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="card-store">${p.source_site}</span>
+                    ${stars ? `<span class="card-rating">${stars}</span>` : ''}
+                </div>
+                <div class="card-actions">
+                    <a href="${p.product_link}" target="_blank" rel="noopener" class="btn-view-deal">View →</a>
+                    <button class="btn-track-card${isTracked ? ' tracked' : ''}" data-link="${p.product_link}"
+                        data-name="${safeName}" data-price="${p.price ?? 0}">
+                        ${isTracked ? 'Tracked ✓' : 'Track 🔔'}
+                    </button>
+                </div>
+            </div>`;
+
+        const trackBtn = div.querySelector('.btn-track-card');
+        trackBtn.addEventListener('click', async () => {
+            if (trackBtn.classList.contains('tracked')) {
+                // Toggle: untrack
+                trackBtn.textContent = 'Removing…';
+                trackBtn.disabled = true;
+                try {
+                    const res = await fetch(BASE + '/profile/untrack', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ session_id: sessionId, product_link: p.product_link })
+                    });
+                    const data = await res.json();
+                    if (data.status) {
+                        trackBtn.classList.remove('tracked');
+                        trackBtn.textContent = 'Track 🔔';
+                        trackBtn.disabled = false;
+                        trackedLinks.delete(p.product_link);
+                        showToast(`Untracked: ${p.product_name}`, 'success');
+                        loadTrackedItems();
+                        loadStats();
+                        loadSidebarData();
+                    } else {
+                        trackBtn.textContent = 'Tracked ✓';
+                        trackBtn.disabled = false;
+                        showToast(data.message || 'Error.', 'error');
+                    }
+                } catch (_) {
+                    trackBtn.textContent = 'Tracked ✓';
+                    trackBtn.disabled = false;
+                    showToast('Network error.', 'error');
+                }
+            } else {
+                await handleTrack(p.product_link, p.product_name, p.price, trackBtn);
+            }
+        });
+
+        return div;
+    }
+
+    function refreshSearchCardButtons() {
+        document.querySelectorAll('.btn-track-card').forEach(btn => {
+            const link = btn.dataset.link;
+            if (trackedLinks.has(link)) {
+                btn.classList.add('tracked');
+                btn.textContent = 'Tracked ✓';
+            } else {
+                btn.classList.remove('tracked');
+                if (!btn.classList.contains('error')) btn.textContent = 'Track 🔔';
+            }
+        });
+    }
+
+    function showResults(products, append = false) {
+        if (!grid) return;
+        if (!append) grid.innerHTML = '';
+        products.forEach(p => grid.appendChild(buildSearchCard(p)));
+        grid.classList.add('visible');
+        hideSearchState();
+    }
+
+    async function performSearch(isMore = false) {
+        if (!isMore) {
+            const qRaw = (document.getElementById('header-search-input') || document.getElementById('mobile-search-input'))?.value.trim();
+            if (!qRaw || qRaw.length < 2) return;
+            currentQuery = qRaw;
+            const s = document.getElementById('sort-select');
+            currentSort = s ? s.value : 'relevance';
+            currentPage = 1;
+            showSearchState(`<span class="material-symbols-outlined text-[14px] align-middle mr-1">sync</span> Searching — this may take a moment while scrapers run…`);
+            stateMsg.classList.add('visible');
+            grid.innerHTML = '';
+            grid.classList.remove('visible');
+            if (searchControls) searchControls.style.removeProperty('display');
+        } else {
+            currentPage++;
+            isLoadingMore = true;
+        }
+
+        try {
+            const res = await fetch(BASE + '/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_search: currentQuery, filters: currentSort, page_number: currentPage })
+            });
+            if (!res.ok) throw new Error('search failed');
+            const data = await res.json();
+            let products = normProducts(data.products || []);
+
+            // Accuracy filter
+            if (currentQuery && products.length > 0) {
+                const words = currentQuery.toLowerCase().split(/\s+/).filter(w => w.length >= 2);
+                if (words.length > 0) {
+                    products = products.filter(p => {
+                        const n = (p.product_name || '').toLowerCase();
+                        return words.some(w => n.includes(w));
+                    });
+                }
+            }
+
+            if (products.length > 0) {
+                showResults(products, isMore);
+            } else {
+                showSearchState(`<span class="material-symbols-outlined text-[14px] align-middle mr-1">search_off</span> No results found — try a different keyword.`);
+            }
+        } catch (e) {
+            console.error(e);
+            showSearchState(`<span class="material-symbols-outlined text-[14px] align-middle mr-1">wifi_off</span> Search error — is the backend running?`);
+        } finally {
+            isLoadingMore = false;
+        }
+    }
+
+    // Wire up search forms
+    ['header-search-form', 'mobile-search-form'].forEach(id => {
+        const form = document.getElementById(id);
+        if (form) form.addEventListener('submit', e => { e.preventDefault(); performSearch(false); });
     });
-</script>
-</body>
-<script>
-(function(){
-  const BASE = 'http://localhost:8000';
-  const sessionId = localStorage.getItem('prc_session_id');
-  const username  = localStorage.getItem('prc_username');
 
-  if (!sessionId) {
-    sessionStorage.setItem('prc_login_redirect', 'price-tracking.html');
-    window.location.href = '/Frontend/src/pages/login.html';
-    return;
-  }
+    // Sync mobile/desktop search inputs
+    const headerInput = document.getElementById('header-search-input');
+    const mobileInput = document.getElementById('mobile-search-input');
+    if (headerInput && mobileInput) {
+        headerInput.addEventListener('input', () => { mobileInput.value = headerInput.value; });
+        mobileInput.addEventListener('input', () => { headerInput.value = mobileInput.value; });
+    }
 
-  const userEl = document.getElementById('tracker-username');
-  if (userEl && username) userEl.textContent = username.toUpperCase();
+    // Close search
+    const closeBtn = document.getElementById('search-close-btn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            if (grid) { grid.innerHTML = ''; grid.classList.remove('visible'); }
+            if (stateMsg) stateMsg.classList.remove('visible');
+            if (searchControls) searchControls.style.setProperty('display', 'none', 'important');
+            if (headerInput) headerInput.value = '';
+            if (mobileInput) mobileInput.value = '';
+        });
+    }
 
-  const logoutBtn = document.getElementById('logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      try { await fetch(BASE + '/auth/logout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({session_id: sessionId}) }); } catch(_) {}
-      localStorage.removeItem('prc_session_id');
-      localStorage.removeItem('prc_username');
-      window.location.href = '/Frontend/src/pages/login.html';
-    });
-  }
+    // ── Bootstrap ────────────────────────────────────────────────────
+    (async () => {
+        await Promise.allSettled([
+            loadStats(),
+            loadTrackedItems(),
+            loadSidebarData(),
+        ]);
+    })();
+
 })();
 </script>
+</body>
 </html>
