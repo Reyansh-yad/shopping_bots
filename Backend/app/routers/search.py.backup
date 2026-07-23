@@ -1,0 +1,122 @@
+from fastapi import APIRouter, Depends
+from app.schemas.models import Search
+from app.database import get_db_connection
+from app.services.hukut_scraper import hukut_scraper
+from app.services.pcmodnepal_scraper import pcmodnepal_scraper
+from app.services.qualitycomputer_scraper import qualitycomputer_scraper
+import asyncio
+
+router = APIRouter(prefix="/search", tags=["search"])
+
+_lock=asyncio.Lock()
+@router.post("")
+async def search_items(request: Search, conn=Depends(get_db_connection)):
+    product=request.product_search.lower().strip()
+    filters=request.filters
+    page_number=request.page_number
+    with conn.cursor() as cursor:
+        # Check if the product has already been searched
+        cursor.execute(
+            "SELECT * FROM app.product_search WHERE searched_product_name = %s",
+            (product,)
+        )
+        if cursor.fetchone():
+            cursor.execute(
+                """
+                SELECT row_to_json(p)
+                FROM (
+                    SELECT
+                        name        AS product_name,
+                        rating,
+                        price,
+                        description,
+                        link        AS product_link,
+                        image       AS image_url
+                    FROM app.scraped_product
+                    WHERE product_search_id = (
+                        SELECT product_search_id
+                        FROM app.product_search
+                        WHERE searched_product_name = %s
+                        AND page_number = %s
+                        AND filters = %s
+                    )
+                ) p;
+                """,(product, request.page_number, request.filters)
+            )
+            data=cursor.fetchall()
+            conn.commit()
+            return {
+                "status": "executed",
+                "_product_id": None,
+                "products": [r[0] for r in data]
+            }
+        # If the product has not been searched, insert it into the product_search table
+        cursor.execute(
+            "INSERT INTO app.product_search (searched_product_name) VALUES (%s)",
+            (product,)
+        )
+        conn.commit()
+        cursor.execute("""
+            SELECT product_search_id
+            FROM app.product_search
+            ORDER BY created_at DESC
+            LIMIT 1;
+        """)
+        global _product_id
+        async with _lock:
+            _product_id=cursor.fetchone()[0]
+
+    # Run the scrapers concurrently using asyncio.TaskGroup
+    async with asyncio.TaskGroup() as tg:
+        hukut_task = tg.create_task(hukut_scraper(product=product, order=filters,limit=20*page_number, offset=20*(page_number-1)))
+        pcmodnepal_task = tg.create_task(pcmodnepal_scraper(product=product, order=filters,page_number=page_number))
+        qualitycomputer_task = tg.create_task(qualitycomputer_scraper(product=product, order=filters,page_number=page_number))
+
+    hukut_data = hukut_task.result()
+    pcmodnepal_data = pcmodnepal_task.result()
+    qualitycomputer_data = qualitycomputer_task.result()
+
+    commit_data(hukut_data,request,conn=conn)
+    commit_data(pcmodnepal_data,request,conn=conn)
+    commit_data(qualitycomputer_data,request,conn=conn)
+    data=None
+    with conn.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT row_to_json(p)
+            FROM (
+                SELECT
+                    name        AS product_name,
+                    rating,
+                    price,
+                    description,
+                    link        AS product_link,
+                    image       AS image_url
+                FROM app.scraped_product
+                WHERE product_search_id = %s
+                ORDER BY
+                    CASE WHEN %s = 'price-asc' THEN price END ASC,
+                    CASE WHEN %s = 'price-desc' THEN price END DESC,
+                    CASE WHEN %s = 'rating-asc' THEN rating END ASC,
+                    CASE WHEN %s = 'rating-desc' THEN rating END DESC
+            ) p;
+            """,(_product_id, filters, filters, filters, filters,)
+        )
+        data=cursor.fetchall()
+        conn.commit()
+
+    return {
+        "status": "executed",
+        "_product_id": _product_id,
+        "products": [r[0] for r in data]
+    }
+
+# commit data to the database
+def commit_data(json_data,request,conn):
+    query = "INSERT INTO app.scraped_product (product_search_id, name, rating, price, description, link, image, page_number, filters) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)";
+    if(json_data==None):
+        return None;
+    with conn.cursor() as cur:
+        for p in json_data:
+            cur.execute(query, (_product_id,p.name,p.rating,p.price,p.description,p.link,p.image,request.page_number,request.filters))
+    conn.commit()
