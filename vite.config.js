@@ -10,11 +10,6 @@ export default defineConfig({
     watch: {
       ignored: ["**/public/canvas1/**"],
     },
-    proxy: {
-      "/auth": "http://localhost:8000",
-      "/search": "http://localhost:8000",
-      "/profile": "http://localhost:8000",
-    },
   },
   publicDir: "Frontend/public",
   build: {

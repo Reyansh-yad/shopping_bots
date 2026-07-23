@@ -60,7 +60,7 @@ npm run dev
 
 Vite will print the local URL — usually **http://localhost:5173** — and open `login.html` automatically.
 
-The Vite proxy in `vite.config.js` forwards `/auth`, `/search`, and `/profile` to `localhost:8000`, so you don't need to configure CORS for local dev.
+The frontend connects directly to the backend URL defined in `VITE_API_URL`. CORS is handled by the FastAPI backend, which allows the origin specified in `FRONTEND_URL`.
 
 ---
 
