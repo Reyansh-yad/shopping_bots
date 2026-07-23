@@ -220,18 +220,18 @@
 <div class="glass-panel w-full max-w-[440px] rounded-xl p-10 z-10 shadow-2xl relative">
 <!-- Header -->
 <div class="text-center mb-10">
-<h1 class="font-headline-md text-[40px] leading-[48px] font-bold text-primary tracking-tight mb-3 font-display-xl">PRC Engine</h1>
+<h1 class="font-headline-md text-[40px] leading-[48px] font-bold text-primary tracking-tight mb-3 font-display-xl"><a class="hover:text-secondary-fixed transition-colors" href="/">PRC Engine</a></h1>
 <p class="font-body-md text-body-md text-text-muted">Enter the workspace.</p>
 </div>
 <!-- Form -->
-<form action="#" class="space-y-6" id="login-form" method="POST">
+<form id="login-form" class="space-y-6">
 <div>
-<label class="block font-label-mono text-[11px] tracking-[0.15em] text-text-muted mb-2 uppercase" for="username">Username</label>
-<input autocomplete="username" class="block w-full font-label-mono text-sm placeholder:text-surface-highest transition-colors focus:ring-0" id="username" name="username" placeholder="your_username" required="" type="text"/>
+<label class="block font-label-mono text-[11px] tracking-[0.15em] text-text-muted mb-2 uppercase" for="email">Email address</label>
+<input autocomplete="email" class="block w-full font-label-mono text-sm placeholder:text-surface-highest transition-colors focus:ring-0" id="email" name="email" placeholder="user@prc-engine.com" required="" type="email"/>
 </div>
 <div>
 <label class="block font-label-mono text-[11px] tracking-[0.15em] text-text-muted mb-2 uppercase" for="password">Password</label>
-<input autocomplete="current-password" class="block w-full font-label-mono text-sm placeholder:text-surface-highest transition-colors focus:ring-0" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<input autocomplete="current-password" class="block w-full font-label-mono text-sm placeholder:text-surface-highest transition-colors focus:ring-0" id="password" name="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" required="" type="password"/>
 </div>
 <div class="flex items-center justify-between pt-2 pb-4">
 <div class="flex items-center">
@@ -247,10 +247,11 @@
 </div>
 </div>
 <div>
-<button class="w-full flex justify-center py-4 px-4 rounded bg-primary text-background font-label-mono text-sm tracking-[0.1em] font-bold hover:bg-primary-fixed transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary uppercase shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)]" type="submit">
+<button id="login-submit" class="w-full flex justify-center py-4 px-4 rounded bg-primary text-background font-label-mono text-sm tracking-[0.1em] font-bold hover:bg-primary-fixed transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary uppercase shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)]" type="submit">
                     Initialize_Session
                 </button>
 </div>
+<p id="login-error" class="text-secondary-container font-label-mono text-[11px] text-center hidden"></p>
 </form>
 <div class="mt-10">
 <div class="relative">
@@ -262,7 +263,7 @@
 </div>
 </div>
 <div class="mt-6 grid grid-cols-2 gap-4">
-<a class="flex justify-center items-center py-3 px-4 border border-glass-stroke rounded font-label-mono text-[11px] tracking-[0.1em] text-primary hover:bg-glass-fill hover:border-outline transition-all duration-200 uppercase group" href="#">
+<a class="flex justify-center items-center py-3 px-4 border border-glass-stroke rounded font-label-mono text-[11px] tracking-[0.1em] text-primary hover:bg-glass-fill hover:border-outline transition-all duration-200 uppercase group" href="/Frontend/src/pages/login.html">
 <span class="material-symbols-outlined mr-2 text-[18px] text-text-muted group-hover:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">login</span>
                     SSO
                 </a>
@@ -274,76 +275,60 @@
 </div>
 <div class="mt-10 text-center">
 <p class="font-body-md text-sm text-text-muted">
-                New analyst? <a class="text-primary hover:text-secondary-fixed transition-colors font-medium border-b border-transparent hover:border-secondary-fixed pb-0.5" href="signup.html">Request access</a>
+                New analyst? <a class="text-primary hover:text-secondary-fixed transition-colors font-medium border-b border-transparent hover:border-secondary-fixed pb-0.5" href="/Frontend/src/pages/signup.html">Request access</a>
 </p>
 </div>
 </div>
+</body>
+<script>
+(function(){
+  const BASE = 'http://localhost:8000';
+  const form = document.getElementById('login-form');
+  const errEl = document.getElementById('login-error');
+  const btn = document.getElementById('login-submit');
 
-<script type="module">
-    import { login, saveSession } from '../api/api.js';
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        const loginForm = document.getElementById('login-form');
+  // If already logged in, go straight to dashboard
+  if (localStorage.getItem('prc_session_id')) {
+    window.location.href = '/Frontend/src/pages/dashboard.html';
+    return;
+  }
 
-        // Show any auth error passed via URL (e.g. session expired redirect)
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('expired')) {
-            const errEl = document.createElement('p');
-            errEl.className = 'font-label-mono text-[11px] text-secondary-container text-center mt-2';
-            errEl.textContent = 'Session expired — please log in again.';
-            loginForm.prepend(errEl);
-        }
-        if (urlParams.get('registered')) {
-            const okEl = document.createElement('p');
-            okEl.className = 'font-label-mono text-[11px] text-center mt-2';
-            okEl.style.color = '#4ade80';
-            okEl.textContent = 'Account created! Please log in.';
-            loginForm.prepend(okEl);
-        }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errEl.classList.add('hidden');
+    btn.textContent = 'Authenticating...';
+    btn.disabled = true;
 
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const btn = loginForm.querySelector('button[type="submit"]');
+    const username = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
 
-            // Clear any previous error
-            loginForm.querySelectorAll('.auth-error').forEach(el => el.remove());
-
-            if (!username || !password) {
-                const errEl = document.createElement('p');
-                errEl.className = 'auth-error font-label-mono text-[11px] text-secondary-container text-center';
-                errEl.textContent = 'Username and password are required.';
-                btn.parentElement.before(errEl);
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerText = 'AUTHENTICATING...';
-            
-            try {
-                const data = await login(username, password);
-                if (data.status) {
-                    saveSession(data.session_id, username);
-                    window.location.href = 'dashboard.html';
-                } else {
-                    const errEl = document.createElement('p');
-                    errEl.className = 'auth-error font-label-mono text-[11px] text-secondary-container text-center';
-                    errEl.textContent = data.message || 'Login failed';
-                    btn.parentElement.before(errEl);
-                    btn.disabled = false;
-                    btn.innerText = 'Initialize_Session';
-                }
-            } catch (error) {
-                console.error(error);
-                const errEl = document.createElement('p');
-                errEl.className = 'auth-error font-label-mono text-[11px] text-secondary-container text-center';
-                errEl.textContent = error.message || 'Connection error. Is the backend running?';
-                btn.parentElement.before(errEl);
-                btn.disabled = false;
-                btn.innerText = 'Initialize_Session';
-            }
-        });
-    });
-    </script>
-</body></html>
+    try {
+      const res = await fetch(BASE + '/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.session_id) {
+        localStorage.setItem('prc_session_id', data.session_id);
+        localStorage.setItem('prc_username', username);
+        // Check if there's a redirect target after login
+        const redirect = sessionStorage.getItem('prc_login_redirect') || '/Frontend/src/pages/dashboard.html';
+        sessionStorage.removeItem('prc_login_redirect');
+        window.location.href = redirect;
+      } else {
+        errEl.textContent = data.detail || 'Invalid credentials';
+        errEl.classList.remove('hidden');
+        btn.textContent = 'Initialize_Session';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      errEl.textContent = 'Backend offline — is the server running?';
+      errEl.classList.remove('hidden');
+      btn.textContent = 'Initialize_Session';
+      btn.disabled = false;
+    }
+  });
+})();
+</script>
+</html>

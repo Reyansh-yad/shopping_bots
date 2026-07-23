@@ -3,13 +3,12 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>PRC Engine - Dashboard</title>
+<title>PRC Engine - Command Center</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=JetBrains+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -117,468 +116,429 @@
             background-color: theme('colors.glass-fill');
             border: 1px solid theme('colors.glass-stroke');
             backdrop-filter: blur(16px);
-            border-radius: 12px;
-            padding: 32px;
+            border-radius: 4px;
+            padding: 24px;
+            transition: border-color 0.2s ease;
+        }
+        .bento-card:hover {
+            border-color: theme('colors.outline');
         }
 
         .bar-chart-bar {
             transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
             transform-origin: bottom;
         }
-        .bar-chart-bar:hover {
-            transform: scaleY(1.05);
-            filter: brightness(1.2);
-        }
 
-        /* Micro-interactions */
         .btn-primary {
             background-color: theme('colors.primary');
             color: theme('colors.on-primary');
-            border-radius: 4px;
+            border-radius: 2px;
             font-family: theme('fontFamily.label-mono');
-            transition: transform 0.1s ease-in-out;
+            transition: all 0.1s ease-in-out;
         }
         .btn-primary:active {
-            transform: scale(0.98);
+            transform: scale(0.96);
         }
 
-        .btn-secondary {
-            background-color: transparent;
-            border: 2px solid theme('colors.secondary-container');
-            color: theme('colors.primary');
-            border-radius: 9999px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            transition: color 0.3s ease;
-        }
-        .btn-secondary::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 0%;
-            background-color: theme('colors.secondary-container');
-            z-index: -1;
-            transition: height 0.3s ease;
-        }
-        .btn-secondary:hover::before {
-            height: 100%;
-        }
-
-        .input-search {
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid theme('colors.glass-stroke');
+        .input-track {
+            background: theme('colors.surface-container-high');
+            border: 1px solid theme('colors.glass-stroke');
             color: theme('colors.primary');
             font-family: theme('fontFamily.label-mono');
-            transition: border-color 0.2s ease;
+            border-radius: 4px;
         }
-        .input-search:focus {
+        .input-track:focus {
             outline: none;
-            border-bottom-color: theme('colors.primary');
+            border-color: theme('colors.outline');
+        }
+
+        .status-tag {
+            font-family: theme('fontFamily.label-mono');
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 2px;
+            text-transform: uppercase;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-highest');
         }
     </style>
 </head>
 <body class="flex bg-background text-on-background font-body-md h-screen overflow-hidden">
-<!-- SideNavBar (Hidden on Mobile) -->
-<nav class="hidden md:flex flex-col h-full py-8 bg-surface-container-low border-r border-glass-stroke h-screen w-64 fixed left-0 top-0 z-40">
+<!-- SideNavBar from {{DATA:COMPONENTS:COMPONENTS_6}} -->
+<nav class="hidden md:flex flex-col h-full py-8 bg-surface-container-low border-r border-glass-stroke w-64 fixed left-0 top-0 z-40">
 <div class="px-6 mb-12">
-<h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tighter">PRC Engine</h1>
-<p class="font-label-mono text-label-mono text-text-muted mt-2" id="sidebar-username">Loading...</p>
+<h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tighter"><a class="hover:text-secondary-fixed transition-colors" href="/">PRC Engine</a></h1>
+<p class="font-label-mono text-[10px] text-text-muted mt-1 uppercase tracking-widest" id="dash-username">Pro Analyst</p>
 </div>
-<div class="flex-1 flex flex-col gap-2">
-<!-- Active: Overview -->
-<a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 flex items-center gap-3 font-label-mono text-label-mono translate-x-1 transition-transform" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
-                Overview
-            </a>
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-label-mono" href="price-tracking.html">
-<span class="material-symbols-outlined">analytics</span>
-                Price Tracker
-            </a>
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-label-mono" href="#">
-<span class="material-symbols-outlined">notifications_active</span>
-                Alerts
-            </a>
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-label-mono" href="#">
-<span class="material-symbols-outlined">tune</span>
-                Settings
-            </a>
+<div class="flex-1 flex flex-col gap-1">
+<a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 flex items-center gap-3 font-label-mono text-label-mono transition-transform active:translate-x-1" href="/Frontend/src/pages/dashboard.html">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+            Overview
+        </a>
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-label-mono active:translate-x-1" href="/Frontend/src/pages/price-tracking.html">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+            Price Tracker
+        </a>
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-label-mono active:translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+            Alerts
+        </a>
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-label-mono active:translate-x-1" href="/Frontend/src/pages/profile.html">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+            Settings
+        </a>
 </div>
-<div class="px-6 mb-6">
-<button class="btn-primary w-full py-3 text-center flex justify-center items-center gap-2">
+<!-- Notifications Section -->
+<div class="px-6 mt-8">
+<h4 class="font-label-mono text-[10px] text-text-muted uppercase mb-4 tracking-widest">Recent Notifications</h4>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-0.5">
+<p class="text-primary text-[11px] font-medium truncate">Sony Price Drop Alert</p>
+<p class="text-text-muted text-[9px] font-label-mono">2 mins ago</p>
+</div>
+<div class="flex flex-col gap-0.5">
+<p class="text-primary text-[11px] font-medium truncate">System Scan Complete</p>
+<p class="text-text-muted text-[9px] font-label-mono">15 mins ago</p>
+</div>
+</div>
+</div>
+<div class="px-6 mt-auto">
+<button class="btn-primary w-full py-3 text-center flex justify-center items-center gap-2 mb-6 font-label-mono text-[12px] uppercase tracking-tight">
 <span class="material-symbols-outlined text-sm">add</span> Add Product
-            </button>
+        </button>
+<div class="flex flex-col gap-1 border-t border-glass-stroke pt-4">
+<a class="text-text-muted px-4 py-2 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-[12px]" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span> Support
+            </a>
+<a id="logout-btn" class="text-text-muted px-4 py-2 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-[12px]" href="#">
+<span class="material-symbols-outlined text-[18px]">logout</span> Logout
+            </a>
 </div>
-<div class="flex flex-col gap-2 mt-auto border-t border-glass-stroke pt-4">
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-label-mono" href="#">
-<span class="material-symbols-outlined">help</span>
-                Support
-            </a>
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors flex items-center gap-3 font-label-mono text-label-mono" href="#" id="logout-btn">
-<span class="material-symbols-outlined">logout</span>
-                Logout
-            </a>
 </div>
 </nav>
 <!-- Main Content Area -->
-<main class="flex-1 flex flex-col md:ml-64 relative h-screen overflow-y-auto">
+<main class="flex-1 flex flex-col md:ml-64 relative h-screen overflow-y-auto custom-scrollbar">
 <!-- TopNavBar -->
-<header class="bg-background/80 backdrop-blur-md sticky top-0 w-full z-30">
-<!-- Structural container per JSON -->
-<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto z-50">
-<!-- Mobile Logo (hidden on desktop to avoid dupe with SideNav) -->
-<div class="md:hidden font-headline-md text-headline-md font-bold tracking-tighter text-primary">
-                    PRC Engine
-                </div>
-<!-- Desktop Nav Links (Hidden on mobile) -->
+<header class="bg-background/80 backdrop-blur-md sticky top-0 w-full z-30 border-b border-glass-stroke">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
 <nav class="hidden md:flex gap-8">
-<a class="text-primary font-bold border-b-2 border-secondary-container pb-1 font-body-md text-body-md scale-95 transition-transform" href="dashboard.html">Dashboard</a>
-<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill duration-200 px-2 font-body-md text-body-md" href="price-tracking.html">Tracking</a>
-<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill duration-200 px-2 font-body-md text-body-md" href="#">History</a>
-<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill duration-200 px-2 font-body-md text-body-md" href="#">Notifications</a>
+<a class="text-primary font-bold border-b-2 border-secondary-container pb-1 font-body-md text-body-md" href="/Frontend/src/pages/dashboard.html">Dashboard</a>
+<a class="text-text-muted font-medium hover:text-primary transition-colors font-body-md text-body-md" href="/Frontend/src/pages/price-tracking.html">Tracking</a>
+<a class="text-text-muted font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">History</a>
 </nav>
-<div class="flex items-center gap-4 ml-auto">
+<div class="flex items-center gap-6 ml-auto">
 <div class="relative hidden sm:block">
-<input class="input-search py-1 pr-8 w-48 text-sm focus:w-64 transition-all" placeholder="Search SKU or Name..." type="text"/>
-<span class="material-symbols-outlined absolute right-0 top-1 text-text-muted">search</span>
+<input class="bg-surface-container-low border-none border-b border-glass-stroke py-1 pr-8 w-48 text-xs font-label-mono focus:w-64 transition-all focus:border-primary text-primary placeholder-text-muted/50" placeholder="Search SKU..." type="text"/>
+<span class="material-symbols-outlined absolute right-0 top-1 text-text-muted text-[18px]">search</span>
 </div>
-<button class="text-text-muted hover:text-primary hover:bg-glass-fill transition-all duration-200 p-2 rounded-full">
+<div class="flex gap-2">
+<button class="text-text-muted hover:text-primary p-2 relative active:scale-95 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-1.5 h-1.5 bg-secondary-container rounded-full"></span>
+</button>
+<button class="text-text-muted hover:text-primary p-2 active:scale-95 transition-transform">
 <span class="material-symbols-outlined">account_circle</span>
 </button>
-<button class="text-text-muted hover:text-primary hover:bg-glass-fill transition-all duration-200 p-2 rounded-full">
-<span class="material-symbols-outlined">settings</span>
-</button>
+</div>
 </div>
 </div>
 </header>
 <!-- Dashboard Content -->
-<div class="p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full pb-32">
-<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+<div class="p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Title & Track Input -->
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16 gap-8">
 <div>
-<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary tracking-tight">System Status</h2>
-<p class="font-label-mono text-label-mono text-text-muted mt-2" id="dashboard-welcome">REAL-TIME TRACKING OVERVIEW // LIVE</p>
+<h2 class="text-[80px] leading-[0.9] font-headline-lg text-primary tracking-tighter mb-2">Command<br/>Center</h2>
+<p class="font-label-mono text-[11px] text-text-muted uppercase tracking-[0.2em]">Core System State // Nodes Online</p>
 </div>
-<!-- Quick Add -->
-<div class="flex items-center gap-4 w-full md:w-auto bg-surface-container-high p-2 rounded-lg border border-glass-stroke">
-<input class="input-search border-none w-full md:w-64 px-4 py-2 font-label-mono text-label-mono" placeholder="Paste URL to track..." type="text"/>
-<button class="btn-primary px-6 py-2 whitespace-nowrap">Track</button>
+<div class="flex items-center w-full lg:w-auto bg-surface-container-high/50 p-1 rounded-sm border border-glass-stroke">
+<input class="bg-transparent border-none w-full lg:w-80 px-4 py-3 font-label-mono text-[12px] text-primary focus:ring-0 placeholder-text-muted/30" placeholder="Paste URL to track..." type="text"/>
+<button class="bg-surface-bright text-primary px-8 py-3 font-label-mono text-[12px] uppercase font-bold hover:bg-primary hover:text-background transition-colors">TRACK</button>
 </div>
 </div>
-<!-- Bento Grid -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-<!-- Total Tracked Widget -->
-<div class="bento-card md:col-span-4 flex flex-col justify-between">
-<div class="flex justify-between items-start mb-8">
-<h3 class="font-label-mono text-label-mono text-text-muted uppercase">Total Tracked</h3>
-<span class="material-symbols-outlined text-outline">inventory_2</span>
+<!-- High-Density Metrics Bar -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+<div class="flex flex-col">
+<span class="text-[9px] font-label-mono text-text-muted uppercase tracking-widest mb-3">API Latency</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-label-mono text-primary font-bold">24ms</span>
+<span class="text-[9px] text-green-500 font-label-mono uppercase">Optimal</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] font-label-mono text-text-muted uppercase tracking-widest mb-3">Active Proxies</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-label-mono text-primary font-bold">1,402</span>
+<span class="text-[9px] text-text-muted font-label-mono uppercase">/ 1.5K</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] font-label-mono text-text-muted uppercase tracking-widest mb-3">Requests / 24h</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-label-mono text-primary font-bold">852.4K</span>
+<span class="text-[9px] text-secondary-container font-label-mono uppercase">+4.2%</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] font-label-mono text-text-muted uppercase tracking-widest mb-3">Node Status</span>
+<div class="flex items-center gap-2">
+<span class="text-3xl font-label-mono text-primary font-bold">0% LOSS</span>
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+</span>
+</div>
+</div>
+</div>
+<!-- Main Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-20">
+<!-- Left Side: Stats & Movers -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Total Tracked Card -->
+<div class="bento-card relative overflow-hidden group">
+<div class="flex justify-between items-start mb-12">
+<h3 class="font-label-mono text-[10px] text-text-muted uppercase tracking-widest">Total Tracked</h3>
+<span class="material-symbols-outlined text-text-muted/30 text-[20px]">inventory_2</span>
 </div>
 <div>
-<div class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-label-mono" id="stat-total-tracked">—</div>
-<div class="flex items-center gap-2 mt-2 text-sm">
-<span class="text-primary bg-glass-stroke px-2 py-1 rounded font-label-mono">+12%</span>
-<span class="text-text-muted font-label-mono">vs last week</span>
+<div class="text-[64px] leading-none text-primary font-label-mono tracking-tighter mb-2" id="stat-total-tracked">—</div>
+<div class="flex items-center gap-2">
+<span class="bg-glass-stroke text-primary px-2 py-0.5 font-label-mono text-[9px] uppercase tracking-tighter">+12% WEEKLY</span>
 </div>
 </div>
-</div>
-<!-- Price Drops Widget -->
-<div class="bento-card md:col-span-4 flex flex-col justify-between relative overflow-hidden">
-<!-- Subtle red glow background -->
-<div class="absolute inset-0 bg-secondary-container opacity-5 rounded-12 pointer-events-none"></div>
-<div class="flex justify-between items-start mb-8 relative z-10">
-<h3 class="font-label-mono text-label-mono text-text-muted uppercase">Price Drops Today</h3>
-<span class="material-symbols-outlined text-secondary-container">trending_down</span>
-</div>
-<div class="relative z-10">
-<div class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-label-mono text-secondary-container" id="stat-price-drops">—</div>
-<div class="flex items-center gap-2 mt-2 text-sm">
-<span class="text-background bg-secondary-container px-2 py-1 rounded font-label-mono font-bold">ACT NOW</span>
-<span class="text-text-muted font-label-mono">High volatility detected</span>
+<div class="absolute -right-8 -bottom-8 text-primary opacity-[0.03] scale-[4]">
+<span class="material-symbols-outlined text-[100px]">inventory_2</span>
 </div>
 </div>
-</div>
-<!-- Active Alerts Widget -->
-<div class="bento-card md:col-span-4 flex flex-col justify-between">
-<div class="flex justify-between items-start mb-8">
-<h3 class="font-label-mono text-label-mono text-text-muted uppercase">Active Alerts</h3>
-<span class="material-symbols-outlined text-outline">notifications_active</span>
+<!-- Price Drops Today Card -->
+<div class="bento-card border-secondary-container/20">
+<div class="flex justify-between items-start mb-12">
+<h3 class="font-label-mono text-[10px] text-text-muted uppercase tracking-widest">Price Drops Today</h3>
+<span class="material-symbols-outlined text-secondary-container text-[20px]">trending_down</span>
 </div>
 <div>
-<div class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-label-mono" id="stat-active-alerts">—</div>
-<div class="flex gap-2 mt-4">
-<span class="px-3 py-1 rounded bg-surface-highest text-text-muted font-label-mono text-[10px]">3 CRITICAL</span>
-<span class="px-3 py-1 rounded bg-surface-highest text-text-muted font-label-mono text-[10px]">9 STANDARD</span>
+<div class="text-[64px] leading-none text-secondary-container font-label-mono tracking-tighter mb-2">84</div>
+<div class="flex items-center gap-2">
+<span class="bg-secondary-container text-white px-2 py-0.5 font-label-mono text-[9px] uppercase font-bold">VOLATILE</span>
 </div>
 </div>
 </div>
-<!-- Main Chart Area -->
-<div class="bento-card md:col-span-8 min-h-[400px] flex flex-col">
+<!-- Top Movers List -->
+<div class="bento-card flex-1">
 <div class="flex justify-between items-center mb-8">
-<h3 class="font-label-mono text-label-mono text-text-muted uppercase">Volatility Trend (7D)</h3>
+<h3 class="font-label-mono text-[10px] text-text-muted uppercase tracking-widest">Top Movers</h3>
+<span class="material-symbols-outlined text-text-muted/30 text-[18px]">rocket_launch</span>
+</div>
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-center group cursor-pointer">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-primary group-hover:underline">MacBook Pro M3</span>
+<span class="text-[9px] text-text-muted font-label-mono uppercase">Amazon.com</span>
+</div>
+<div class="text-right">
+<div class="text-secondary-container font-label-mono text-xs">-$340.00</div>
+<div class="text-[9px] text-text-muted font-label-mono">18% OFF</div>
+</div>
+</div>
+<div class="w-full h-[1px] bg-glass-stroke"></div>
+<div class="flex justify-between items-center group cursor-pointer">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-primary group-hover:underline">Dyson V15</span>
+<span class="text-[9px] text-text-muted font-label-mono uppercase">BestBuy</span>
+</div>
+<div class="text-right">
+<div class="text-secondary-container font-label-mono text-xs">-$120.00</div>
+<div class="text-[9px] text-text-muted font-label-mono">22% OFF</div>
+</div>
+</div>
+<div class="w-full h-[1px] bg-glass-stroke"></div>
+<div class="flex justify-between items-center group cursor-pointer">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-primary group-hover:underline">Nike Pegasus 40</span>
+<span class="text-[9px] text-text-muted font-label-mono uppercase">Nike Store</span>
+</div>
+<div class="text-right">
+<div class="text-secondary-container font-label-mono text-xs">-$45.00</div>
+<div class="text-[9px] text-text-muted font-label-mono">35% OFF</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Charts & Activity Log -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Volatility Trend Chart -->
+<div class="bento-card h-[400px] flex flex-col">
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="font-label-mono text-[10px] text-text-muted uppercase tracking-widest">Volatility Trend (7D)</h3>
+<p class="text-[9px] text-text-muted/50 font-label-mono mt-1">SAMPLED EVERY 4 HOURS</p>
+</div>
+<div class="flex bg-surface-container-high rounded-sm p-0.5">
+<button class="bg-glass-stroke text-primary font-label-mono text-[9px] px-3 py-1 rounded-sm">7D</button>
+<button class="text-text-muted hover:text-primary font-label-mono text-[9px] px-3 py-1 transition-colors">30D</button>
+</div>
+</div>
+<!-- Chart Graphic -->
+<div class="flex-1 flex items-end justify-between gap-1 pb-6 relative group/chart">
+<div class="w-full h-[1px] bg-glass-stroke absolute bottom-6"></div>
+<!-- Dynamic bars -->
+<div class="w-full h-full flex items-end justify-between gap-2 md:gap-4 px-2">
+<div class="flex-1 bg-surface-highest h-[15%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[35%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[25%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[45%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-primary h-[85%] bar-chart-bar shadow-[0_0_20px_rgba(255,255,255,0.15)]"></div>
+<div class="flex-1 bg-surface-highest h-[65%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[55%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[40%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[30%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[50%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[60%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-secondary-container h-[95%] bar-chart-bar shadow-[0_0_20px_rgba(201,3,23,0.2)]"></div>
+<div class="flex-1 bg-surface-highest h-[75%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[40%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[25%] bar-chart-bar hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-highest h-[60%] bar-chart-bar hover:bg-primary transition-colors"></div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] font-label-mono text-text-muted uppercase tracking-widest px-2">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+<span>Sun</span>
+</div>
+</div>
+<!-- Recent Activity Log -->
+<div class="bento-card flex-1 min-h-[400px] flex flex-col">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-label-mono text-[10px] text-text-muted uppercase tracking-widest">Recent Activity Log</h3>
 <div class="flex gap-2">
-<button class="font-label-mono text-[10px] px-2 py-1 text-primary bg-glass-stroke rounded">7D</button>
-<button class="font-label-mono text-[10px] px-2 py-1 text-text-muted hover:text-primary transition-colors">30D</button>
-<button class="font-label-mono text-[10px] px-2 py-1 text-text-muted hover:text-primary transition-colors">ALL</button>
+<button class="status-tag bg-green-500/10 text-green-500 border border-green-500/20 px-3 py-1 hover:bg-green-500/20 transition-colors">Filter: Success</button>
+<button class="status-tag bg-secondary-container/10 text-secondary-container border border-secondary-container/20 px-3 py-1 hover:bg-secondary-container/20 transition-colors">Critical</button>
 </div>
 </div>
-<!-- Faux Bar Chart -->
-<div class="flex-1 flex items-end justify-between gap-2 pt-10 border-b border-glass-stroke pb-2">
-<div class="w-full bg-surface-highest h-[20%] bar-chart-bar rounded-t-sm relative group">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-black font-label-mono text-[10px] px-2 py-1 rounded pointer-events-none z-10">42</div>
-</div>
-<div class="w-full bg-surface-highest h-[45%] bar-chart-bar rounded-t-sm relative group">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-black font-label-mono text-[10px] px-2 py-1 rounded pointer-events-none z-10">89</div>
-</div>
-<div class="w-full bg-primary h-[85%] bar-chart-bar rounded-t-sm relative group shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-black font-label-mono text-[10px] px-2 py-1 rounded pointer-events-none z-10">210</div>
-</div>
-<div class="w-full bg-surface-highest h-[60%] bar-chart-bar rounded-t-sm relative group">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-black font-label-mono text-[10px] px-2 py-1 rounded pointer-events-none z-10">145</div>
-</div>
-<div class="w-full bg-surface-highest h-[30%] bar-chart-bar rounded-t-sm relative group">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-black font-label-mono text-[10px] px-2 py-1 rounded pointer-events-none z-10">67</div>
-</div>
-<div class="w-full bg-surface-highest h-[55%] bar-chart-bar rounded-t-sm relative group">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-black font-label-mono text-[10px] px-2 py-1 rounded pointer-events-none z-10">120</div>
-</div>
-<div class="w-full bg-secondary-container h-[95%] bar-chart-bar rounded-t-sm relative group shadow-[0_0_20px_rgba(201,3,23,0.4)]">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-secondary-container text-white font-label-mono text-[10px] px-2 py-1 rounded pointer-events-none z-10">342</div>
-</div>
-</div>
-<div class="flex justify-between mt-2 text-[10px] font-label-mono text-text-muted">
-<span>MON</span>
-<span>TUE</span>
-<span>WED</span>
-<span>THU</span>
-<span>FRI</span>
-<span>SAT</span>
-<span>SUN</span>
-</div>
-</div>
-<!-- Recent Activity Feed -->
-<div class="bento-card md:col-span-4 min-h-[400px] flex flex-col">
-<h3 class="font-label-mono text-label-mono text-text-muted uppercase mb-6">Recent Activity</h3>
-<div class="flex flex-col gap-4 overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: theme('colors.surface-highest') transparent;">
-<!-- Item -->
-<div class="flex gap-4 items-start p-3 hover:bg-glass-fill rounded transition-colors cursor-pointer border border-transparent hover:border-glass-stroke">
-<div class="w-10 h-10 rounded bg-surface-highest flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-secondary-container text-sm">arrow_downward</span>
-</div>
-<div>
-<div class="font-body-md text-primary truncate max-w-[180px]">Sony WH-1000XM5</div>
-<div class="font-label-mono text-[10px] text-text-muted mt-1">Dropped रू 5,200 → रू 43,000</div>
-</div>
-</div>
-<!-- Item -->
-<div class="flex gap-4 items-start p-3 hover:bg-glass-fill rounded transition-colors cursor-pointer border border-transparent hover:border-glass-stroke">
-<div class="w-10 h-10 rounded bg-surface-highest flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-outline text-sm">add</span>
-</div>
-<div>
-<div class="font-body-md text-primary truncate max-w-[180px]">LG C3 OLED 65"</div>
-<div class="font-label-mono text-[10px] text-text-muted mt-1">Added at रू 3,25,000</div>
-</div>
-</div>
-<!-- Item -->
-<div class="flex gap-4 items-start p-3 hover:bg-glass-fill rounded transition-colors cursor-pointer border border-transparent hover:border-glass-stroke">
-<div class="w-10 h-10 rounded bg-surface-highest flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-secondary-container text-sm">warning</span>
-</div>
-<div>
-<div class="font-body-md text-primary truncate max-w-[180px]">Apple Studio Display</div>
-<div class="font-label-mono text-[10px] text-text-muted mt-1">Out of stock alert</div>
-</div>
-</div>
-<!-- Item -->
-<div class="flex gap-4 items-start p-3 hover:bg-glass-fill rounded transition-colors cursor-pointer border border-transparent hover:border-glass-stroke">
-<div class="w-10 h-10 rounded bg-surface-highest flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-text-muted text-sm">sync</span>
-</div>
-<div>
-<div class="font-body-md text-primary truncate max-w-[180px]">Daily Batch Sync</div>
-<div class="font-label-mono text-[10px] text-text-muted mt-1">Completed successfully</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Tracked Products Section -->
-<div class="mt-gutter">
-<div class="flex justify-between items-center mb-6">
-<h3 class="font-label-mono text-label-mono text-text-muted uppercase">Tracked Products</h3>
-<span class="font-label-mono text-[10px] text-text-muted" id="tracked-count">Loading...</span>
-</div>
-<div id="tracked-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
-<!-- Populated by JS -->
-<div class="bento-card col-span-full flex items-center justify-center py-8 text-text-muted font-label-mono text-label-mono" id="tracked-empty-state">
-Loading tracked products...
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-background/50 backdrop-blur-sm z-10 border-b border-glass-stroke">
+<tr>
+<th class="pb-4 font-label-mono text-[10px] text-text-muted uppercase tracking-widest font-normal">Event</th>
+<th class="pb-4 font-label-mono text-[10px] text-text-muted uppercase tracking-widest font-normal">Status</th>
+<th class="pb-4 font-label-mono text-[10px] text-text-muted uppercase tracking-widest font-normal">Target</th>
+<th class="pb-4 font-label-mono text-[10px] text-text-muted uppercase tracking-widest font-normal text-right">Time</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-glass-stroke">
+<tr class="hover:bg-glass-fill transition-colors group">
+<td class="py-5 text-xs font-medium text-primary">Price Reduction Detected</td>
+<td class="py-5"><span class="status-tag bg-green-500/20 text-green-400">Success</span></td>
+<td class="py-5 text-xs text-text-muted font-label-mono">Sony WH-1000XM5</td>
+<td class="py-5 text-[11px] text-text-muted text-right font-label-mono">12:04:22</td>
+</tr>
+<tr class="hover:bg-glass-fill transition-colors group">
+<td class="py-5 text-xs font-medium text-primary">Rate Limit Warning</td>
+<td class="py-5"><span class="status-tag bg-yellow-500/20 text-yellow-400">Warning</span></td>
+<td class="py-5 text-xs text-text-muted font-label-mono">IP Proxy-402</td>
+<td class="py-5 text-[11px] text-text-muted text-right font-label-mono">12:02:15</td>
+</tr>
+<tr class="hover:bg-glass-fill transition-colors group">
+<td class="py-5 text-xs font-medium text-primary">Critical Stack Trace</td>
+<td class="py-5"><span class="status-tag bg-red-500/20 text-red-400">Critical</span></td>
+<td class="py-5 text-xs text-text-muted font-label-mono">Node-US-East</td>
+<td class="py-5 text-[11px] text-text-muted text-right font-label-mono">11:58:40</td>
+</tr>
+<tr class="hover:bg-glass-fill transition-colors group">
+<td class="py-5 text-xs font-medium text-primary">Batch Update Start</td>
+<td class="py-5"><span class="status-tag bg-blue-500/20 text-blue-400">System</span></td>
+<td class="py-5 text-xs text-text-muted font-label-mono">SKU-Range: 100-250</td>
+<td class="py-5 text-[11px] text-text-muted text-right font-label-mono">11:50:00</td>
+</tr>
+<tr class="hover:bg-glass-fill transition-colors group">
+<td class="py-5 text-xs font-medium text-primary">New Tracker Initialized</td>
+<td class="py-5"><span class="status-tag bg-green-500/20 text-green-400">Success</span></td>
+<td class="py-5 text-xs text-text-muted font-label-mono">LG C3 OLED 65"</td>
+<td class="py-5 text-[11px] text-text-muted text-right font-label-mono">11:42:11</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 <!-- Footer -->
-<footer class="w-full py-8 mt-section-gap border-t border-glass-stroke flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto bg-surface-void">
-<div class="text-primary font-bold font-label-mono text-label-mono mb-4 md:mb-0">PRC Engine</div>
-<div class="font-label-mono text-label-mono text-text-muted text-center md:text-left mb-4 md:mb-0">© 2024 PRC Engine. Real-time technical precision.</div>
-<div class="flex gap-6 font-label-mono text-label-mono text-text-muted">
-<a class="hover:text-primary hover:underline transition-all" href="#">Privacy Policy</a>
-<a class="hover:text-primary hover:underline transition-all" href="#">Terms of Service</a>
-<a class="hover:text-primary hover:underline transition-all" href="#">API Documentation</a>
+<footer class="w-full py-16 border-t border-glass-stroke flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto gap-8">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="text-primary font-bold font-label-mono text-[14px]">PRC ENGINE v4.2.0</div>
+<div class="font-label-mono text-[9px] text-text-muted uppercase tracking-widest">Global Price Indexation &amp; Real-time Arbitrage Analysis</div>
 </div>
+<div class="flex gap-8 font-label-mono text-[10px] text-text-muted uppercase tracking-widest">
+<a class="hover:text-primary transition-all underline decoration-glass-stroke underline-offset-4" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-all underline decoration-glass-stroke underline-offset-4" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-all underline decoration-glass-stroke underline-offset-4" href="#">API Documentation</a>
+</div>
+<div class="text-text-muted font-label-mono text-[9px] uppercase tracking-widest">
+                © 2024 PRC Engine. Real-time technical precision.
+            </div>
 </footer>
 </div>
 </main>
+</body>
+<script>
+(function(){
+  const BASE = 'http://localhost:8000';
+  const sessionId = localStorage.getItem('prc_session_id');
+  const username  = localStorage.getItem('prc_username');
 
-<script type="module">
-    import { isLoggedIn, clearSession, logout, getDashboardStats, getSession, getProfile, untrackProduct } from '../api/api.js';
+  // Auth guard
+  if (!sessionId) {
+    sessionStorage.setItem('prc_login_redirect', 'dashboard.html');
+    window.location.href = '/Frontend/src/pages/login.html';
+    return;
+  }
 
-    // ── Helpers ────────────────────────────────────────────────────
-    function fmtPrice(val) {
-        const n = Number(val);
-        if (!isFinite(n)) return '—';
-        return 'रू ' + n.toLocaleString('en-IN');
-    }
+  // Show username in sidebar
+  const userEl = document.getElementById('dash-username');
+  if (userEl && username) userEl.textContent = username.toUpperCase();
 
-    function renderTrackedCard(product) {
-        const card = document.createElement('div');
-        card.className = 'bento-card flex flex-col gap-4';
-        card.dataset.id = product.id;
-        const imgSrc = product.image_url || 'https://placehold.co/240x160?text=No+Image';
-        const safeName = (product.product_name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        const price = fmtPrice(product.price);
-        const store = product.source_site || '—';
-        const stars = product.rating ? `⭐ ${Number(product.rating).toFixed(1)}` : '';
-        card.innerHTML = `
-            <img src="${imgSrc}" alt="${safeName}"
-                 style="width:100%;height:120px;object-fit:contain;border-radius:4px;background:rgba(255,255,255,0.03);"
-                 onerror="this.src='https://placehold.co/240x120?text=No+Image'" loading="lazy">
-            <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
-                <div class="font-body-md text-primary" style="font-size:0.85rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;" title="${safeName}">${safeName}</div>
-                <div class="font-label-mono text-label-mono" style="color:#c90317;font-size:0.9rem;font-weight:700;">${price}</div>
-                <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-                    <span class="font-label-mono" style="font-size:0.6rem;background:rgba(255,255,255,0.06);padding:2px 7px;border-radius:3px;color:rgba(255,255,255,0.4);text-transform:uppercase;">${store}</span>
-                    ${stars ? `<span class="font-label-mono" style="font-size:0.65rem;color:#f5c518;">${stars}</span>` : ''}
-                    ${product.notify ? '<span class="font-label-mono" style="font-size:0.6rem;background:rgba(201,3,23,0.12);color:rgba(255,180,172,0.8);padding:2px 6px;border-radius:3px;">ALERT ON</span>' : ''}
-                </div>
-                <div style="margin-top:auto;display:flex;gap:6px;padding-top:8px;">
-                    <a href="${product.product_link || '#'}" target="_blank" rel="noopener"
-                       class="font-label-mono"
-                       style="flex:1;text-align:center;padding:8px 10px;border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:#fff;text-decoration:none;font-size:0.65rem;letter-spacing:0.08em;transition:all .2s;">
-                        VIEW →
-                    </a>
-                    <button class="font-label-mono untrack-btn"
-                            style="flex:1;padding:8px 10px;background:rgba(201,3,23,0.1);border:1px solid rgba(201,3,23,0.2);border-radius:6px;color:rgba(255,180,172,0.8);font-size:0.65rem;letter-spacing:0.08em;cursor:pointer;transition:all .2s;"
-                            data-id="${product.id}">
-                        UNTRACK
-                    </button>
-                </div>
-            </div>`;
-        return card;
-    }
-
-    // ── Boot ───────────────────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', async () => {
-        if (!isLoggedIn()) {
-            window.location.href = 'login.html';
-            return;
-        }
-
-        const { sessionId, username } = getSession();
-
-        // Show username immediately from localStorage
-        const sidebarUsername = document.getElementById('sidebar-username');
-        if (sidebarUsername) sidebarUsername.textContent = username || 'Analyst';
-
-        const welcomeEl = document.getElementById('dashboard-welcome');
-        if (welcomeEl && username) {
-            welcomeEl.textContent = `WELCOME BACK, ${username.toUpperCase()} // LIVE`;
-        }
-
-        // Logout handler
-        document.querySelectorAll('#logout-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                e.preventDefault();
-                try { await logout(sessionId); } catch (_) {}
-                clearSession();
-                window.location.href = 'login.html';
-            });
-        });
-
-        // ── Load stats ─────────────────────────────────────────────
-        try {
-            const data = await getDashboardStats(sessionId);
-            if (data && data.status) {
-                const totalEl = document.getElementById('stat-total-tracked');
-                if (totalEl) totalEl.innerText = data.totalTracked ?? '0';
-
-                const dropsEl = document.getElementById('stat-price-drops');
-                if (dropsEl) dropsEl.innerText = data.priceDropsToday ?? '0';
-
-                const alertsEl = document.getElementById('stat-active-alerts');
-                if (alertsEl) alertsEl.innerText = data.activeAlerts ?? '0';
-            }
-        } catch (e) {
-            console.error('[dashboard] stats error:', e);
-            if (String(e).includes('401')) {
-                clearSession();
-                window.location.href = 'login.html?expired=1';
-                return;
-            }
-        }
-
-        // ── Load tracked products ──────────────────────────────────
-        const grid = document.getElementById('tracked-products-grid');
-        const countEl = document.getElementById('tracked-count');
-        const emptyState = document.getElementById('tracked-empty-state');
-
-        try {
-            const profile = await getProfile(sessionId);
-            const products = profile.tracked_products || [];
-
-            if (countEl) countEl.textContent = `${products.length} ITEM${products.length !== 1 ? 'S' : ''}`;
-
-            if (products.length === 0) {
-                if (emptyState) emptyState.textContent = 'No products tracked yet. Search and track products from the main page.';
-            } else {
-                if (emptyState) emptyState.remove();
-                products.forEach(p => {
-                    const card = renderTrackedCard(p);
-                    grid.appendChild(card);
-                });
-
-                // Untrack handlers
-                grid.addEventListener('click', async (e) => {
-                    const btn = e.target.closest('.untrack-btn');
-                    if (!btn) return;
-                    const id = btn.dataset.id;
-                    const card = grid.querySelector(`[data-id="${id}"]`);
-                    const productLink = card ? (card.querySelector('a[href]')?.href || '') : '';
-                    btn.textContent = 'REMOVING...';
-                    btn.disabled = true;
-                    try {
-                        await untrackProduct(sessionId, productLink);
-                        card?.remove();
-                        const remaining = grid.querySelectorAll('.bento-card[data-id]').length;
-                        if (countEl) countEl.textContent = `${remaining} ITEM${remaining !== 1 ? 'S' : ''}`;
-                        if (remaining === 0 && grid) {
-                            const empty = document.createElement('div');
-                            empty.className = 'bento-card col-span-full flex items-center justify-center py-8 text-text-muted font-label-mono text-label-mono';
-                            empty.textContent = 'No products tracked yet.';
-                            grid.appendChild(empty);
-                        }
-                    } catch (err) {
-                        console.error(err);
-                        btn.textContent = 'UNTRACK';
-                        btn.disabled = false;
-                    }
-                });
-            }
-        } catch (e) {
-            console.error('[dashboard] profile error:', e);
-            if (countEl) countEl.textContent = 'ERROR';
-            if (emptyState) emptyState.textContent = 'Failed to load tracked products.';
-        }
+  // Logout
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try { await fetch(BASE + '/auth/logout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({session_id: sessionId}) }); } catch(_) {}
+      localStorage.removeItem('prc_session_id');
+      localStorage.removeItem('prc_username');
+      window.location.href = '/Frontend/src/pages/login.html';
     });
-    </script>
-</body></html>
+  }
+
+  // Load tracked count
+  (async () => {
+    try {
+      const res = await fetch(BASE + '/profile/tracked', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ session_id: sessionId })
+      });
+      if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const items = data.items || data.tracked_products || [];
+        const countEl = document.getElementById('stat-total-tracked');
+        if (countEl) countEl.textContent = items.length.toLocaleString();
+      }
+    } catch(_) {}
+  })();
+})();
+</script>
+</html>

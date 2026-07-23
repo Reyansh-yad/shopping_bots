@@ -40,6 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBtn     = document.getElementById('page3-search-btn');
     const searchResults = document.getElementById('page3-search-results');
 
+    // ── Nav search icon → scroll to Page 3 ───────────────────────────
+    // Scoped ONLY to #nav-search-icon; all other nav buttons untouched.
+    const navSearchIcon = document.getElementById('nav-search-icon');
+    if (navSearchIcon) {
+        navSearchIcon.addEventListener('click', () => {
+            const page3 = document.getElementById('page3');
+            if (page3) {
+                page3.scrollIntoView({ behavior: 'smooth' });
+                // Auto-focus the search input after the scroll settles
+                setTimeout(() => searchInput && searchInput.focus(), 800);
+            }
+        });
+    }
+
     if (!searchInput || !searchBtn || !searchResults) return;
 
     // ── Render a single product card ───────────────────────────────
@@ -207,8 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Strict accuracy filter: product name must contain at least one word from the original search
             if (currentQuery && products.length > 0) {
-                const rawQuery = searchInput.value.trim().toLowerCase();
-                const searchWords = rawQuery.split(/\s+/).filter(w => w.length >= 2);
+                // Use the original search term (before category preprocessing) for accuracy filtering
+                const originalQuery = currentQuery.replace(/^(laptop|phone|watch)\s+/i, '').toLowerCase();
+                const searchWords = originalQuery.split(/\s+/).filter(w => w.length >= 2);
                 if (searchWords.length > 0) {
                     products = products.filter(p => {
                         const name = (p.product_name || '').toLowerCase();

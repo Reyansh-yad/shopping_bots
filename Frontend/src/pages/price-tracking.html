@@ -3,71 +3,70 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>PRC Engine - Price Tracker</title>
+<title>PRC Engine - Price Tracker Pro</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
-                        "glass-stroke": "rgba(255, 255, 255, 0.1)",
-                        "secondary-container": "#c90317",
-                        "tertiary-fixed-dim": "#ffb4ab",
                         "text-muted": "#c4c7c8",
-                        "primary": "#ffffff",
-                        "tertiary": "#ffffff",
-                        "background": "#131313",
-                        "on-error-container": "#ffdad6",
-                        "primary-fixed-dim": "#c6c6c7",
-                        "surface-container-high": "#2a2a2a",
-                        "surface": "#131313",
-                        "glass-fill": "rgba(255, 255, 255, 0.05)",
-                        "on-tertiary-container": "#8f544e",
-                        "tertiary-container": "#ffdad5",
-                        "on-surface": "#e5e2e1",
-                        "error-container": "#93000a",
-                        "primary-fixed": "#e2e2e2",
-                        "secondary-fixed": "#ffdad6",
-                        "secondary": "#ffb4ac",
-                        "secondary-fixed-dim": "#ffb4ac",
-                        "inverse-on-surface": "#313030",
-                        "on-primary-fixed": "#1a1c1c",
-                        "on-tertiary": "#51221d",
-                        "surface-bright": "#393939",
-                        "on-secondary-fixed": "#410002",
-                        "outline-variant": "#444748",
-                        "brand-dark": "#3c3c3c",
-                        "on-primary-container": "#636565",
-                        "surface-highest": "#353535",
-                        "on-surface-variant": "#c4c7c8",
                         "surface-high": "#2a2a2a",
-                        "tertiary-fixed": "#ffdad5",
+                        "surface-bright": "#393939",
+                        "surface": "#131313",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "on-secondary": "#690006",
+                        "on-surface": "#e5e2e1",
                         "on-error": "#690005",
-                        "on-background": "#e5e2e1",
-                        "error": "#ffb4ab",
-                        "on-secondary-fixed-variant": "#93000d",
+                        "tertiary-fixed": "#ffdad5",
+                        "secondary-fixed": "#ffdad6",
+                        "surface-container-low": "#1c1b1b",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#e2e2e2",
                         "outline": "#8e9192",
-                        "surface-void": "#0e0e0e",
+                        "primary": "#ffffff",
+                        "surface-tint": "#c6c6c7",
+                        "on-tertiary-container": "#8f544e",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#636565",
+                        "on-secondary-fixed-variant": "#93000d",
+                        "on-background": "#e5e2e1",
+                        "surface-container": "#201f1f",
+                        "secondary-container": "#c90317",
+                        "secondary": "#ffb4ac",
                         "on-tertiary-fixed-variant": "#6c3832",
                         "surface-variant": "#353534",
-                        "surface-container-low": "#1c1b1b",
-                        "surface-dim": "#131313",
-                        "inverse-surface": "#e5e2e1",
                         "on-primary": "#2f3131",
-                        "on-secondary": "#690006",
-                        "surface-container-lowest": "#0e0e0e",
                         "on-primary-fixed-variant": "#454747",
-                        "inverse-primary": "#5d5f5f",
-                        "primary-container": "#e2e2e2",
+                        "surface-highest": "#353535",
+                        "surface-container-high": "#2a2a2a",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#444748",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "surface-dim": "#131313",
                         "on-secondary-container": "#ffd7d3",
-                        "on-tertiary-fixed": "#360e0a",
-                        "surface-tint": "#c6c6c7",
+                        "on-error-container": "#ffdad6",
+                        "on-surface-variant": "#c4c7c8",
+                        "glass-stroke": "rgba(255, 255, 255, 0.1)",
+                        "surface-void": "#0e0e0e",
+                        "primary-container": "#e2e2e2",
+                        "on-tertiary": "#51221d",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#ffffff",
+                        "inverse-primary": "#5d5f5f",
+                        "on-secondary-fixed": "#410002",
+                        "background": "#131313",
+                        "on-primary-fixed": "#1a1c1c",
                         "surface-container-highest": "#353534",
-                        "surface-container": "#201f1f"
+                        "glass-fill": "rgba(255, 255, 255, 0.05)",
+                        "brand-dark": "#3c3c3c",
+                        "tertiary-container": "#ffdad5",
+                        "on-tertiary-fixed": "#360e0a",
+                        "inverse-on-surface": "#313030"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.125rem",
@@ -76,30 +75,30 @@
                         "full": "0.75rem"
                     },
                     "spacing": {
+                        "margin-mobile": "20px",
                         "unit": "4px",
-                        "section-gap": "120px",
-                        "gutter": "24px",
                         "margin-desktop": "64px",
-                        "container-max": "1440px",
-                        "margin-mobile": "20px"
+                        "gutter": "24px",
+                        "section-gap": "120px",
+                        "container-max": "1440px"
                     },
                     "fontFamily": {
                         "body-lg": ["Inter"],
-                        "body-md": ["Inter"],
+                        "display-xl-mobile": ["Plus Jakarta Sans"],
                         "label-mono": ["JetBrains Mono"],
                         "display-xl": ["Plus Jakarta Sans"],
-                        "display-xl-mobile": ["Plus Jakarta Sans"],
                         "headline-md": ["Plus Jakarta Sans"],
-                        "headline-lg": ["Plus Jakarta Sans"]
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"]
                     },
                     "fontSize": {
                         "body-lg": ["18px", { "lineHeight": "29px", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "display-xl-mobile": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
                         "label-mono": ["12px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "500" }],
                         "display-xl": ["120px", { "lineHeight": "132px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
-                        "display-xl-mobile": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
                         "headline-md": ["32px", { "lineHeight": "42px", "letterSpacing": "0", "fontWeight": "600" }],
-                        "headline-lg": ["64px", { "lineHeight": "76px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                        "headline-lg": ["64px", { "lineHeight": "76px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }]
                     }
                 }
             }
@@ -108,9 +107,9 @@
 <style>
         body { background-color: #131313; color: #ffffff; }
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
         }
         .btn-primary {
@@ -138,26 +137,36 @@
         .toggle-checkbox:checked + .toggle-label {
             background-color: #c90317;
         }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body class="font-body-md text-body-md antialiased overflow-x-hidden min-h-screen flex bg-background">
-<!-- SideNavBar (Hidden on Mobile, Visible on md+) -->
+<!-- SideNavBar (from COMPONENTS_6) -->
 <nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-glass-stroke py-8 z-40">
 <div class="px-6 mb-8 flex items-center gap-3">
 <div class="w-10 h-10 rounded-full bg-glass-fill border border-glass-stroke flex items-center justify-center overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="A macro photography shot of a sleek, futuristic metallic drone component. The object is composed of machined carbon fiber and brushed titanium, sitting against an absolute black void background. Harsh directional white light picks up the specular highlights on the metal edges, emphasizing precision engineering and high-tech minimalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM-ctdIFzGqZKxQODrpkWZCd4l0RPQaJupO0PCQt3NahGJvJ4goggXxxrk23etiOWyXUTkpk495v3RzT4PVRaqSoT1sW3n4sUgRyGelI02VoqKAzU6KSd-uH0_gzwTQmoWs0wTMQV4wzdBqHbN0bLQI6pBjZHxkBGEH3EVnakmUh_Zu_AuBR2hvrTFV_9iqdSFmZt8AIrmD-J6VnT25CZ8tHyQkSwBZjkFNmefUJGCI-63TyBTVmbdW4qJVj8vkE3KMk6ImT8sNw"/>
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM-ctdIFzGqZKxQODrpkWZCd4l0RPQaJupO0PCQt3NahGJvJ4goggXxxrk23etiOWyXUTkpk495v3RzT4PVRaqSoT1sW3n4sUgRyGelI02VoqKAzU6KSd-uH0_gzwTQmoWs0wTMQV4wzdBqHbN0bLQI6pBjZHxkBGEH3EVnakmUh_Zu_AuBR2hvrTFV_9iqdSFmZt8AIrmD-J6VnT25CZ8tHyQkSwBZjkFNmefUJGCI-63TyBTVmbdW4qJVj8vkE3KMk6ImT8sNw"/>
 </div>
 <div>
-<h1 class="font-headline-md text-headline-md text-primary text-xl leading-tight">PRC Engine</h1>
-<p class="font-label-mono text-label-mono text-text-muted mt-1">Pro Analyst</p>
+<h1 class="font-headline-md text-headline-md text-primary text-xl leading-tight"><a class="hover:text-secondary-fixed transition-colors" href="/">PRC Engine</a></h1>
+<p class="font-label-mono text-label-mono text-text-muted mt-1" id="tracker-username">Pro Analyst</p>
 </div>
 </div>
 <div class="flex flex-col flex-grow gap-2 px-2 mt-4">
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="dashboard.html">
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="/Frontend/src/pages/dashboard.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
 <span class="font-label-mono text-label-mono">Overview</span>
 </a>
-<a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 hover:bg-glass-stroke transition-colors rounded-r-lg flex items-center gap-3" href="#">
+<a class="bg-glass-fill text-primary border-l-4 border-secondary-container px-4 py-3 hover:bg-glass-stroke transition-colors rounded-r-lg flex items-center gap-3" href="/Frontend/src/pages/price-tracking.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
 <span class="font-label-mono text-label-mono">Price Tracker</span>
 </a>
@@ -165,7 +174,7 @@
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications_active</span>
 <span class="font-label-mono text-label-mono">Alerts</span>
 </a>
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
+<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="/Frontend/src/pages/profile.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">tune</span>
 <span class="font-label-mono text-label-mono">Settings</span>
 </a>
@@ -173,298 +182,354 @@
 <div class="px-6 mt-auto mb-6">
 <button class="w-full btn-primary py-3 font-label-mono text-label-mono font-bold flex items-center justify-center gap-2">
 <span class="material-symbols-outlined text-sm">add</span> Add Product
-            </button>
+        </button>
 </div>
 <div class="flex flex-col gap-2 px-2 border-t border-glass-stroke pt-4">
 <a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
 <span class="font-label-mono text-label-mono">Support</span>
 </a>
-<a class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#" id="logout-btn">
+<a id="logout-btn" class="text-text-muted px-4 py-3 hover:text-primary hover:bg-glass-stroke transition-colors rounded-lg flex items-center gap-3" href="#">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
 <span class="font-label-mono text-label-mono">Logout</span>
 </a>
 </div>
 </nav>
-<!-- Main Content Area -->
+<!-- Main Content -->
 <main class="flex-1 ml-0 md:ml-64 w-full relative">
-<!-- TopNavBar -->
 <header class="fixed top-0 w-full md:w-[calc(100%-16rem)] bg-background/80 backdrop-blur-md border-b border-glass-stroke z-50">
 <div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<!-- Mobile Brand / Desktop Title Placeholder -->
-<div class="md:hidden font-headline-md text-headline-md font-bold tracking-tighter text-primary text-2xl">
-                    PRC Engine
-                </div>
+<div class="md:hidden font-headline-md text-headline-md font-bold tracking-tighter text-primary text-2xl">PRC Engine</div>
 <div class="hidden md:block">
-<!-- Search Bar (Desktop) -->
 <div class="relative w-64">
-<input class="w-full bg-transparent border-0 border-b-2 border-glass-stroke focus:border-primary focus:ring-0 text-primary font-label-mono text-sm py-2 px-0 transition-colors placeholder:text-text-muted/50" id="search-input" placeholder="Search SKU or Name..." type="text"/>
-<div class="absolute top-full left-0 w-80 max-h-96 overflow-y-auto bg-surface-high border border-glass-stroke rounded mt-2 z-50 hidden shadow-xl" id="search-results"></div></div>
+<input class="w-full bg-transparent border-0 border-b-2 border-glass-stroke focus:border-primary focus:ring-0 text-primary font-label-mono text-sm py-2 px-0 transition-colors placeholder:text-text-muted/50" placeholder="Search SKU or Name..." type="text"/>
 </div>
-<!-- Navigation Links (Mobile Hidden, Desktop Handled by TopNavBar concept from JSON, though SideNav implies a dashboard layout. We'll show it for fidelity to JSON) -->
+</div>
 <nav class="hidden lg:flex items-center gap-8">
-<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill px-3 py-1 rounded" href="dashboard.html">Dashboard</a>
-<a class="text-primary font-bold border-b-2 border-secondary-container pb-1 px-1" href="price-tracking.html">Tracking</a>
-<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill px-3 py-1 rounded" href="#">History</a>
-<a class="text-text-muted font-medium hover:text-primary transition-colors hover:bg-glass-fill px-3 py-1 rounded" href="#">Notifications</a>
+<a class="text-text-muted font-medium hover:text-primary transition-colors px-3 py-1" href="/Frontend/src/pages/dashboard.html">Dashboard</a>
+<a class="text-primary font-bold border-b-2 border-secondary-container pb-1 px-1" href="/Frontend/src/pages/price-tracking.html">Tracking</a>
+<a class="text-text-muted font-medium hover:text-primary transition-colors px-3 py-1" href="#">History</a>
+<a class="text-text-muted font-medium hover:text-primary transition-colors px-3 py-1" href="#">Notifications</a>
 </nav>
 <div class="flex items-center gap-4">
-<!-- Mobile Search Icon -->
-<button class="md:hidden text-primary hover:bg-glass-fill p-2 rounded-full transition-all duration-200">
-<span class="material-symbols-outlined">search</span>
-</button>
-<button class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all duration-200">
+<button class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all">
 <span class="material-symbols-outlined">account_circle</span>
 </button>
-<button class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all duration-200">
+<button class="text-primary hover:bg-glass-fill p-2 rounded-full transition-all">
 <span class="material-symbols-outlined">settings</span>
 </button>
 </div>
 </div>
 </header>
-<!-- Page Content Canvas -->
 <div class="pt-24 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<!-- Header Section -->
+<!-- Page Header -->
 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
 <div>
 <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Price Tracker</h2>
-<p class="text-text-muted mt-2 max-w-2xl">Manage active tracking modules, monitor real-time deltas, and configure automated alert thresholds for high-priority SKUs.</p>
+<p class="text-text-muted mt-2 max-w-2xl">High-precision monitoring of SKU deltas across global merchants with granular automation controls.</p>
 </div>
 <div class="flex gap-4 w-full md:w-auto">
 <button class="flex-1 md:flex-none border border-glass-stroke text-primary bg-transparent hover:bg-primary/10 transition-colors py-2 px-6 rounded-sm font-label-mono text-label-mono flex items-center justify-center gap-2">
 <span class="material-symbols-outlined text-sm">filter_list</span> Filter
-                    </button>
-<button class="flex-1 md:flex-none btn-primary py-2 px-6 font-label-mono text-label-mono font-bold">
-                        Export CSV
-                    </button>
+                </button>
+<button class="flex-1 md:flex-none btn-primary py-2 px-6 font-label-mono text-label-mono font-bold">Export CSV</button>
 </div>
 </div>
-<!-- Bento Grid Layout -->
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-<!-- Main Tracking List (Spans 8 cols on LG) -->
-<div class="lg:col-span-8 space-y-6">
-<h3 class="font-headline-md text-headline-md text-primary text-xl border-b border-glass-stroke pb-2">Active Targets</h3>
-<!-- Tracked Product Item 1 -->
-
-<!-- Tracked Product Item 2 -->
-
-<!-- Tracked Product Item 3 -->
-
-<div class="space-y-6 mt-6" id="tracked-products-list"></div></div>
-<!-- Right Sidebar Modules (Spans 4 cols on LG) -->
+<!-- Left Content: Active Targets & Detail Configs -->
+<div class="lg:col-span-8 space-y-12">
+<section>
+<div class="flex items-center justify-between border-b border-glass-stroke pb-4 mb-6">
+<h3 class="font-headline-md text-headline-md text-primary text-xl">Active Targets</h3>
+<span class="text-label-mono text-text-muted text-xs">3 Products Active</span>
+</div>
+<!-- High Detail Tracking Card -->
+<div class="glass-card mb-8">
+<div class="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+<div class="flex items-center gap-6">
+<div class="w-24 h-24 bg-surface-container-high rounded border border-glass-stroke flex-shrink-0 flex items-center justify-center overflow-hidden">
+<img alt="RTX 4090" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRar-ll-PQDhtsLj8ggqgQn1pkX0hma3cpLirlaG62AaKjOa0KBQPNjkitQS5CpDwm_18hv20DESUQ2u_-vfeK0-J9nmZ8LHGGUUY_it8T_LBfiwZAGGfUzmEtd5ZRgCwXB0gpkDub0tg_r1nw8IvBsUff9VNWcNZhpVHHTocAN4ZhL5OtchZgDM-hlQfjzn4Q-wzhcj3aRmRL_BhOPYcqamNyS4j93Rk1tQLZtOGIFMwEaNP8DnWoKcnktvxCqbpnoGyHRlCCXg"/>
+</div>
+<div>
+<h4 class="text-primary font-headline-md text-lg leading-tight">RTX 4090 Founders Edition</h4>
+<div class="flex flex-wrap gap-2 mt-3">
+<span class="bg-surface-high px-3 py-1 rounded text-text-muted font-label-mono text-[10px]">NV-4090-FE</span>
+<span class="text-secondary-container font-label-mono text-[10px] flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span> Tracking
+                                        </span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-10">
+<div class="text-right">
+<div class="font-label-mono text-label-mono text-text-muted mb-1">Current</div>
+<div class="font-label-mono text-primary text-2xl tracking-tight">$1,599.99</div>
+</div>
+<div class="text-right">
+<div class="font-label-mono text-label-mono text-text-muted mb-1">Target</div>
+<div class="font-label-mono text-secondary-container text-2xl tracking-tight">$1,450.00</div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-mono text-text-muted text-[10px] mb-2">Alert</span>
+<div class="relative inline-block w-10 h-5 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 transition-all border-secondary-container right-0" id="t1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-secondary-container cursor-pointer" for="t1"></label>
+</div>
+</div>
+</div>
+</div>
+<!-- Merchant Comparison Table -->
+<div class="px-6 pb-6">
+<div class="bg-surface-void/50 rounded-lg p-5 border border-glass-stroke">
+<p class="text-label-mono text-text-muted text-[11px] uppercase mb-4 tracking-widest font-bold">Merchant Comparison Matrix</p>
+<div class="grid grid-cols-4 gap-4 text-sm font-label-mono">
+<div class="text-text-muted pb-3 border-b border-glass-stroke/50">Retailer</div>
+<div class="text-text-muted pb-3 border-b border-glass-stroke/50">Availability</div>
+<div class="text-text-muted pb-3 border-b border-glass-stroke/50">Shipping</div>
+<div class="text-text-muted pb-3 border-b border-glass-stroke/50 text-right">Price</div>
+<div class="text-primary font-bold py-1">BestBuy</div>
+<div class="text-green-500 py-1">In Stock</div>
+<div class="text-text-muted py-1">Ships Free</div>
+<div class="text-primary text-right py-1 font-bold">$1,599.99</div>
+<div class="text-primary/70 py-1">Amazon</div>
+<div class="text-error py-1">Out of Stock</div>
+<div class="text-text-muted/50 py-1">—</div>
+<div class="text-primary/70 text-right py-1">$1,649.00</div>
+<div class="text-primary/70 py-1">Newegg</div>
+<div class="text-green-500 py-1">In Stock</div>
+<div class="text-text-muted py-1">$9.99 S&amp;H</div>
+<div class="text-primary/70 text-right py-1">$1,605.50</div>
+</div>
+</div>
+</div>
+<!-- Granular Tracking Configuration -->
+<div class="border-t border-glass-stroke bg-surface-container-low/50 p-6 rounded-b-xl grid grid-cols-1 md:grid-cols-3 gap-8">
+<div>
+<label class="block font-label-mono text-text-muted text-[10px] uppercase mb-2 tracking-widest">Check Interval</label>
+<select class="w-full bg-surface-void border border-glass-stroke rounded-sm text-primary text-xs font-label-mono p-2.5 focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+<option>Real-time (15s)</option>
+<option selected="">High Priority (1m)</option>
+<option>Standard (15m)</option>
+<option>Daily (24h)</option>
+</select>
+</div>
+<div>
+<label class="block font-label-mono text-text-muted text-[10px] uppercase mb-2 tracking-widest">Proxy Pool</label>
+<select class="w-full bg-surface-void border border-glass-stroke rounded-sm text-primary text-xs font-label-mono p-2.5 focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+<option selected="">Global Residentials</option>
+<option>US Datacenter v2</option>
+<option>Europe High-Anonymity</option>
+</select>
+</div>
+<div>
+<label class="block font-label-mono text-text-muted text-[10px] uppercase mb-2 tracking-widest">Target Region</label>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-background text-[11px] py-2 rounded-sm font-bold font-label-mono transition-transform active:scale-95">USA</button>
+<button class="flex-1 bg-glass-fill border border-glass-stroke text-primary text-[11px] py-2 rounded-sm font-label-mono hover:bg-glass-stroke">CAN</button>
+<button class="flex-1 bg-glass-fill border border-glass-stroke text-primary text-[11px] py-2 rounded-sm font-label-mono hover:bg-glass-stroke">EU</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Item -->
+<div class="glass-card p-6 flex flex-col sm:flex-row items-center justify-between gap-6 opacity-80 hover:opacity-100 transition-all border-dashed border-glass-stroke/30">
+<div class="flex items-center gap-5">
+<div class="w-14 h-14 bg-surface-container-high rounded border border-glass-stroke flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-2xl">photo_camera</span>
+</div>
+<div>
+<h4 class="text-primary font-semibold">Sony Alpha a7 IV Body</h4>
+<p class="text-text-muted text-[11px] font-label-mono mt-1">Interval: 15m • Region: USA • Pro Proxy Pool</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<span class="block text-text-muted text-[10px] font-label-mono uppercase tracking-widest mb-1">Current</span>
+<span class="text-primary font-label-mono text-lg">$2,498.00</span>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors p-2 rounded-full hover:bg-glass-fill">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Sidebar: Stats & Logs -->
 <div class="lg:col-span-4 space-y-gutter">
-<!-- Market Delta Chart -->
-<div class="glass-card p-8 h-[340px] flex flex-col">
-<h3 class="font-headline-md text-primary text-lg mb-6 border-b border-glass-stroke pb-2">Price History (MacBook Air M2)</h3>
-<div class="flex-grow flex items-end justify-between gap-1 mt-auto px-2 pb-2 h-40">
-<!-- Fake Bar Chart -->
-<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 40%;"></div>
-<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 45%;"></div>
-<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 35%;"></div>
-<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 50%;"></div>
-<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 60%;"></div>
-<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 55%;"></div>
-<div class="w-full bg-secondary-container rounded-t chart-bar" style="height: 75%;"></div>
-<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 40%;"></div>
-<div class="w-full bg-glass-stroke rounded-t chart-bar" style="height: 30%;"></div>
+<!-- Advanced Price History Chart -->
+<div class="glass-card p-8 flex flex-col h-[420px]">
+<div class="flex justify-between items-start mb-8">
+<h3 class="font-headline-md text-primary text-lg">Price History</h3>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+<span class="text-[10px] font-label-mono text-text-muted uppercase tracking-tighter">Price</span>
 </div>
-<div class="flex justify-between mt-2 font-label-mono text-text-muted text-[10px] opacity-70">
-<span>-30d</span>
-<span>Today</span>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary/20"></span>
+<span class="text-[10px] font-label-mono text-text-muted uppercase tracking-tighter">Stock</span>
 </div>
 </div>
-<!-- Recent Changes Log -->
-<div class="glass-card p-8">
-<h3 class="font-headline-md text-primary text-lg mb-6 border-b border-glass-stroke pb-2">Recent Deltas</h3>
-<div class="space-y-4">
-<div class="flex justify-between items-start">
+</div>
+<div class="flex-grow flex items-end justify-between gap-2 px-2 relative mb-2">
+<!-- Multi-axis visual simulation -->
+<div class="absolute inset-0 flex flex-col justify-between opacity-5 pointer-events-none">
+<div class="border-t border-primary h-px"></div>
+<div class="border-t border-primary h-px"></div>
+<div class="border-t border-primary h-px"></div>
+<div class="border-t border-primary h-px"></div>
+</div>
+<div class="group relative flex-1">
+<div class="w-full bg-glass-stroke rounded-t chart-bar h-[60%] mb-1.5"></div>
+<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
+</div>
+<div class="group relative flex-1">
+<div class="w-full bg-glass-stroke rounded-t chart-bar h-[65%] mb-1.5"></div>
+<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
+</div>
+<div class="group relative flex-1">
+<div class="w-full bg-glass-stroke rounded-t chart-bar h-[55%] mb-1.5"></div>
+<div class="w-full bg-secondary-container/20 h-1.5 rounded-full"></div>
+</div>
+<div class="group relative flex-1">
+<div class="w-full bg-glass-stroke rounded-t chart-bar h-[70%] mb-1.5"></div>
+<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
+</div>
+<div class="group relative flex-1">
+<div class="w-full bg-glass-stroke rounded-t chart-bar h-[85%] mb-1.5"></div>
+<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
+</div>
+<div class="group relative flex-1">
+<div class="w-full bg-secondary-container rounded-t chart-bar h-[95%] mb-1.5"></div>
+<div class="w-full bg-primary/20 h-1.5 rounded-full"></div>
+</div>
+<div class="group relative flex-1">
+<div class="w-full bg-glass-stroke rounded-t chart-bar h-[70%] mb-1.5"></div>
+<div class="w-full bg-secondary-container/20 h-1.5 rounded-full"></div>
+</div>
+</div>
+<div class="flex justify-between mt-4 font-label-mono text-text-muted text-[10px] opacity-70 tracking-widest">
+<span>7 DAYS AGO</span>
+<span>TODAY</span>
+</div>
+<div class="mt-6 pt-5 border-t border-glass-stroke">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary-container text-sm">trending_down</span>
+<p class="text-[11px] text-text-muted leading-tight font-medium uppercase tracking-tight">Volatility Analysis</p>
+</div>
+<p class="text-[12px] text-primary/80 leading-relaxed">Current volatility: <span class="text-primary font-bold">Medium</span>. Significant drop of 8.5% detected at <span class="text-secondary-container font-bold">12:04 PM</span>.</p>
+</div>
+</div>
+<!-- Detailed Delta Log -->
+<div class="glass-card p-8 h-[500px] flex flex-col">
+<h3 class="font-headline-md text-primary text-lg mb-6">Full Delta Log</h3>
+<div class="flex-grow overflow-y-auto custom-scrollbar pr-3 space-y-4">
+<!-- Log Entry 1: Price Drop -->
+<div class="p-4 bg-surface-void/40 rounded border-l-4 border-secondary-container">
+<div class="flex justify-between items-start mb-3">
+<span class="font-label-mono text-primary text-xs font-bold">RTX 4090 FE</span>
+<span class="text-[10px] text-text-muted font-label-mono uppercase tracking-widest">Just Now</span>
+</div>
+<div class="flex justify-between items-end">
 <div>
-<div class="font-label-mono text-primary text-sm mb-1">AMD Ryzen 9 5900X</div>
-<div class="font-label-mono text-text-muted text-xs opacity-70">Today, 10:42 AM NST</div>
+<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Price Delta</p>
+<p class="text-secondary-container font-label-mono text-lg font-bold">-$149.01 (8.5%)</p>
 </div>
 <div class="text-right">
-<div class="font-label-mono text-secondary-container text-sm flex items-center justify-end gap-1">
-<span class="material-symbols-outlined text-[14px]">arrow_downward</span> रू 2,500
-                                    </div>
-<div class="font-label-mono text-text-muted text-xs opacity-70">Target Hit</div>
+<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Previous</p>
+<p class="text-primary/60 font-label-mono text-xs">$1,749.00</p>
 </div>
 </div>
-<div class="h-px bg-glass-stroke w-full"></div>
-<div class="flex justify-between items-start">
+</div>
+<!-- Log Entry 2: Price Increase -->
+<div class="p-4 bg-surface-void/20 rounded border-l-4 border-green-500/50">
+<div class="flex justify-between items-start mb-3">
+<span class="font-label-mono text-primary text-xs font-bold">Ryzen 9 7950X</span>
+<span class="text-[10px] text-text-muted font-label-mono uppercase tracking-widest">2h ago</span>
+</div>
+<div class="flex justify-between items-end">
 <div>
-<div class="font-label-mono text-primary text-sm mb-1">Sony Alpha A7 IV</div>
-<div class="font-label-mono text-text-muted text-xs opacity-70">Yesterday, 4:15 PM NST</div>
+<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Price Delta</p>
+<p class="text-green-500 font-label-mono text-lg font-bold">+$20.00 (3.7%)</p>
 </div>
 <div class="text-right">
-<div class="font-label-mono text-primary text-sm flex items-center justify-end gap-1 opacity-80">
-<span class="material-symbols-outlined text-[14px]">arrow_upward</span> रू 1,800
-                                    </div>
+<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Previous</p>
+<p class="text-primary/60 font-label-mono text-xs">$529.00</p>
 </div>
 </div>
-<div class="h-px bg-glass-stroke w-full"></div>
-<div class="flex justify-between items-start">
+</div>
+<!-- Log Entry 3: Restock -->
+<div class="p-4 bg-surface-void/20 rounded border-l-4 border-blue-500/50">
+<div class="flex justify-between items-start mb-3">
+<span class="font-label-mono text-primary text-xs font-bold">MacBook Pro 16</span>
+<span class="text-[10px] text-text-muted font-label-mono uppercase tracking-widest">12 Oct</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-blue-500/20 p-2 rounded">
+<span class="material-symbols-outlined text-blue-500 text-sm">inventory_2</span>
+</div>
+<p class="text-xs text-primary font-medium">Restocked at Apple Store (Official)</p>
+</div>
+</div>
+<!-- Log Entry 4: Historical Drop -->
+<div class="p-4 bg-surface-void/20 rounded border-l-4 border-secondary-container/40">
+<div class="flex justify-between items-start mb-3">
+<span class="font-label-mono text-primary text-xs font-bold">RTX 4090 FE</span>
+<span class="text-[10px] text-text-muted font-label-mono uppercase tracking-widest">11 Oct</span>
+</div>
+<div class="flex justify-between items-end">
 <div>
-<div class="font-label-mono text-primary text-sm mb-1">MacBook Pro 16" M3 Pro</div>
-<div class="font-label-mono text-text-muted text-xs opacity-70">Jul 10, 2026</div>
+<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Price Delta</p>
+<p class="text-secondary-container font-label-mono text-lg">-$50.00 (2.8%)</p>
 </div>
 <div class="text-right">
-<div class="font-label-mono text-secondary-container text-sm flex items-center justify-end gap-1">
-<span class="material-symbols-outlined text-[14px]">arrow_downward</span> रू 18,000
-                                    </div>
+<p class="text-[9px] text-text-muted uppercase tracking-widest font-bold mb-1">Previous</p>
+<p class="text-primary/60 font-label-mono text-xs">$1,799.00</p>
 </div>
 </div>
 </div>
-<button class="w-full mt-6 border border-glass-stroke text-text-muted hover:text-primary hover:border-primary transition-colors py-2 rounded font-label-mono text-xs">View Full Log</button>
+</div>
+<button class="w-full mt-6 border border-glass-stroke text-text-muted hover:text-primary hover:border-primary/50 transition-all py-3.5 rounded-sm font-label-mono text-xs uppercase tracking-[0.2em] font-bold">
+                        Download Full History
+                    </button>
 </div>
 </div>
 </div>
 </div>
 </main>
 <script>
-        // Simple script to handle custom toggle logic if needed, 
-        // though CSS handles the visual state based on :checked
-        document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
-            toggle.addEventListener('change', (e) => {
-                // In a real app, this would trigger an API call to update notification settings
-                console.log(`Toggle ${e.target.id} changed to ${e.target.checked}`);
-            });
-        });
-    </script>
-
-<script type="module">
-    import { isLoggedIn, getSession, clearSession, logout, search, getTrackedProducts, trackProduct, untrackProduct } from '../api/api.js';
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        if (!isLoggedIn()) {
-            window.location.href = 'login.html';
-            return;
-        }
-        const { sessionId } = getSession();
-
-        // Logout
-        document.querySelectorAll('#logout-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                e.preventDefault();
-                try { await logout(sessionId); } catch (_) {}
-                clearSession();
-                window.location.href = 'login.html';
-            });
-        });
-
-        const loadTracked = async () => {
-            try {
-                const data = await getTrackedProducts(sessionId);
-                if (data && data.status) {
-                    const list = document.getElementById('tracked-products-list');
-                    if (!list) return;
-                    list.innerHTML = '';
-
-                    (data.items || []).forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'glass-card p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:bg-glass-fill transition-colors';
-                        div.innerHTML = `
-                            <div class="flex items-center gap-4 w-full">
-                                <div class="w-16 h-16 bg-surface-container-high rounded border border-glass-stroke flex-shrink-0 flex items-center justify-center overflow-hidden">
-                                    ${item.image_url ? `<img src="${item.image_url}" class="w-full h-full object-cover"/>` : '<span class="material-symbols-outlined text-outline" style="font-size: 32px;">memory</span>'}
-                                </div>
-                                <div class="flex-grow">
-                                    <h4 class="text-primary font-semibold text-lg line-clamp-1"><a href="${item.product_link}" target="_blank">${item.product_name}</a></h4>
-                                    <div class="flex gap-2 mt-2">
-                                        <span class="bg-surface-high px-2 py-1 rounded text-text-muted font-label-mono text-[10px]">Store: ${item.source_site}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between w-full sm:w-auto gap-8">
-                                <div class="text-right">
-                                    <div class="font-label-mono text-label-mono text-text-muted mb-1">Current</div>
-                                    <div class="font-label-mono text-primary text-xl">रू ${Number(item.price || 0).toLocaleString('en-IN')}</div>
-                                </div>
-                                <div class="text-right hidden sm:block">
-                                    <div class="font-label-mono text-label-mono text-text-muted mb-1">Target</div>
-                                    <div class="font-label-mono text-secondary-container text-xl">${item.target_price ? 'रू ' + Number(item.target_price).toLocaleString('en-IN') : '—'}</div>
-                                </div>
-                                <button onclick="window.untrack('${item.product_link}')" class="text-secondary-container hover:text-primary transition-colors p-2"><span class="material-symbols-outlined">delete</span></button>
-                            </div>
-                        `;
-                        list.appendChild(div);
-                    });
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        };
-
-        await loadTracked();
-
-        window.untrack = async (link) => {
-            try { await untrackProduct(sessionId, link); } catch (e) { console.error(e); }
-            await loadTracked();
-        };
-
-        window.track = async (link, name, price) => {
-            const id = btoa(link).replace(/[^a-zA-Z0-9]/g, '');
-            const btn = document.getElementById('track-btn-' + id);
-            if (btn) {
-                btn.innerText = "Tracking...";
-                btn.disabled = true;
-            }
-            try {
-                await trackProduct(sessionId, link, name, price);
-                await loadTracked();
-                document.getElementById('search-results').classList.add('hidden');
-                document.getElementById('search-input').value = '';
-            } catch (e) {
-                console.error(e);
-                if (btn) { btn.innerText = "Track"; btn.disabled = false; }
-            }
-        };
-
-        // Search logic — go through api.js so the Vite proxy handles the URL
-        const searchInput = document.getElementById('search-input');
-        const searchResults = document.getElementById('search-results');
-
-        let searchTimeout;
-        searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            const query = e.target.value.trim();
-            if (query.length < 3) {
-                searchResults.classList.add('hidden');
-                return;
-            }
-
-            searchTimeout = setTimeout(async () => {
-                searchResults.innerHTML = '<div class="p-4 text-center font-label-mono text-sm text-text-muted">Searching...</div>';
-                searchResults.classList.remove('hidden');
-
-                try {
-                    // api.js expects filters as a string: "relevance" | "price-asc" | "price-desc" | "rating-asc" | "rating-desc"
-                    const data = await search(query, 'relevance', 1);
-                    const products = data.products || [];
-                    if (products.length > 0) {
-                        searchResults.innerHTML = '';
-                        products.forEach(p => {
-                            const id = btoa(p.product_link).replace(/[^a-zA-Z0-9]/g, '');
-                            const div = document.createElement('div');
-                            div.className = 'p-4 border-b border-glass-stroke hover:bg-glass-fill flex items-center justify-between gap-2';
-                            const safeName = (p.product_name || '').replace(/'/g, "\\'");
-                            div.innerHTML = `
-                                <div class="flex-grow truncate">
-                                    <div class="text-sm text-primary font-bold truncate">${p.product_name}</div>
-                                    <div class="text-xs text-text-muted font-label-mono">रू ${Number(p.price || 0).toLocaleString('en-IN')} | ${p.source_site}</div>
-                                </div>
-                                <button id="track-btn-${id}" class="text-[10px] uppercase font-label-mono px-2 py-1 bg-primary text-background rounded" onclick="track('${p.product_link}', '${safeName}', '${p.price}')">Track</button>
-                            `;
-                            searchResults.appendChild(div);
-                        });
-                    } else {
-                        searchResults.innerHTML = '<div class="p-4 text-center font-label-mono text-sm text-text-muted">No results found</div>';
-                    }
-                } catch (e) {
-                    console.error(e);
-                    searchResults.innerHTML = '<div class="p-4 text-center font-label-mono text-sm text-secondary-container">Error searching</div>';
-                }
-            }, 800);
+    document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+        toggle.addEventListener('change', (e) => {
+            console.log(`Alert state for ${e.target.id}: ${e.target.checked}`);
         });
     });
-    </script>
-</body></html>
+</script>
+</body>
+<script>
+(function(){
+  const BASE = 'http://localhost:8000';
+  const sessionId = localStorage.getItem('prc_session_id');
+  const username  = localStorage.getItem('prc_username');
+
+  if (!sessionId) {
+    sessionStorage.setItem('prc_login_redirect', 'price-tracking.html');
+    window.location.href = '/Frontend/src/pages/login.html';
+    return;
+  }
+
+  const userEl = document.getElementById('tracker-username');
+  if (userEl && username) userEl.textContent = username.toUpperCase();
+
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try { await fetch(BASE + '/auth/logout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({session_id: sessionId}) }); } catch(_) {}
+      localStorage.removeItem('prc_session_id');
+      localStorage.removeItem('prc_username');
+      window.location.href = '/Frontend/src/pages/login.html';
+    });
+  }
+})();
+</script>
+</html>

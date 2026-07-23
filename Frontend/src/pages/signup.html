@@ -128,14 +128,14 @@
 <body class="min-h-screen flex items-center justify-center p-margin-mobile md:p-margin-desktop text-primary font-body-md">
 <!-- Top Left Brand (Floating outside card) -->
 <div class="fixed top-margin-desktop left-margin-desktop hidden md:block">
-<h1 class="font-headline-md text-headline-md tracking-tighter">PRC Engine</h1>
+<h1 class="font-headline-md text-headline-md tracking-tighter"><a class="hover:text-secondary-fixed transition-colors" href="/">PRC Engine</a></h1>
 <p class="font-label-mono text-label-mono text-text-muted mt-2">ACCOUNT CREATION</p>
 </div>
 <!-- Main Signup Card -->
 <div class="w-full max-w-[480px] relative z-10">
 <!-- Mobile Brand -->
 <div class="mb-8 md:hidden text-center">
-<h1 class="font-headline-md text-headline-md tracking-tighter">PRC Engine</h1>
+<h1 class="font-headline-md text-headline-md tracking-tighter"><a class="hover:text-secondary-fixed transition-colors" href="/">PRC Engine</a></h1>
 <p class="font-label-mono text-label-mono text-text-muted mt-2">ACCOUNT CREATION</p>
 </div>
 <div class="glass-panel p-8 md:p-12 relative overflow-hidden">
@@ -145,7 +145,7 @@
 <h2 class="font-headline-md text-headline-md mb-2">Initialize Account</h2>
 <p class="text-text-muted font-body-md">Configure your analyst profile for real-time tracking.</p>
 </div>
-<form action="#" class="space-y-8" id="signup-form" method="POST">
+<form id="signup-form" action="#" class="space-y-8" method="POST">
 <!-- Name Field -->
 <div class="relative group">
 <label class="block font-label-mono text-label-mono text-text-muted mb-2 uppercase group-focus-within:text-primary transition-colors" for="fullName">Full Name</label>
@@ -154,12 +154,12 @@
 <input class="input-field" id="fullName" name="fullName" placeholder="ALEX MERCER" required="" type="text"/>
 </div>
 </div>
-<!-- Username Field -->
+<!-- Email Field -->
 <div class="relative group">
-<label class="block font-label-mono text-label-mono text-text-muted mb-2 uppercase group-focus-within:text-primary transition-colors" for="username">Username</label>
+<label class="block font-label-mono text-label-mono text-text-muted mb-2 uppercase group-focus-within:text-primary transition-colors" for="email">Email Address</label>
 <div class="flex items-end">
-<span class="material-symbols-outlined text-text-muted mr-3 mb-2 group-focus-within:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">alternate_email</span>
-<input class="input-field" id="username" name="username" placeholder="YOUR_USERNAME" required="" type="text"/>
+<span class="material-symbols-outlined text-text-muted mr-3 mb-2 group-focus-within:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">mail</span>
+<input class="input-field" id="email" name="email" placeholder="ALEX@PRC-ENGINE.COM" required="" type="email"/>
 </div>
 </div>
 <!-- Password Field -->
@@ -189,7 +189,7 @@
 <div class="mt-8 pt-6 border-t border-glass-stroke text-center">
 <p class="font-label-mono text-label-mono text-text-muted">
                     ALREADY HAVE AN ACCOUNT? 
-                    <a class="text-primary hover:text-secondary-container ml-2 transition-colors inline-flex items-center gap-1 group" href="login.html">
+                    <a class="text-primary hover:text-secondary-container ml-2 transition-colors inline-flex items-center gap-1 group" href="/Frontend/src/pages/login.html">
                         LOGIN
                         <span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform" style="font-variation-settings: 'FILL' 0;">login</span>
 </a>
@@ -202,57 +202,51 @@
 <a class="hover:text-primary transition-colors" href="#">TERMS OF SERVICE</a>
 </div>
 </div>
+</body>
+<script>
+(function(){
+  const BASE = 'http://localhost:8000';
+  const form = document.getElementById('signup-form');
 
-<script type="module">
-    import { register } from '../api/api.js';
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        const signupForm = document.getElementById('signup-form');
-        signupForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fullName = document.getElementById('fullName').value.trim();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const origText = btn.textContent.trim();
+    btn.textContent = 'Creating...';
+    btn.disabled = true;
 
-            // Clear previous errors
-            signupForm.querySelectorAll('.auth-error').forEach(el => el.remove());
+    const username = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirm  = document.getElementById('confirmPassword').value;
+    const fullName = document.getElementById('fullName') ? document.getElementById('fullName').value.trim() : '';
 
-            const showError = (msg) => {
-                const errEl = document.createElement('p');
-                errEl.className = 'auth-error font-label-mono text-[11px] text-secondary-container text-center';
-                errEl.textContent = msg;
-                signupForm.querySelector('div.pt-4').before(errEl);
-            };
-            
-            if (!username) { showError('Username is required.'); return; }
-            if (password !== confirmPassword) {
-                showError('Passwords do not match.');
-                return;
-            }
-            if (password.length < 8) { showError('Password must be at least 8 characters.'); return; }
-            
-            const btn = signupForm.querySelector('button[type="submit"]');
-            const originalHTML = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerText = 'CREATING...';
-            
-            try {
-                const data = await register(username, password, fullName);
-                if (data.status) {
-                    window.location.href = 'login.html?registered=1';
-                } else {
-                    showError(data.message || 'Signup failed');
-                    btn.disabled = false;
-                    btn.innerHTML = originalHTML;
-                }
-            } catch (error) {
-                console.error(error);
-                showError(error.message || 'Connection error.');
-                btn.disabled = false;
-                btn.innerHTML = originalHTML;
-            }
-        });
-    });
-    </script>
-</body></html>
+    if (password !== confirm) {
+      alert('Passwords do not match.');
+      btn.textContent = origText;
+      btn.disabled = false;
+      return;
+    }
+
+    try {
+      const res = await fetch(BASE + '/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, full_name: fullName })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.status) {
+        window.location.href = '/Frontend/src/pages/login.html';
+      } else {
+        alert(data.detail || 'Registration failed');
+        btn.textContent = origText;
+        btn.disabled = false;
+      }
+    } catch (err) {
+      alert('Backend offline \u2014 is the server running?');
+      btn.textContent = origText;
+      btn.disabled = false;
+    }
+  });
+})();
+</script>
+</html>

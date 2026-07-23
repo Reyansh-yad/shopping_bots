@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 const lenisJs = () => {
   const lenis = new Lenis();
 
-  lenis.on("scroll", (e) => {});
+  lenis.on("scroll", (e) => { });
 
   lenis.on("scroll", ScrollTrigger.update);
 
@@ -74,23 +74,32 @@ const magneticEffect = () => {
       });
     });
   });
-  
+
 };
 magneticEffect();
 
 // textEffect animation
 // can be used by giving class .text-effect to parent , which has two childern
+//
+// FIX: previously this rewrote h.innerHTML directly, which destroyed any
+// <a href="..."> element nested inside the h4/h5/etc and made links
+// unclickable (the href was wiped out and replaced with plain spans).
+// Now we split the text INSIDE the anchor (if one exists) so the href
+// survives, and only fall back to splitting the wrapper itself when
+// there's no link inside it.
 const textEffect = () => {
   // Splitting the text content into individual letters and wrapping each in a span with a class
-  document.querySelectorAll(".text-effect").forEach(function(e){
-    [...e.children].forEach(function(h){
+  document.querySelectorAll(".text-effect").forEach(function (e) {
+    [...e.children].forEach(function (h) {
+      var a = h.querySelector("a");
+      var target = a || h; // prefer the inner <a> so href is preserved
       var clutter = "";
-      h.textContent.split("").forEach(function (l) {
+      target.textContent.split("").forEach(function (l) {
         clutter += `<span>${l}</span>`;
       });
-      h.innerHTML = clutter;
-    })
-  })
+      target.innerHTML = clutter;
+    });
+  });
   //animation for mousemove
   document.querySelectorAll(".text-effect").forEach(function (e) {
     e.addEventListener("mouseenter", function () {
@@ -350,11 +359,11 @@ const page1Animations = () => {
   const canvas = document.querySelector(".webgl");
   if (canvas) {
     canvas.addEventListener("mouseenter", () => {
-    gsap.to(circleElement, {
-      scale: 1,
-      opacity: 1,
+      gsap.to(circleElement, {
+        scale: 1,
+        opacity: 1,
+      });
     });
-  });
     canvas.addEventListener("mouseleave", () => {
       gsap.to(circleElement, {
         scale: 0,
@@ -479,7 +488,7 @@ const page2Animation = () => {
       ".swiper",
       {
         transform: "scale(1)",
-        delay:0.2
+        delay: 0.2
       },
       "a"
     )
@@ -487,7 +496,7 @@ const page2Animation = () => {
       "#swiper-btn",
       {
         scale: 0.3,
-        delay:0.2
+        delay: 0.2
       },
       "a"
     )
@@ -495,7 +504,7 @@ const page2Animation = () => {
       ".over-card",
       {
         opacity: 0,
-        delay:0.2
+        delay: 0.2
       },
       "a"
     )
@@ -504,7 +513,7 @@ const page2Animation = () => {
       {
         scale: 0,
         duration: 0,
-        delay:0.2
+        delay: 0.2
       },
       "a"
     );
@@ -729,42 +738,42 @@ const page4HoverAnimation = () => {
 
   if (section1) {
     section1.addEventListener("mouseenter", () => {
-    gsap.to(innerHoverDiv, {
-      y: "0%",
-      duration: 0.7,
-      ease: "power4.inOut",
+      gsap.to(innerHoverDiv, {
+        y: "0%",
+        duration: 0.7,
+        ease: "power4.inOut",
+      });
     });
-  });
   }
 
   if (section2) {
     section2.addEventListener("mouseenter", () => {
-    gsap.to(innerHoverDiv, {
-      y: "-23%",
-      duration: 0.7,
-      ease: "power4.inOut",
+      gsap.to(innerHoverDiv, {
+        y: "-23%",
+        duration: 0.7,
+        ease: "power4.inOut",
+      });
     });
-  });
   }
 
   if (section3) {
     section3.addEventListener("mouseenter", () => {
-    gsap.to(innerHoverDiv, {
-      y: "-46%",
-      duration: 0.7,
-      ease: "power4.inOut",
+      gsap.to(innerHoverDiv, {
+        y: "-46%",
+        duration: 0.7,
+        ease: "power4.inOut",
+      });
     });
-  });
   }
 
   if (section4) {
     section4.addEventListener("mouseenter", () => {
-    gsap.to(innerHoverDiv, {
-      y: "-69%",
-      duration: 0.7,
-      ease: "power4.inOut",
+      gsap.to(innerHoverDiv, {
+        y: "-69%",
+        duration: 0.7,
+        ease: "power4.inOut",
+      });
     });
-  });
   }
 };
 page4HoverAnimation();

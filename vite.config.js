@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [glsl()],
   root: ".",
   server: {
-    open: "/src/pages/login.html",
+    open: "/Frontend/src/pages/login.html",
     watch: {
       ignored: ["**/public/canvas1/**"],
     },

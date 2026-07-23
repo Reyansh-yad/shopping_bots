@@ -4,7 +4,7 @@
  * Backend base URL is proxied via vite.config.js in dev.
  */
 
-const BASE = "";  // Proxied by vite dev server → http://localhost:8000
+const BASE = import.meta.env.VITE_API_URL || "http://localhost:8000"; // Connect to backend directly
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -66,6 +66,25 @@ export async function register(username, password, fullName = "") {
 export async function logout(sessionId) {
   return post("/auth/logout", { session_id: sessionId });
 }
+
+/**
+ * Get the current authenticated user from a session ID.
+ * Calls GET /auth/me?session_id=<uuid>
+ * Returns { status, user_id, username }
+ * Throws on 401 if the session is invalid or expired.
+ */
+export async function getMe(sessionId) {
+  const res = await fetch(`${BASE}/auth/me?session_id=${encodeURIComponent(sessionId)}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.detail || `Request failed (${res.status})`);
+  }
+  return data;
+}
+
 
 // ─── Search ──────────────────────────────────────────────────────────────────
 
