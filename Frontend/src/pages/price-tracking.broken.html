@@ -591,203 +591,29 @@
         const link = btn.dataset.link;
         const icon = btn.querySelector('span');
         btn.disabled = true;
-        try {
-          const res = await fetch(BASE + '/profile/untrack', {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({session_id: sessionId, product_link: link})
-          });
-          const data = await res.json();
-          if (data.status) {
-            if (typeof showToast === 'function') showToast('Untracked successfully', 'success');
-            if (typeof loadTrackedItems === 'function') loadTrackedItems();
-            if (typeof loadStats === 'function') loadStats();
-          } else {
-            if (typeof showToast === 'function') showToast(data.message || 'Error untracking', 'error');
-          }
-        } catch(_) {
-          if (typeof showToast === 'function') showToast('Network error', 'error');
-        } finally {
-          btn.disabled = false;
-        }
-      });
-    });
-  } // END of renderCards
+                return `<div class="p-3 bg-surface-void/30 rounded border-l-2" style="border-color:${borderColor}">
+                    <div class="flex justify-between items-start mb-1.5">
+                        <span class="font-label-mono text-primary text-xs font-bold truncate max-w-[140px]">${ev.product_name}</span>
+                        <span class="text-[9px] text-text-muted font-label-mono uppercase tracking-widest shrink-0 ml-2">${ts}</span>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-[9px] text-text-muted uppercase tracking-widest mb-0.5">Delta</p>
+                            <p class="${deltaColor} font-label-mono text-sm font-bold">${sign}${fmtNPR(Math.abs(delta))} (${pct}%)</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] text-text-muted uppercase tracking-widest mb-0.5">Prev</p>
+                            <p class="text-primary/60 font-label-mono text-xs">${fmtNPR(ev.old_price)}</p>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        } catch (_) {}
+    }
 
-  // ── State: set of tracked product_links for quick lookup ─────────
-  const trackedLinks = new Set();
-
-  // ── Currency formatter (Nepali Rupee) ───────────────────────────
-  function fmtNPR(val) {
-      if (val == null || isNaN(Number(val))) return 'N/A';
-      return 'Rs ' + Number(val).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
-  // ── Toast ────────────────────────────────────────────────────────
-  let _toastTimer = null;
-  function showToast(msg, type = 'success') {
-      const toast = document.getElementById('prc-toast');
-      const msgEl = document.getElementById('prc-toast-msg');
-      const iconEl = document.getElementById('prc-toast-icon');
-      if (!toast) return;
-      toast.className = 'show ' + (type === 'error' ? 'toast-error' : 'toast-success');
-      if (msgEl) msgEl.textContent = msg;
-      if (iconEl) {
-          iconEl.textContent = type === 'error' ? 'error' : 'check_circle';
-          iconEl.style.color = type === 'error' ? '#f87171' : '#4ade80';
-      }
-      clearTimeout(_toastTimer);
-      _toastTimer = setTimeout(() => { toast.className = ''; }, 3500);
-  }
-
-  // ── Fetch & render stats ─────────────────────────────────────────
-  async function loadStats() {
-      try {
-          const res = await fetch(BASE + '/profile/stats', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ session_id: sessionId })
-          });
-          if (!res.ok) return;
-          const data = await res.json();
-          const t = document.getElementById('stat-total-tracked');
-          const d = document.getElementById('stat-price-drops');
-          if (t) t.textContent = data.totalTracked ?? '—';
-          if (d) d.textContent = data.priceDropsToday ?? '0';
-      } catch (_) {}
-  }
-
-  // ── Fetch & render tracked items ─────────────────────────────────
-  async function loadTrackedItems() {
-      const list = document.getElementById('active-targets-list');
-      const countLabel = document.getElementById('active-targets-count');
-      if (!list) return;
-
-      list.innerHTML = `<div class="glass-card p-12 flex items-center justify-center">
-          <span class="text-text-muted font-label-mono text-[12px]">Loading tracked products...</span></div>`;
-
-      try {
-          const res = await fetch(BASE + '/profile/tracked', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ session_id: sessionId })
-          });
-          if (!res.ok) throw new Error('fetch failed');
-          const data = await res.json();
-          const items = data.items || [];
-
-          trackedLinks.clear();
-          items.forEach(item => trackedLinks.add(item.product_link));
-
-          if (countLabel) countLabel.textContent = `${items.length} Product${items.length !== 1 ? 's' : ''} Active`;
-          const t = document.getElementById('stat-total-tracked');
-          if (t) t.textContent = items.length;
-
-          renderCards(items);
-
-          if (typeof refreshSearchCardButtons === 'function') refreshSearchCardButtons();
-      } catch (e) {
-          console.error(e);
-          list.innerHTML = `<div class="glass-card p-12 flex items-center justify-center">
-              <span class="text-text-muted font-label-mono text-[12px]">Failed to load tracked items.</span></div>`;
-      }
-  }
-
-  // ── Track a product ──────────────────────────────────────────────
-  async function handleTrack(link, name, price, btn) {
-      if (btn) {
-          btn.classList.add('loading');
-          btn.textContent = 'Tracking…';
-          btn.disabled = true;
-      }
-      try {
-          const res = await fetch(BASE + '/profile/track', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ session_id: sessionId, product_link: link, product_name: name, latest_price: price || 0 })
-          });
-          const data = await res.json();
-          if (data.status) {
-              if (btn) {
-                  btn.classList.remove('loading');
-                  btn.classList.add('tracked');
-                  btn.textContent = 'Tracked ✓';
-              }
-              trackedLinks.add(link);
-              showToast(`Now tracking: ${name || 'product'}`, 'success');
-              loadTrackedItems();
-              loadStats();
-          } else {
-              if (btn) btn.classList.remove('loading');
-              if (data.message && data.message.includes('already')) {
-                  if (btn) {
-                      btn.classList.add('tracked');
-                      btn.textContent = 'Tracked ✓';
-                  }
-                  trackedLinks.add(link);
-                  showToast('Product already in your tracked list.', 'success');
-              } else {
-                  if (btn) {
-                      btn.classList.add('error');
-                      btn.textContent = 'Error — Retry';
-                      btn.disabled = false;
-                  }
-                  showToast(data.message || 'Failed to track product.', 'error');
-              }
-          }
-      } catch (e) {
-          console.error(e);
-          if (btn) {
-              btn.classList.remove('loading');
-              btn.classList.add('error');
-              btn.textContent = 'Error — Retry';
-              btn.disabled = false;
-          }
-          showToast('Network error.', 'error');
-      }
-  }
-
-  // ── URL Track button ─────────────────────────────────────────────
-  const urlTrackBtn = document.getElementById('url-track-btn');
-  if (urlTrackBtn) {
-      urlTrackBtn.addEventListener('click', async () => {
-          const urlInput = document.getElementById('url-track-input');
-          const nameInput = document.getElementById('url-track-name');
-          const link = urlInput ? urlInput.value.trim() : '';
-          const name = nameInput ? nameInput.value.trim() : '';
-          if (!link) { showToast('Please paste a product URL.', 'error'); return; }
-          try { new URL(link); } catch (_) { showToast('Invalid URL', 'error'); return; }
-
-          urlTrackBtn.textContent = 'Tracking…';
-          urlTrackBtn.disabled = true;
-          try {
-              const res = await fetch(BASE + '/profile/track', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ session_id: sessionId, product_link: link, product_name: name || link, latest_price: 0 })
-              });
-              const data = await res.json();
-              if (data.status) {
-                  showToast('Product added to tracking!', 'success');
-                  if (urlInput) urlInput.value = '';
-                  if (nameInput) nameInput.value = '';
-                  await loadTrackedItems();
-                  await loadStats();
-              } else {
-                  showToast(data.message || 'Failed to track.', 'error');
-              }
-          } catch (e) {
-              showToast('Network error.', 'error');
-          } finally {
-              urlTrackBtn.textContent = 'Track URL';
-              urlTrackBtn.disabled = false;
-          }
-      });
-  }
-
-  async function loadSidebarData() {
-      // Intentionally left blank as new design handles sidebar via selected product
-  }
+    async function loadSidebarData() {
+        await Promise.allSettled([loadTopMovers(), loadActivityLog()]);
+    }
 
     // ── Search ───────────────────────────────────────────────────────
     let currentPage = 1;

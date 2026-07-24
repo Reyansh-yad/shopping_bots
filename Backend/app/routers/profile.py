@@ -1,6 +1,4 @@
-import os
-import shutil
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException
 from app.core.security import validate_session
 from app.database import get_db_connection
 from app.schemas.models import (
@@ -14,10 +12,6 @@ from app.schemas.models import (
     UpdateProfileRequest,
     GetUserProfileRequest,
 )
-
-UPLOADS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "uploads", "avatars")
-ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp"}
-MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
 
 profile = APIRouter(prefix="/profile", tags=["profile"])
 
@@ -585,67 +579,3 @@ def update_user_profile(request: UpdateProfileRequest, conn=Depends(get_db_conne
         )
         conn.commit()
     return {"status": True, "message": "Profile updated successfully."}
-
-
-@profile.post("/photo")
-async def upload_photo(
-    session_id: str = Form(...),
-    file: UploadFile = File(...),
-    conn=Depends(get_db_connection),
-):
-    """Upload and store a profile photo for the logged-in user.
-    Accepted types: image/jpeg, image/png, image/webp. Max size: 5 MB.
-    """
-    _require_session(session_id)
-
-    # Validate content type
-    if file.content_type not in ALLOWED_CONTENT_TYPES:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Unsupported file type '{file.content_type}'. Allowed: jpeg, png, webp.",
-        )
-
-    # Read file and check size
-    contents = await file.read()
-    if len(contents) > MAX_FILE_SIZE:
-        raise HTTPException(
-            status_code=413,
-            detail="File too large. Maximum allowed size is 5 MB.",
-        )
-
-    # Resolve user_id
-    with conn.cursor() as cur:
-        cur.execute(
-            """
-            SELECT user_id FROM app.profile
-            WHERE username = (
-                SELECT username FROM app.session WHERE session_id = %s
-            )
-            """,
-            (session_id,),
-        )
-        row = cur.fetchone()
-        if not row:
-            raise HTTPException(status_code=404, detail="User not found.")
-        user_id = row[0]
-
-    # Determine file extension
-    ext_map = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp"}
-    ext = ext_map[file.content_type]
-    filename = f"{user_id}{ext}"
-
-    # Save to disk
-    os.makedirs(UPLOADS_DIR, exist_ok=True)
-    save_path = os.path.join(UPLOADS_DIR, filename)
-    with open(save_path, "wb") as f:
-        f.write(contents)
-
-    # Update DB
-    with conn.cursor() as cur:
-        cur.execute(
-            "UPDATE app.profile SET photo_path = %s WHERE user_id = %s",
-            (filename, user_id),
-        )
-        conn.commit()
-
-    return {"status": True, "photo_url": f"/uploads/avatars/{filename}"}
